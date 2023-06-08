@@ -1,0 +1,7 @@
+html[dir="rtl"] {
+    .bg-img-1 {
+        right: unset;
+        left: -10px;
+        transform: scaleX(-1);
+    }
+}

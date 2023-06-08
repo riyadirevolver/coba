@@ -1,0 +1,22 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.dika.hadir",
+      "sha256_cert_fingerprints": [
+        "39:6A:77:8B:57:E0:73:FF:BF:2C:96:0E:19:ED:EA:80:17:4D:67:3C:64:BF:68:AD:33:DF:7A:CF:86:82:B9:0F"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.dika.hadirv2.dev",
+      "sha256_cert_fingerprints": [
+        "39:6A:77:8B:57:E0:73:FF:BF:2C:96:0E:19:ED:EA:80:17:4D:67:3C:64:BF:68:AD:33:DF:7A:CF:86:82:B9:0F"
+      ]
+    }
+  }
+]

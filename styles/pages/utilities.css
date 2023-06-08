@@ -1,0 +1,11 @@
+.borderRadius {
+  border-radius: 10px;
+}
+
+.roundedCircle {
+  border-radius: 100%;
+}
+
+.simplebar-scrollbar:before {
+  background: #a0a0a0;
+}/*# sourceMappingURL=utilities.css.map */

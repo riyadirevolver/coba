@@ -1,0 +1,7 @@
+.date__picker {
+    /* width: 100% !important; */
+}
+
+.date__picker__show {
+    display: flex !important;
+}

@@ -1,0 +1,514 @@
+@import "simplebar/dist/simplebar.min.css";
+@import "./pages/calendar.scss";
+@import "./pages/utilities.scss";
+@import "./pages/quill.scss";
+@import "./pages/dashboard.scss";
+@import "./layout/rtl.scss";
+
+
+$backgroud__color: black;
+$backgroud__primary: #1ba0e2;
+$text__color: white;
+$text_align: left;
+$width_btn: 100px;
+
+@mixin button() {
+    width: 100px;
+    border: 2px solid $backgroud__primary;
+}
+
+.icon-color__red {
+    color: red;
+}
+
+.user__menu__item {
+    text-decoration: none;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 400;
+    padding: 10px 0;
+
+    &:hover {
+        text-decoration: underline;
+        background-color: rgba(0, 0, 0, 0.13);
+    }
+}
+
+.user__photo {
+    object-fit: cover;
+}
+
+.link__unstyled {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
+}
+
+.image-wrapper {
+    box-sizing: content-box;
+}
+
+.image-wrapper>span {
+    position: unset !important;
+}
+
+.camera__capture {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.photo__dashbord__user {
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid gray !important;
+}
+
+.color__user_dashboard {
+    color: #4F4F4F;
+}
+
+.color__user__secondary_dashboard {
+    color: #828282;
+}
+
+.custom__scroll {
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 5px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: #888;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
+.custom__grid {
+
+
+    &.MuiGrid-container {
+
+        &>.MuiGrid-item {
+
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+
+        .list-circle {
+            stroke: "red";
+            stroke-width: 4;
+        }
+
+        .MuiTablePagination-root .MuiButtonBase-root,
+        .MuiTablePagination-root .MuiTablePagination-toolbar,
+        .MuiTablePagination-root .MuiTablePagination-selectIcon {
+            color: white;
+        }
+
+        // filter tanggal activity
+        .search-date {
+            display: flex;
+            width: 630px;
+            justify-content: space-between;
+            margin: 0 30px;
+        }
+
+        .search-date-group {
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .group-search {
+            display: flex;
+            width: calc(94% - 630px);
+        }
+
+        .group-search .button-clear {
+            display: block;
+            margin-right: 20px;
+        }
+
+        @media screen and (max-width : 1330px) {
+            .search-date {
+                width: 100%;
+                margin: 0;
+            }
+
+            .search-date-group {
+                justify-content: space-around;
+                margin: 0;
+            }
+
+            .start-date {
+                margin-bottom: 20px;
+            }
+
+            .group-search {
+                width: 100%;
+                justify-content: space-around;
+                margin: 0 auto;
+            }
+
+            .group-search .button-clear {
+                margin-right: 10px;
+            }
+        }
+
+        @media screen and (max-width : 1200px) {
+            .logo-hadir {
+                display: none;
+            }
+        }
+    }
+}
+
+.sidebar {
+    width: 100%;
+
+    .icon__overlay {
+        width: 75px;
+        background-color: rgba(61, 61, 61, 1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: -1;
+    }
+
+    .sidebar__wrapper {
+
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        cursor: pointer;
+        // height: 100%;
+        min-height: 66px;
+        max-height: 100px;
+
+        &:hover {
+            color: #e6e6e6;
+        }
+
+
+
+        .sidebar__icn_item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0, ;
+            padding: 0;
+            max-width: 75px;
+            background-color: rgba(61, 61, 61, 1);
+            height: 100%;
+            min-height: 66px;
+            width: 100%;
+            cursor: pointer;
+
+        }
+
+        .icn_active {
+            ::after {
+                content: '';
+                width: 40px;
+            }
+        }
+
+        .sidebar__item {
+            margin-left: 25px;
+            padding: 20px 12px;
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar__item_text {
+            margin-left: 25px;
+            padding: 20px 12px;
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        &>svg:last-child {
+            // display: none;
+            width: 100%;
+            max-width: 20px;
+        }
+
+        .active {
+            background-color: white;
+            color: #1BA0E2;
+
+            p {
+                font-weight: 700;
+            }
+        }
+
+        .MuiBox-root {
+            p {
+                font-weight: 700;
+            }
+        }
+    }
+
+}
+
+.mini__sidebar {
+
+    &:hover {
+        .mini__icn {
+            background-color: #1BA0E2;
+            width: 4px;
+            height: 100%;
+            transition: .6s all;
+        }
+    }
+
+    .mini__icn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        border-radius: 5px;
+
+
+    }
+}
+
+.MuiTableHead-root {
+    background-color: rgba(61, 61, 61, 1);
+
+    & .MuiTableCell-head {
+        & .MuiTypography-h5 {
+            color: white;
+        }
+    }
+}
+
+.css-jtlhu6-MuiTablePagination-root {
+    background-color: rgba(61, 61, 61, 1);
+
+    & p {
+        color: white
+    }
+
+    & button {
+        color: white;
+    }
+}
+
+.card__table {
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+    padding-top: 25px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+:root {
+
+    // table head
+    .MuiTableHead-root {
+        background-color: $backgroud__color;
+
+        // color: $text__color;
+        h5 {
+            text-transform: uppercase;
+            color: $text__color;
+            text-align: $text_align;
+        }
+    }
+
+    .MuiTableBody-root {
+        td {
+            text-align: $text_align;
+        }
+
+        .MuiTypography-root {
+            text-align: $text_align;
+        }
+    }
+
+    .MuiTablePagination-root {
+        border-radius: 0 0 20px 20px;
+
+        .MuiTableCell-head,
+        .MuiTablePagination-toolbar,
+        .MuiTablePagination-actions,
+        .MuiTablePagination-selectIcon {
+            background-color: #3d3d3d;
+            color: white;
+        }
+    }
+
+    .button-add {
+        @include button();
+        background-color: $backgroud__primary;
+    }
+
+    // .MuiCardContent-root {
+    //     padding: 0;
+    // }
+    // .MuiPaper-root {
+    //     padding: 0;
+    // }
+}
+
+.item__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 20px;
+    background-color: white;
+    margin-right: 8px;
+}
+
+.table_base {
+    margin: 0 -45px -40px;
+}
+
+.MuiSwitch-switchBase .Mui-checked {
+    color: red;
+}
+
+.MuiTablePagination-root .MuiButtonBase-root,
+.MuiTablePagination-root .MuiTablePagination-toolbar,
+.MuiTablePagination-root .MuiTablePagination-selectIcon {
+    color: white;
+    background-color: black;
+}
+
+// filter tanggal activity
+.search-date {
+    display: flex;
+    width: 630px;
+    justify-content: space-between;
+    margin: 0 30px;
+}
+
+.search-date-group {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.group-search {
+    display: flex;
+    width: calc(94% - 630px);
+}
+
+.group-search .button-search {
+    display: block;
+    width: 100px;
+    border: 2px solid #1ba0e2;
+    background: #1ba0e2;
+}
+
+.group-search .button-clear {
+    display: block;
+    margin-right: 20px;
+    width: 100px;
+    border: 2px solid #1ba0e2;
+    color: #1ba0e2;
+}
+
+// filter search management
+.filter-search {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filter-search .input-search {
+    width: 250px;
+}
+
+.filter-search .btn-reset {
+    @include button();
+    margin: 0 10px;
+    color: $backgroud__primary;
+}
+
+.filter-search .btn-search {
+    @include button();
+    background-color: $backgroud__primary;
+}
+
+@media screen and (max-width: 1330px) {
+    .search-date {
+        width: 100%;
+        margin: 0;
+    }
+
+    .search-date-group {
+        justify-content: space-around;
+        margin: 0;
+    }
+
+    .start-date {
+        margin-bottom: 20px;
+    }
+
+    .group-search {
+        width: 100%;
+        justify-content: space-around;
+        margin: 0 auto;
+    }
+
+    .group-search .button-clear {
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .logo-hadir {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 680px) {
+
+    // .filter-search {
+    //     margin: 0 auto;
+    // }
+    .form-search {
+        width: 100%;
+    }
+
+    .filter-search .input-search {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .filter-search .btn-reset {
+        display: block;
+        width: 45%;
+        margin: 0 10% 0 0;
+        padding: 8px 0;
+    }
+
+    .filter-search .btn-search {
+        width: 45%;
+    }
+
+    :root .button-add {
+        width: 100%;
+        margin-top: 16px;
+    }
+}
