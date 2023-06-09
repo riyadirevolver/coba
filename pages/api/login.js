@@ -5,11 +5,11 @@ async function loginRoute(req, res) {
   try {
     const response = await loginService(req.body);
 
-    const { job_level, role_id, is_leader } = response.user;
+    const { job_level, role, is_leader } = response.user;
 
     req.session.user = {
       id: response.user.id,
-      role: response.user.role_id,
+      role: response.user.role,
       level: job_level?.name,
       company_id: response.user.company_id,
       token: response.accessToken,
@@ -22,7 +22,7 @@ async function loginRoute(req, res) {
       success: true,
       message: "Berhasil login",
       level: job_level,
-      role: role_id,
+      role: role,
       isLeader: is_leader,
     });
   } catch (error) {
