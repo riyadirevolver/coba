@@ -12,19 +12,16 @@ export const HEAD_ROWS_MANAGEMENT_USER = [
     title: "EMAIL",
   },
   {
-    title: "JABATAN",
+    title: "PHONE",
   },
   {
-    title: "TIPE KARYAWAN",
+    title: "ROLE",
   },
   {
-    title: "DIVISI",
+    title: "STATUS",
   },
   {
-    title: "UNIT",
-  },
-  {
-    title: "POSISI",
+    title: "DIBUAT OLEH",
   },
   {
     title: "TANGGAL DIBUAT",

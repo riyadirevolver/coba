@@ -26,6 +26,8 @@ import { UseDownloadExcelBlob } from "../../hooks/useDowloadExcel";
 import BaseTable from "../table/BaseTable";
 import { HEAD_ROWS_MANAGEMENT_USER } from "../../../utils/table-heads/tableHeadManagement";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
+import AddUserModal from "../modal/userModal/AddUserModal";
+import EditUserModal from "../modal/userModal/EditUserModal";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
 
@@ -38,11 +40,14 @@ const UserAllLists = ({ data }) => {
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
 
-  const [dataUserDelete, setDataUserDelete] = React.useState({});
+  const [dataUser, setDataUser] = React.useState({});
 
-  const userDelete = (userData) => {
-    if (userData) {
-      setDataUserDelete(userData);
+  const handleUser = (userData, type) => {
+    if (userData && type === "edit") {
+      setDataUser(userData);
+      handleOpenModal("edit");
+    } else if (userData && type === "delete") {
+      setDataUser(userData);
       handleOpenModal("delete");
     }
     return;
@@ -78,10 +83,23 @@ const UserAllLists = ({ data }) => {
 
   return (
     <>
+      <AddUserModal
+        open={openModal}
+        type={modalType}
+        data={dataUser}
+        closeModalHandler={handleCloseModal}
+      />
+      <EditUserModal
+        open={openModal}
+        type={modalType}
+        data={dataUser}
+        closeModalHandler={handleCloseModal}
+      />
+
       <DeleteUserModal
         open={openModal}
         type={modalType}
-        data={dataUserDelete}
+        data={dataUser}
         closeModalHandler={handleCloseModal}
       />
 
@@ -97,9 +115,11 @@ const UserAllLists = ({ data }) => {
             className="button-add"
             color="primary"
             variant="contained"
-            onClick={exportUser}
+            onClick={() => {
+              handleOpenModal("add");
+            }}
           >
-            Export
+            Tambah
           </Button>
         </Box>
         {/* tabel */}
@@ -107,67 +127,39 @@ const UserAllLists = ({ data }) => {
           {data.data.map((user) => (
             <TableRow key={user.id}>
               <TableCell>
-                {user?.photo ? (
-                  <Image
-                    onLoad={() => <>loading</>}
-                    src={`${BASE_URL}/${user?.photo}`}
-                    alt="user"
-                    layout="fixed"
-                    objectFit="cover"
-                    width={50}
-                    height={50}
-                    className="roundedCircle"
-                  />
-                ) : (
-                  <Avatar {...stringAvatar(user?.fullname, 50)} />
-                )}
+                <Avatar {...stringAvatar(user?.fullname, 50)} />
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user.nik ?? "-"}
+                  {user?.nik ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user.fullname}
+                  {user?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user.email}</Typography>
+                <Typography variant="h6">{user?.email ?? "-"}</Typography>
               </TableCell>
-
-              {/* job level */}
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.job_level?.name}
+                  {user?.phone ?? "-"}
                 </Typography>
               </TableCell>
-
-              {/* type karyawan */}
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.employee_type?.name}
+                  {user?.role ?? "-"}
                 </Typography>
               </TableCell>
-
-              {/* divisi */}
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.division?.name ?? "-"}
+                  {user?.is_active ? "aktif" : "tidak aktif"}
                 </Typography>
               </TableCell>
-
-              {/* departemen */}
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.job_departement?.name}
-                </Typography>
-              </TableCell>
-
-              {/* posisi */}
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.job_position?.name}
+                  {user?.created_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
 
@@ -195,10 +187,8 @@ const UserAllLists = ({ data }) => {
                 <ThreeDotsMenu
                   data={user}
                   token={data}
-                  onClickEdit={() =>
-                    router.push(`/management/user-v2/edit/${user.id}`)
-                  }
-                  onClickDelete={() => userDelete(user)}
+                  onClickEdit={() => handleUser(user, "edit")}
+                  onClickDelete={() => handleUser(user, "delete")}
                 />
               </TableCell>
             </TableRow>
