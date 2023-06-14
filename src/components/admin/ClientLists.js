@@ -10,52 +10,77 @@ import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { HEAD_ROWS_MANAGEMENT_USER } from "../../../utils/table-heads/tableHeadManagement";
+import { HEAD_ROWS_MANAGEMENT_CLIENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
-import ThreeDotsMenu from "../menu-items/ThreeDotsMenu";
-import AddUserModal from "../modal/userModal/AddUserModal";
-import DeleteUserModal from "../modal/userModal/DeleteUserModal";
-import EditUserModal from "../modal/userModal/EditUserModal";
+import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
+import AddClientModal from "../modal/client/AddClientModal";
+import DeleteClientModal from "../modal/client/DeleteClientModal";
+import EditClientModal from "../modal/client/EditClientModal";
 import BaseTable from "../table/BaseTable";
+import DetailClientModal from "../modal/client/DetailClientModal";
 
-const UserAllLists = ({ data }) => {
+const options = [
+  {
+    label: "Detail",
+    type: "detail",
+  },
+  {
+    label: "Edit",
+    type: "edit",
+  },
+  {
+    label: "Delete",
+    type: "delete",
+  },
+];
+
+const ClientLists = ({ data, token }) => {
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
 
-  const [dataUser, setDataUser] = React.useState({});
+  const [dataClient, setDataClient] = React.useState({});
 
-  const handleUser = (userData, type) => {
+  const handleClickDot = (userData, type, id) => {
     if (userData && type === "edit") {
-      setDataUser(userData);
+      setDataClient(userData);
       handleOpenModal("edit");
     } else if (userData && type === "delete") {
-      setDataUser(userData);
+      setDataClient(userData);
       handleOpenModal("delete");
+    } else if (userData && type === "detail") {
+      router.push(`/management/client/detail/${id}`);
     }
     return;
   };
 
   return (
     <>
-      <AddUserModal
+      <DetailClientModal
         open={openModal}
         type={modalType}
-        data={dataUser}
+        data={dataClient}
         closeModalHandler={handleCloseModal}
       />
-      <EditUserModal
+      <AddClientModal
         open={openModal}
         type={modalType}
-        data={dataUser}
+        token={token}
         closeModalHandler={handleCloseModal}
       />
-      <DeleteUserModal
+      <EditClientModal
         open={openModal}
         type={modalType}
-        data={dataUser}
+        data={dataClient}
+        token={token}
+        closeModalHandler={handleCloseModal}
+      />
+      <DeleteClientModal
+        open={openModal}
+        type={modalType}
+        data={dataClient}
         closeModalHandler={handleCloseModal}
       />
 
@@ -79,38 +104,28 @@ const UserAllLists = ({ data }) => {
           </Button>
         </Box>
         {/* tabel */}
-        <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_USER} data={data}>
+        <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_CLIENT} data={data}>
           {data.data.map((user) => (
             <TableRow key={user.id}>
               <TableCell>
-                <Avatar {...stringAvatar(user?.fullname, 50)} />
+                <Avatar {...stringAvatar(user?.name, 50)} />
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.nik ?? "-"}
+                  {user?.name ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.fullname ?? "-"}
+                  {user?.pic_data?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user?.email ?? "-"}</Typography>
+                <Typography variant="h6">{user?.contact ?? "-"}</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.phone ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.role ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.is_active ? "aktif" : "tidak aktif"}
+                  {user?.description ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
@@ -141,12 +156,12 @@ const UserAllLists = ({ data }) => {
                   "-"
                 )}
               </TableCell>
+
               <TableCell>
-                <ThreeDotsMenu
-                  data={user}
-                  token={data}
-                  onClickEdit={() => handleUser(user, "edit")}
-                  onClickDelete={() => handleUser(user, "delete")}
+                <ThreeDots
+                  sx={{ textAlign: "right" }}
+                  options={options}
+                  onClick={(show) => handleClickDot(user, show, user.id)}
                 />
               </TableCell>
             </TableRow>
@@ -157,4 +172,4 @@ const UserAllLists = ({ data }) => {
   );
 };
 
-export default UserAllLists;
+export default ClientLists;

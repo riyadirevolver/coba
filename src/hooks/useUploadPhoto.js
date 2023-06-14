@@ -24,20 +24,16 @@ const useUploadPhoto = (defaultPreview = undefined) => {
 
   const onSelectFile = (e) => {
     const file = e.target.files;
-
     if (!file || file.length === 0) {
       setGambar(undefined);
       return;
     }
-
     if (file[0].size > 2000000) {
       setGambar(undefined);
       setPesan("*File harus dibawah 2 MB");
       return;
     }
-
     const pattern = /image-*/;
-
     if (!file[0].type.match(pattern)) {
       setGambar(undefined);
       setPesan("*File harus berupa gambar");

@@ -276,9 +276,9 @@ const Menuitems = [
       //   isStaff: true,
       // },
       {
-        title: "Client Upliner",
+        title: "Client",
         icon: "users",
-        href: "/management/client-upliner",
+        href: "/management/client",
         isAdmin: true,
       },
       // {

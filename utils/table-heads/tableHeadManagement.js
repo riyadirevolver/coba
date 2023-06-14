@@ -24,28 +24,7 @@ export const HEAD_ROWS_MANAGEMENT_USER = [
     title: "DIBUAT OLEH",
   },
   {
-    title: "TANGGAL DIBUAT",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_CLIENT_UPLINER = [
-  {
-    title: "",
-  },
-  {
-    title: "NAMA",
-  },
-  {
-    title: "EMAIL",
-  },
-  {
-    title: "DIVISI",
-  },
-  {
-    title: "TIPE UPLINER",
+    title: "DIPERBARUI OLEH",
   },
   {
     title: "TANGGAL DIBUAT",
@@ -55,147 +34,66 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_UPLINER = [
   },
 ];
 
-export const HEAD_ROWS_MANAGEMENT_LOCATION_POINT = [
+export const HEAD_ROWS_MANAGEMENT_CLIENT = [
+  {
+    title: "",
+  },
   {
     title: "NAMA",
   },
   {
-    title: "LATITUDE",
+    title: "PIC",
   },
   {
-    title: "LONGTITUDE",
-  },
-  {
-    title: "DESCRIPTION",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_JOB_LEVEL = [
-  {
-    title: "JABATAN",
-  },
-  {
-    title: "LEVEL JABATAN",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_POSITION = [
-  {
-    title: "NAMA",
-  },
-  {
-    title: "TANGGAL BUAT",
-  },
-  {
-    title: "TANGGAL UPDATE",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_SHIFTING = [
-  {
-    title: "NAMA",
-  },
-  {
-    title: "JAM MASUK",
-  },
-  {
-    title: "JAM KELUAR",
-  },
-  {
-    title: "TANGGAL BUAT",
-  },
-  {
-    title: "TANGGAL UPDATE",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_SCHEDULE = [
-  {
-    title: "NAMA",
-  },
-  {
-    title: "TIPE JADWAL",
-  },
-  {
-    title: "TANGGAL EFEKTIF",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_EVENT_DATE = [
-  {
-    title: "NAMA EVENT",
-  },
-  {
-    title: "TANGGAL",
-  },
-  {
-    title: "TANGGAL MULAI",
-  },
-  {
-    title: "TANGGAL BERAKHIR",
-  },
-  {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_HOLIDAY = [
-  {
-    title: "TANGGAL",
-  },
-  {
-    title: "TIPE",
+    title: "CONTACT",
   },
   {
     title: "DESKRIPSI",
   },
   {
-    title: "",
-  },
-];
-
-export const HEAD_ROWS_MANAGEMENT_DEPARTEMENT = [
-  {
-    title: "NAMA",
+    title: "DIBUAT OLEH",
   },
   {
-    title: "TANGGAL BUAT",
+    title: "DIPERBARUI OLEH",
   },
   {
-    title: "TANGGAL UPDATE",
+    title: "TANGGAL DIBUAT",
   },
   {
     title: "",
   },
 ];
 
-export const HEAD_ROWS_MANAGEMENT_DEPARTEMENT_SETTINGS = [
+export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
   {
-    title: "NAMA",
+    title: "NAMA CLIENT",
   },
   {
-    title: "SELFIE",
+    title: "POSITION",
   },
   {
-    title: "TANGGAL BUAT",
+    title: "LAST CALLED",
   },
   {
-    title: "TANGGAL UPDATE",
+    title: "REQUEST DATE",
+  },
+  {
+    title: "SALARY",
+  },
+  {
+    title: "TOTAL REQUIREMENT",
+  },
+  {
+    title: "STATUS",
+  },
+  {
+    title: "DIBUAT OLEH",
+  },
+  {
+    title: "DIPERBARUI OLEH",
+  },
+  {
+    title: "TANGGAL DIBUAT",
   },
   {
     title: "",

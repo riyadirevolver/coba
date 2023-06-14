@@ -7,7 +7,6 @@ import SearchUser from "../../../src/components/forms/searchUser/SearchUser";
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
   const companyId = req.session.user.company_id;
   const id = req.session.user.id;
-  console.log("ccccc", id);
 
   const users = await pagination(
     "/users",

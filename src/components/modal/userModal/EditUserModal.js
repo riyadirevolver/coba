@@ -55,7 +55,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
         color="inherit"
         onClick={closeSnackBar}
       >
-        <FeatherIcon ico-n="x" />
+        <FeatherIcon icon="x" />
       </IconButton>
     </React.Fragment>
   );

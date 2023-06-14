@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   IconButton,
-  MenuItem,
-  Select,
   Snackbar,
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
@@ -17,38 +17,25 @@ import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
+import PropTypes from "prop-types";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-// import { register } from "../../../../lib/services/user";
-import axios from "axios";
-import PropTypes from "prop-types";
-import BaseService from "../../../services/base";
+import useFetchUser from "../../../hooks/fetch/useFetchUser";
 
 const upTransition = Transition("up");
 
-const ROLE_LISTS = [
-  {
-    label: "Admin",
-    value: "admin",
-  },
-  {
-    label: "Client",
-    value: "client",
-  },
-  {
-    label: "Manager",
-    value: "manager",
-  },
-];
-
-const AddUserModal = ({ open = false, closeModalHandler, type }) => {
+const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
-  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
-  const service = new BaseService("users");
+
+  const { userList, openUser, setOpenUser, loadingUser } = useFetchUser(token);
+  const [payload, setPayload] = useState({
+    pic_id: null,
+  });
 
   const action = (
     <React.Fragment>
@@ -66,29 +53,26 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
   const create = async (event) => {
     setLoading(true);
     event.preventDefault();
+    const { target } = event;
+    const { name_client, contact, description } = target;
     try {
-      const { target } = event;
-      const { nama_user, email, password, phone, nik } = target;
-
       const data = {
-        nik: nik.value,
-        fullname: nama_user.value,
-        email: email.value,
-        password: password.value,
-        phone: phone.value,
-        role: role,
+        name: name_client.value,
+        pic_id: payload.pic_id,
+        contact: contact.value,
+        description: description.value,
       };
-      // await service.post('a');
-      await axios.post("/api/users", data);
+      await axios.post("/api/client", data);
+      console.log("first", data);
       setLoading(false);
-      openSnackBar("Berhasil menambahkan user");
+      openSnackBar("Berhasil menambahkan client");
       closeModalHandler();
       router.replace(router.pathname);
       return;
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar("Gagal mendaftarkan user");
+      openSnackBar("Gagal mendaftarkan client");
       return;
     }
   };
@@ -112,69 +96,90 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
       >
         <form onSubmit={create}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Tambah User
+            Tambah Client
           </DialogTitle>
           <DialogContent>
             <DialogContentText
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="nik">NIK</CustomFormLabel>
+              <CustomFormLabel htmlFor="name_client">
+                Nama Client
+              </CustomFormLabel>
               <CustomTextField
                 required
-                id="nik"
-                name="nik"
+                id="name_client"
+                name="name_client"
                 fullWidth
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="nama_user">Nama User</CustomFormLabel>
+              {/* <CustomFormLabel htmlFor="pic_id">PIC</CustomFormLabel>
               <CustomTextField
                 required
-                id="nama_user"
-                name="nama_user"
+                id="pic_id"
+                name="pic_id"
+                fullWidth
+                size="small"
+                variant="outlined"
+              /> */}
+              <CustomFormLabel htmlFor="input-placement">
+                PIC (People In Charge)
+              </CustomFormLabel>
+              <Autocomplete
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                options={userList}
+                getOptionLabel={(option) => option.fullname}
+                loading={loadingUser}
+                open={openUser}
+                onOpen={() => {
+                  setOpenUser(true);
+                }}
+                onClose={() => {
+                  setOpenUser(false);
+                }}
+                onChange={(e, newInputValue) => {
+                  setPayload((prevState) => ({
+                    ...prevState,
+                    pic_id: newInputValue?.id,
+                  }));
+                }}
+                renderInput={(params) => (
+                  <CustomTextField
+                    {...params}
+                    required
+                    size="small"
+                    placeholder="Pilih PIC (People In Charge)"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <React.Fragment>
+                          {loadingUser ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              <CustomFormLabel htmlFor="contact">Contact</CustomFormLabel>
+              <CustomTextField
+                required
+                id="contact"
+                name="contact"
                 fullWidth
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
+              <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
               <CustomTextField
                 required
-                id="email"
-                name="email"
-                type="email"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-              <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
-              <CustomTextField
-                required
-                id="password"
-                name="password"
-                type="password"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-              <CustomFormLabel htmlFor="role">Role</CustomFormLabel>
-              <Select
-                size="small"
-                fullWidth
-                value={role || ""}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                {ROLE_LISTS.map((item, index) => (
-                  <MenuItem value={item.value} key={index}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </Select>
-              <CustomFormLabel htmlFor="phone">Phone</CustomFormLabel>
-              <CustomTextField
-                required
-                id="phone"
-                name="phone"
+                id="description"
+                name="description"
                 fullWidth
                 size="small"
                 variant="outlined"
@@ -201,10 +206,10 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
   );
 };
 
-AddUserModal.defaultProps = {
+AddClientModal.defaultProps = {
   open: false,
 };
-AddUserModal.propTypes = {
+AddClientModal.propTypes = {
   open: PropTypes.bool,
 };
-export default AddUserModal;
+export default AddClientModal;
