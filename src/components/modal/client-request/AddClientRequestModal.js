@@ -2,16 +2,20 @@ import { Field, useFormik } from "formik";
 import React, { useState } from "react";
 
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
+  Grid,
   IconButton,
   MenuItem,
   Select,
   Snackbar,
+  TextField,
   Typography,
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
@@ -29,6 +33,8 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
+import { formatRupiah } from "../../../../utils/formatRupiah";
+import { uploadFile } from "../../../../lib/services/upload";
 
 const upTransition = Transition("up");
 
@@ -58,8 +64,8 @@ const AddClientRequestModal = ({
   client_id,
 }) => {
   const router = useRouter();
-  const { handleDeletePoster, onSelectFile, preview, gambar, pesan } =
-    useUploadPhoto();
+  const [salaryText, setSalaryText] = useState("");
+
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -76,12 +82,24 @@ const AddClientRequestModal = ({
     </React.Fragment>
   );
 
+  const { handleDeletePoster, onSelectFile, preview, gambar, pesan } =
+    useUploadPhoto(undefined);
+
+  const handleUpload = () => {
+    console.log("qwerty", gambar);
+    gambar.map(async (item, index) => {
+      console.log("first", item);
+      const upload = await uploadFile(item);
+      console.log("berhasil", upload);
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
       position: "",
       last_called: "",
       request_date: "",
-      salary: "",
+      // salary: formatRupiah(String("")),
       total_requirement: "",
       status: "",
     },
@@ -102,13 +120,24 @@ const AddClientRequestModal = ({
           position: position,
           last_called: last_called,
           request_date: request_date,
-          salary: salary,
+          salary: salaryText,
           total_requirement: total_requirement,
           status: status,
         };
-        await axios.post("/api/client-request", data);
+        const response = await axios.post("/api/client-request", data);
+        if (gambar.length > 0) {
+          gambar.map(async (item) => {
+            const upload = await uploadFile(item);
+            const payloadAttachment = {
+              client_request_id: response.data.id,
+              url: upload.id,
+            };
+            await axios.post("/api/client-attachment", payloadAttachment);
+          });
+        }
+
         openSnackBar("Berhasil menambahkan Client Request");
-        router.replace(`/management/client/detail/${client_id}`);
+        router.replace(`/management/client/request/${client_id}`);
         handleReset();
         setLoading(false);
         closeModalHandler();
@@ -220,16 +249,47 @@ const AddClientRequestModal = ({
                 />
               </LocalizationProvider>
               <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
-              <CustomTextField
+
+              {/* <CustomTextField
                 required
                 id="salary"
                 name="salary"
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  const formattedValue = formatRupiah(value);
+                  formik.setFieldValue("salary", formattedValue);
+                }}
                 {...formik.getFieldProps("salary")}
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
+              /> */}
+              <CustomTextField
+                id="salary"
+                name="salary"
+                variant="outlined"
+                value={formatRupiah(String(salaryText))}
+                onChange={(e) => setSalaryText(e.target.value)}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
+                fullWidth
+                size="small"
               />
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan
@@ -241,6 +301,14 @@ const AddClientRequestModal = ({
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
                 {...formik.getFieldProps("total_requirement")}
                 error={
                   formik.touched.total_requirement &&
@@ -268,27 +336,31 @@ const AddClientRequestModal = ({
                   </MenuItem>
                 ))}
               </Select>
-              <CustomFormLabel htmlFor="status">Uploads</CustomFormLabel>
-              {/* <CustomTextField
+              <CustomFormLabel htmlFor="upload">Upload</CustomFormLabel>
+              <CustomTextField
                 required
                 type="file"
                 name="image"
                 accept="image/*"
                 onChange={onSelectFile}
-                fullWidth
                 multiple
+                fullWidth
                 size="small"
                 variant="outlined"
+                inputProps={{ multiple: true }}
                 sx={{
                   background: "#1ba0e20d",
                   borderRadius: "6px",
                   border: "1px solid #1ba0e20d",
                 }}
               />
-
               <Typography color="red" fontSize="small">
                 {!gambar ? pesan : ""}
-              </Typography> */}
+              </Typography>
+
+              <Button variant="contained" onClick={handleUpload}>
+                Upload
+              </Button>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -304,6 +376,7 @@ const AddClientRequestModal = ({
               onClick={() => {
                 closeModalHandler();
                 handleReset();
+                setSalaryText("");
               }}
               color="secondary"
             >

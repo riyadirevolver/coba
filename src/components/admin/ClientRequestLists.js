@@ -46,7 +46,7 @@ const ClientRequestLists = ({ data, client_id }) => {
       setDataClient(userData);
       handleOpenModal("delete");
     } else if (userData && type === "detail") {
-      router.push(`/management/client/detail/${id}`);
+      router.push(`/management/client/request/${id}`);
     }
     return;
   };

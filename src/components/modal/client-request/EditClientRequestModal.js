@@ -106,7 +106,7 @@ const EditClientRequestModal = ({
         // await axios.post("/api/client-request", payload);
         const xx = await axios.patch(`/api/client-request/${data.id}`, payload);
         openSnackBar("Berhasil mengubah Client Request");
-        router.replace(`/management/client/detail/${client_id}`);
+        router.replace(`/management/client/request/${client_id}`);
         handleReset();
         setLoading(false);
         closeModalHandler();

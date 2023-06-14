@@ -54,7 +54,7 @@ const DeleteClientRequestModal = ({
       setLoading(false);
       openSnackBar("Berhasil menghapus client request");
       closeModalHandler();
-      router.replace(`/management/client/detail/${client_id}`);
+      router.replace(`/management/client/request/${client_id}`);
       return;
     } catch (error) {
       console.log(error);

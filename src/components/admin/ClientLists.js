@@ -22,8 +22,8 @@ import DetailClientModal from "../modal/client/DetailClientModal";
 
 const options = [
   {
-    label: "Detail",
-    type: "detail",
+    label: "Request",
+    type: "request",
   },
   {
     label: "Edit",
@@ -50,8 +50,8 @@ const ClientLists = ({ data, token }) => {
     } else if (userData && type === "delete") {
       setDataClient(userData);
       handleOpenModal("delete");
-    } else if (userData && type === "detail") {
-      router.push(`/management/client/detail/${id}`);
+    } else if (userData && type === "request") {
+      router.push(`/management/client/request/${id}`);
     }
     return;
   };

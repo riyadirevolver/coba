@@ -73,7 +73,7 @@ const Sidebar = ({
 
   const SidebarContent = (
     <SimpleBar
-      style={{ height: "100%", background: "#1BA0E2", color: "white" }}
+      style={{ height: "100%", background: "#00C298", color: "white" }}
     >
       <Box height="100%">
         <LogoIcon />
@@ -129,7 +129,7 @@ const Sidebar = ({
                           className="sidebar__icn_item"
                           sx={{
                             ...(pathWithoutLastPart === item.href && {
-                              color: "#1BA0E2",
+                              color: "#00C298",
                               height: "48px",
                               width: "75px",
                               p: 0,
@@ -145,7 +145,7 @@ const Sidebar = ({
                               color={
                                 index === open ||
                                 pathWithoutLastPart === item.href
-                                  ? "rgba(27, 160, 226, 1)"
+                                  ? "rgb(0, 194, 152)"
                                   : "white"
                               }
                             />
@@ -165,7 +165,7 @@ const Sidebar = ({
                           <Typography
                             sx={{
                               ...(pathWithoutLastPart === item.href && {
-                                color: "#1BA0E2",
+                                color: "#00C298",
                               }),
                             }}
                           >
@@ -176,13 +176,13 @@ const Sidebar = ({
                           <FeatherIcon
                             icon="chevron-down"
                             size="16"
-                            fill="#1BA0E2"
+                            fill="#00C298"
                           />
                         ) : (
                           <FeatherIcon
                             icon="chevron-right"
                             size="16"
-                            fill="#1BA0E2"
+                            fill="#00C298"
                           />
                         )}
                       </Box>
@@ -383,11 +383,11 @@ const Sidebar = ({
                   cursor: "pointer",
                 }}
               >
-                <NextLink href="/dashboards/dashboard">
+                {/* <NextLink href="/dashboards/dashboard">
                   <Box onClick={() => handleTitle("")}>
                     <Icon variant="hadir" />
                   </Box>
-                </NextLink>
+                </NextLink> */}
               </Box>
 
               {Menuitems.filter((item) => {
@@ -428,7 +428,7 @@ const Sidebar = ({
                           variant={item.icon}
                           color={
                             index === open || pathWithoutLastPart === item.href
-                              ? "#1BA0E2"
+                              ? "#00C298"
                               : "white"
                           }
                         />
@@ -499,7 +499,7 @@ const Sidebar = ({
                                       className="mini__icn"
                                       sx={{
                                         ...(pathDirect === child.href && {
-                                          borderRight: "4px solid #1BA0E2",
+                                          borderRight: "4px solid #00C298",
                                         }),
                                       }}
                                     ></Box>
@@ -527,7 +527,7 @@ const Sidebar = ({
                       >
                         <Icon
                           variant={item.icon}
-                          color={pathDirect === item.href ? "#1BA0E2" : "white"}
+                          color={pathDirect === item.href ? "#00C298" : "white"}
                         />
                       </Box>
                     </NextLink>
