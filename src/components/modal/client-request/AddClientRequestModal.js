@@ -337,9 +337,10 @@ const AddClientRequestModal = ({
                   </MenuItem>
                 ))}
               </Select>
-              <CustomFormLabel htmlFor="upload">Upload</CustomFormLabel>
+              <CustomFormLabel htmlFor="upload">
+                Upload (Opsional)
+              </CustomFormLabel>
               <CustomTextField
-                required
                 type="file"
                 name="image"
                 accept="image/*"
