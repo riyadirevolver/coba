@@ -85,6 +85,7 @@ const EditClientRequestModal = ({
       status: data.status || "",
     },
     validationSchema: clientRequestValidation,
+    enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
       try {
