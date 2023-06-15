@@ -21,7 +21,7 @@ import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClient
 import BaseTable from "../table/BaseTable";
 moment.locale("id");
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
 
 const ClientAttachmentLists = ({ data, client_request_id }) => {
   const router = useRouter();
