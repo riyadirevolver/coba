@@ -18,6 +18,9 @@ import { useRouter } from "next/router";
 import SimpleBar from "simplebar-react";
 import checkJobLevel from "../../../utils/checkJobLevel";
 import Icon from "../../components/icons";
+import Logo from "../../../assets/images/logos/JC_LOGO.svg";
+import Image from "next/image";
+
 import LogoIcon from "../logo/LogoIcon";
 
 const filteredMenu = (data) => {
@@ -378,16 +381,24 @@ const Sidebar = ({
               }}
             >
               <Box
-                mb="12px"
+                mb="2px"
                 sx={{
                   cursor: "pointer",
                 }}
               >
-                {/* <NextLink href="/dashboards/dashboard">
-                  <Box onClick={() => handleTitle("")}>
-                    <Icon variant="hadir" />
+                <NextLink href="/dashboards/dashboard">
+                  <Box
+                    onClick={() => handleTitle("")}
+                    sx={{
+                      width: "60%",
+                      display: "block",
+                      margin: "0 auto",
+                    }}
+                  >
+                    {/* <Icon variant="hadir" /> */}
+                    <Image src={Logo} alt={"Logo Juara Coding"} />
                   </Box>
-                </NextLink> */}
+                </NextLink>
               </Box>
 
               {Menuitems.filter((item) => {

@@ -27,6 +27,7 @@ import clientRequestValidation from "../../../validations/clientRequestValidatio
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { formatRupiah } from "../../../../utils/formatRupiah";
 
 const upTransition = Transition("up");
 
@@ -59,6 +60,7 @@ const EditClientRequestModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+  const [salaryText, setSalaryText] = useState(data?.salary ?? "");
 
   const action = (
     <React.Fragment>
@@ -78,7 +80,7 @@ const EditClientRequestModal = ({
       position: data.position || "",
       last_called: data.last_called || "",
       request_date: data.request_date || "",
-      salary: data.salary || "",
+      // salary: data.salary || "",
       total_requirement: data.total_requirement || "",
       status: data.status || "",
     },
@@ -98,7 +100,7 @@ const EditClientRequestModal = ({
           position: position,
           last_called: last_called,
           request_date: request_date,
-          salary: salary,
+          salary: salaryText,
           total_requirement: total_requirement,
           status: status,
         };
@@ -140,7 +142,7 @@ const EditClientRequestModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Ubah Request
+            Ubah Client Request
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -217,7 +219,7 @@ const EditClientRequestModal = ({
                 />
               </LocalizationProvider>
               <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
-              <CustomTextField
+              {/* <CustomTextField
                 required
                 id="salary"
                 name="salary"
@@ -227,6 +229,23 @@ const EditClientRequestModal = ({
                 {...formik.getFieldProps("salary")}
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
+              /> */}
+              <CustomTextField
+                id="salary"
+                name="salary"
+                variant="outlined"
+                value={formatRupiah(String(salaryText))}
+                onChange={(e) => setSalaryText(e.target.value)}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
+                fullWidth
+                size="small"
               />
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan

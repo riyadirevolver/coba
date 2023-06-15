@@ -87,6 +87,9 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
     title: "STATUS",
   },
   {
+    title: "VIEW",
+  },
+  {
     title: "DIBUAT OLEH",
   },
   {
@@ -97,5 +100,20 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
   },
   {
     title: "",
+  },
+];
+
+export const HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT = [
+  {
+    title: "FILE",
+  },
+  {
+    title: "DIBUAT OLEH",
+  },
+  {
+    title: "TANGGAL DIBUAT",
+  },
+  {
+    title: "ACTION",
   },
 ];

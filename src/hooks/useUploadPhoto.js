@@ -26,17 +26,17 @@ const useUploadPhoto = (defaultPreview = []) => {
       return;
     }
     const selectedFiles = Array.from(files);
-    if (selectedFiles.some((file) => file.size > 2000000)) {
+    if (selectedFiles.some((file) => file.size > 5000000)) {
       setGambar([]);
-      setPesan("*File harus dibawah 2 MB");
+      setPesan("*File harus dibawah 5 MB");
       return;
     }
-    const pattern = /image-*/;
-    if (selectedFiles.some((file) => !file.type.match(pattern))) {
-      setGambar([]);
-      setPesan("*File harus berupa gambar");
-      return;
-    }
+    // const pattern = /image-*/;
+    // if (selectedFiles.some((file) => !file.type.match(pattern))) {
+    //   setGambar([]);
+    //   setPesan("*File harus berupa gambar");
+    //   return;
+    // }
     setGambar(selectedFiles);
   };
 

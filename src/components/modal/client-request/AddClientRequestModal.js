@@ -172,7 +172,7 @@ const AddClientRequestModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Tambah Client
+            Tambah Client Request
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -357,10 +357,6 @@ const AddClientRequestModal = ({
               <Typography color="red" fontSize="small">
                 {!gambar ? pesan : ""}
               </Typography>
-
-              <Button variant="contained" onClick={handleUpload}>
-                Upload
-              </Button>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -377,6 +373,7 @@ const AddClientRequestModal = ({
                 closeModalHandler();
                 handleReset();
                 setSalaryText("");
+                handleDeletePoster();
               }}
               color="secondary"
             >

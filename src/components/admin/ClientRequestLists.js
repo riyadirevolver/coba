@@ -1,4 +1,12 @@
-import { Button, Card, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  IconButton,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import "moment/locale/id";
 import moment from "moment/moment";
@@ -11,15 +19,13 @@ import AddClientRequestModal from "../modal/client-request/AddClientRequestModal
 import DeleteClientRequestModal from "../modal/client-request/DeleteClientRequestModal";
 import DetailClientModal from "../modal/client/DetailClientModal";
 import EditClientModal from "../modal/client/EditClientModal";
+import FeatherIcon from "feather-icons-react";
+
 import BaseTable from "../table/BaseTable";
 import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
 moment.locale("id");
 
 const options = [
-  {
-    label: "Detail",
-    type: "detail",
-  },
   {
     label: "Edit",
     type: "edit",
@@ -145,6 +151,18 @@ const ClientRequestLists = ({ data, client_id }) => {
                 <Typography variant="h6" fontWeight="600">
                   {row?.status}
                 </Typography>
+              </TableCell>
+              <TableCell>
+                <Tooltip
+                  onClick={() => {
+                    router.push(`/management/client/attachment/${row?.id}`);
+                  }}
+                  title="Views Data"
+                >
+                  <IconButton>
+                    <FeatherIcon icon="eye" width="24" />
+                  </IconButton>
+                </Tooltip>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
