@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import CustomFormLabel from "../../src/components/forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../src/components/forms/custom-elements/CustomTextField";
 
-import img1 from "../../assets/images/backgrounds/hadir-bg.svg";
+import banner from "../../assets/images/logos/juara_coding_logo.png";
 import useLogin from "../../src/hooks/useLogin";
 
 const Login = () => {
@@ -43,7 +43,7 @@ const Login = () => {
             padding: "100px",
           }}
         >
-          <Image src={img1} alt="bg" />
+          <Image src={banner} alt="bg" />
         </Box>
       </Grid>
       <Grid
@@ -52,7 +52,7 @@ const Login = () => {
         display="flex"
         alignItems="center"
         sx={{
-          background: "#1BA0E2",
+          background: "#00C298",
           width: "100%",
           boxShadow: "inset 15.4103px 0px 41.0942px rgba(0, 0, 0, 0.25)",
         }}
@@ -155,7 +155,7 @@ const Login = () => {
                 fullWidth
                 sx={{
                   backgroundColor: "white",
-                  color: "#1BA0E2",
+                  color: "#00C298",
                   pt: "15px",
                   pb: "15px",
                   fontWeight: "700",

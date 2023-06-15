@@ -23,7 +23,7 @@ async function userRoute(req, res) {
       fullname: response.fullname,
       photo: response.photo,
       email: response.email,
-      role: response.role_id,
+      role: response.role,
       companyId: response.company_id,
       jobLevel: response.job_level,
       token: token,

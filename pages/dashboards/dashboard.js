@@ -15,7 +15,7 @@ import CardPermit from "../../src/components/dashboard/dashboard/CardPermit";
 export const getServerSideProps = WithAuth(async function ({ req }) {
   const { id } = req.session.user;
   const { token } = req.session.user;
-  const dashboard = await getDashboard(id, token);
+  // const dashboard = await getDashboard(id, token);
   const user = req.session.user;
 
   if (user.level === "STAFF") {
@@ -27,13 +27,13 @@ export const getServerSideProps = WithAuth(async function ({ req }) {
     };
   }
   return {
-    props: { dashboard },
+    props: {},
   };
 });
 const dashboard = ({ dashboard }) => {
   return (
     <Grid container spacing={2} className="custom__grid">
-      <Grid item xl={3} lg={4} md={6} sm={6} xs={12}>
+      {/* <Grid item xl={3} lg={4} md={6} sm={6} xs={12}>
         <CardTotalEmployee data={dashboard.totalEmployees} />
       </Grid>
       <Grid item xl={3} lg={4} md={6} sm={6} xs={12}>
@@ -56,7 +56,7 @@ const dashboard = ({ dashboard }) => {
       </Grid>
       <Grid item lg={12} md={12} sm={12}>
         <TableUser data={dashboard.tableUserAbensts} />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Link } from "@mui/material";
 import Image from "next/image";
-import LogoHadirText from "../../../assets/images/backgrounds/hadir-text.svg";
+import banner from "../../../assets/images/logos/juara_coding_logo.png";
 
 import Icon from "../../components/icons";
 
@@ -13,7 +13,7 @@ const LogoIcon = () => {
   */
   return (
     // <Link href="/">
-    //   <Image src={LogoHadirText} alt={"Logo Hadir"} />
+    //   <Image src={banner} alt={"Logo Hadir"} />
     // </Link>
     <Link href="/dashboards/dashboard">
       <Box
@@ -23,7 +23,7 @@ const LogoIcon = () => {
         sx={{
           alignItems: "center",
 
-          background: "#1BA0E2",
+          background: "#00C298",
           zIndex: 9,
         }}
       >
@@ -39,7 +39,7 @@ const LogoIcon = () => {
             pt: "10px",
           }}
         >
-          <Icon variant="hadir" />
+          {/* <Icon variant="hadir" /> */}
         </Box>
         <Box
           sx={{
@@ -47,7 +47,7 @@ const LogoIcon = () => {
             marginLeft: "35px",
           }}
         >
-          <Image src={LogoHadirText} alt={"Logo Hadir"} />
+          <Image src={banner} alt={"Logo Juara Coding"} />
         </Box>
       </Box>
     </Link>

@@ -48,7 +48,7 @@ const useLogin = () => {
       }
 
       if (res.role === "admin") {
-        return router.replace("/dashboards/dashboard");
+        return router.replace("/management/user");
       }
 
       handleLoading(false);

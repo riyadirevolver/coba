@@ -1,54 +1,48 @@
 import { useEffect, useState } from "react";
 
-const useUploadPhoto = (defaultPreview = undefined) => {
-  const [gambar, setGambar] = useState(null);
-  const [preview, setPreview] = useState();
+const useUploadPhoto = (defaultPreview = []) => {
+  const [gambar, setGambar] = useState([]);
+  const [preview, setPreview] = useState([]);
   const [pesan, setPesan] = useState();
   const [userPhoto, setUserPhoto] = useState(defaultPreview);
 
   useEffect(() => {
-    if (!gambar) {
-      if (userPhoto) {
-        setPreview(defaultPreview);
-        return;
-      }
-      setPreview(undefined);
-      return;
+    if ((!gambar || gambar.length === 0) && userPhoto !== undefined) {
+      setPreview(defaultPreview);
+    } else if (gambar.length > 0) {
+      const objectUrls = gambar.map((file) => URL.createObjectURL(file));
+      setPreview(objectUrls);
+
+      return () => {
+        objectUrls.forEach((objectUrl) => URL.revokeObjectURL(objectUrl));
+      };
     }
-
-    const objectUrl = URL.createObjectURL(gambar);
-    setPreview(objectUrl);
-
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [gambar, userPhoto, defaultPreview]);
+  }, []);
 
   const onSelectFile = (e) => {
-    const file = e.target.files;
-
-    if (!file || file.length === 0) {
-      setGambar(undefined);
+    const files = e.target.files;
+    if (!files || files.length === 0) {
+      setGambar([]);
       return;
     }
-
-    if (file[0].size > 2000000) {
-      setGambar(undefined);
-      setPesan("*File harus dibawah 2 MB");
+    const selectedFiles = Array.from(files);
+    if (selectedFiles.some((file) => file.size > 5000000)) {
+      setGambar([]);
+      setPesan("*File harus dibawah 5 MB");
       return;
     }
-
-    const pattern = /image-*/;
-
-    if (!file[0].type.match(pattern)) {
-      setGambar(undefined);
-      setPesan("*File harus berupa gambar");
-      return;
-    }
-    setGambar(file[0]);
+    // const pattern = /image-*/;
+    // if (selectedFiles.some((file) => !file.type.match(pattern))) {
+    //   setGambar([]);
+    //   setPesan("*File harus berupa gambar");
+    //   return;
+    // }
+    setGambar(selectedFiles);
   };
 
   const handleDeletePoster = () => {
-    setGambar(null);
-    setPreview(undefined);
+    setGambar([]);
+    setPreview([]);
     setUserPhoto(undefined);
   };
 
