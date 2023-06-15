@@ -1,16 +1,6 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import { getDashboard } from "../../lib/services/dashboard";
 import WithAuth from "../../lib/session/withAuth";
-import TableUser from "../../src/components/dashboard/dashboard/TableUser";
-import TotalAbsentList from "../../src/components/dashboard/dashboard/TotalAbsentList";
-import UsersActivityIn from "../../src/components/dashboard/dashboard/UsersActivityIn";
-import { ChartTotalAbsent } from "../../src/components/dashboard/dashboard/ChartTotalAbsent";
-import CardWfh from "../../src/components/dashboard/dashboard/CardWfh";
-import CardLeave from "../../src/components/dashboard/dashboard/CardLeave";
-import CardSick from "../../src/components/dashboard/dashboard/CardSick";
-import CardTotalEmployee from "../../src/components/dashboard/dashboard/CardTotalEmployee";
-import CardPermit from "../../src/components/dashboard/dashboard/CardPermit";
 
 export const getServerSideProps = WithAuth(async function ({ req }) {
   const { id } = req.session.user;
