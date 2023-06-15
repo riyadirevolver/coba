@@ -21,41 +21,13 @@ import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClient
 import BaseTable from "../table/BaseTable";
 moment.locale("id");
 
-const options = [
-  {
-    label: "Detail",
-    type: "detail",
-  },
-  {
-    label: "Edit",
-    type: "edit",
-  },
-  {
-    label: "Delete",
-    type: "delete",
-  },
-];
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
 
 const ClientAttachmentLists = ({ data, client_request_id }) => {
   const router = useRouter();
-
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
-
   const [dataClientRequest, setDataClientRequest] = React.useState({});
-
-  const handleClickDot = (userData, type, id) => {
-    if (userData && type === "edit") {
-      setDataClientRequest(userData);
-      handleOpenModal("edit");
-    } else if (userData && type === "delete") {
-      setDataClientRequest(userData);
-      handleOpenModal("delete");
-    } else if (userData && type === "detail") {
-      router.push(`/management/client/request/${id}`);
-    }
-    return;
-  };
 
   return (
     <>
@@ -106,10 +78,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
                     textAlign: "left",
                   }}
                   onClick={() =>
-                    window.open(
-                      `http://localhost:4031/uploads/${row?.url}`,
-                      "_blank"
-                    )
+                    window.open(`${BASE_URL}/${row?.url}`, "_blank")
                   }
                 >
                   <Typography variant="h6" fontWeight="600">
