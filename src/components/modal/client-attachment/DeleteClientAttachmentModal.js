@@ -17,6 +17,7 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import Transition from "../../transition";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -48,7 +49,7 @@ const DeleteClientAttachmentModal = ({
     setLoading(true);
     event.preventDefault();
     try {
-      await axios.delete(`/api/client-attachment/${data.id}`);
+      await NextApi().delete(`/api/client-attachment/${data.id}`);
 
       setLoading(false);
       openSnackBar("Berhasil menghapus client attachment");

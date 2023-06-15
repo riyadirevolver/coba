@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
+import NextApi from "../../lib/services/next-api";
+
+const BASE_API = process.env.NEXT_PUBLIC_API_BASE_PATH;
+
+console.log(BASE_API);
 
 const useLogin = () => {
   const router = useRouter();
@@ -33,7 +38,7 @@ const useLogin = () => {
     };
 
     try {
-      const { data: res } = await Axios.post("/api/login", data);
+      const { data: res } = await NextApi().post(`/api/login`, data);
       setColor("success");
       setMessage("Berhasil login");
       setOpen(true);
@@ -56,7 +61,7 @@ const useLogin = () => {
       setOpen(true);
       setMessage("Unauthorized");
 
-      await Axios.post("/api/logout");
+      await NextApi().post("/api/logout");
       return;
     } catch (error) {
       handleLoading(false);

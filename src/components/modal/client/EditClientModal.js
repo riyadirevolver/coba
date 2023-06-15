@@ -25,6 +25,7 @@ import Transition from "../../transition";
 import axios from "axios";
 import PropTypes from "prop-types";
 import useFetchUser from "../../../hooks/fetch/useFetchUser";
+import NextApi from "../../../../lib/services/next-api";
 const upTransition = Transition("up");
 
 const ROLE_LISTS = [
@@ -94,7 +95,7 @@ const EditClientModal = ({
       description: description.value,
     };
     try {
-      await axios.patch(`/api/client/${data.id}`, payloadData);
+      await NextApi().patch(`/api/client/${data.id}`, payloadData);
       setLoading(false);
       openSnackBar("Berhasil Mengubah client");
       closeModalHandler();

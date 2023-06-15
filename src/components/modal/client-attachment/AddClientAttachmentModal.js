@@ -23,6 +23,7 @@ import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -84,7 +85,7 @@ const AddClientAttachmentModal = ({
             client_request_id: client_request_id,
             url: upload.id,
           };
-          await axios.post("/api/client-attachment", payloadAttachment);
+          await NextApi().post("/api/client-attachment", payloadAttachment);
         });
         openSnackBar("Berhasil menambahkan Client Attachment");
         router.replace(`/management/client/attachment/${client_request_id}`);

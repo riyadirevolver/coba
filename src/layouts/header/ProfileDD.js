@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/dist/client/router";
 import { useUserSession } from "../../hooks/useUserSession";
 import APP_CONFIG from "../../../app.config";
+import NextApi from "../../../lib/services/next-api";
 
 const imageURL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
 
@@ -34,7 +35,7 @@ const ProfileDD = ({ data }) => {
   };
 
   const handleLogout = async () => {
-    await axios.post("/api/logout");
+    await NextApi().post("/api/logout");
     router.push("/authentication/login");
   };
 

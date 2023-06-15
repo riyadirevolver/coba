@@ -1,7 +1,8 @@
 import axios from "axios";
 import useSWR from "swr";
+import NextApi from "../../lib/services/next-api";
 
-const fetcher = async (url) => await axios.get(url);
+const fetcher = async (url) => await NextApi().get(url);
 
 export const useUserSession = (options) => {
   const { data, error } = useSWR("/api/user", fetcher);

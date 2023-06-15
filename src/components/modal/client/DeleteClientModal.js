@@ -17,6 +17,7 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import Transition from "../../transition";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -44,7 +45,7 @@ const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
 
     try {
       // await deleteUser(data.id, token);
-      const res = await axios.delete(`/api/client/${data.id}`);
+      const res = await NextApi().delete(`/api/client/${data.id}`);
       setLoading(false);
       openSnackBar("Berhasil menghapus client");
       closeModalHandler();
