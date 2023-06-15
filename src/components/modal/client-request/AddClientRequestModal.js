@@ -35,6 +35,7 @@ import Transition from "../../transition";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import { formatRupiah } from "../../../../utils/formatRupiah";
 import { uploadFile } from "../../../../lib/services/upload";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -124,7 +125,7 @@ const AddClientRequestModal = ({
           total_requirement: total_requirement,
           status: status,
         };
-        const response = await axios.post("/api/client-request", data);
+        const response = await NextApi().post("/api/client-request", data);
         if (gambar.length > 0) {
           gambar.map(async (item) => {
             const upload = await uploadFile(item);
@@ -132,7 +133,7 @@ const AddClientRequestModal = ({
               client_request_id: response.data.id,
               url: upload.id,
             };
-            await axios.post("/api/client-attachment", payloadAttachment);
+            await NextApi().post("/api/client-attachment", payloadAttachment);
           });
         }
 

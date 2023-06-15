@@ -25,6 +25,7 @@ import Transition from "../../transition";
 import axios from "axios";
 import PropTypes from "prop-types";
 import BaseService from "../../../services/base";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -79,7 +80,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
         role: role,
       };
       // await service.post('a');
-      await axios.post("/api/users", data);
+      await NextApi().post("/api/users", data);
       setLoading(false);
       openSnackBar("Berhasil menambahkan user");
       closeModalHandler();

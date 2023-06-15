@@ -24,6 +24,7 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import useFetchUser from "../../../hooks/fetch/useFetchUser";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -62,7 +63,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         contact: contact.value,
         description: description.value,
       };
-      await axios.post("/api/client", data);
+      await NextApi().post("/api/client", data);
       console.log("first", data);
       setLoading(false);
       openSnackBar("Berhasil menambahkan client");

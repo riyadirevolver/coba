@@ -28,6 +28,7 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import { formatRupiah } from "../../../../utils/formatRupiah";
+import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -107,7 +108,10 @@ const EditClientRequestModal = ({
         };
         console.log("ssss", payload);
         // await axios.post("/api/client-request", payload);
-        const xx = await axios.patch(`/api/client-request/${data.id}`, payload);
+        const xx = await NextApi().patch(
+          `/api/client-request/${data.id}`,
+          payload
+        );
         openSnackBar("Berhasil mengubah Client Request");
         router.replace(`/management/client/request/${client_id}`);
         handleReset();

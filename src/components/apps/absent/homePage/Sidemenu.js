@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 import React from "react";
+import NextApi from "../../../../../lib/services/next-api";
 
 const drawerWidth = 240;
 
@@ -21,7 +22,7 @@ const Sidemenu = ({ open, onClose }) => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await axios.post("/api/logout");
+    await NextApi().post("/api/logout");
     router.push("/absen/login");
   };
 

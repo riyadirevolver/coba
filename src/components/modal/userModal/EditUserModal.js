@@ -24,6 +24,7 @@ import Transition from "../../transition";
 
 import axios from "axios";
 import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
 const upTransition = Transition("up");
 
 const ROLE_LISTS = [
@@ -74,7 +75,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
       role: role,
     };
     try {
-      await axios.patch(`/api/users/${data.id}`, payload);
+      await NextApi().patch(`/api/users/${data.id}`, payload);
       setLoading(false);
       openSnackBar("Berhasil Mengubah user");
       closeModalHandler();
