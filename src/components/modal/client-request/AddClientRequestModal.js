@@ -105,6 +105,7 @@ const AddClientRequestModal = ({
       status: "",
     },
     validationSchema: clientRequestValidation,
+
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
@@ -337,9 +338,10 @@ const AddClientRequestModal = ({
                   </MenuItem>
                 ))}
               </Select>
-              <CustomFormLabel htmlFor="upload">Upload</CustomFormLabel>
+              <CustomFormLabel htmlFor="upload">
+                Upload (Opsional)
+              </CustomFormLabel>
               <CustomTextField
-                required
                 type="file"
                 name="image"
                 accept="image/*"

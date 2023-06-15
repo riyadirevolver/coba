@@ -36,7 +36,7 @@ const Activity = ({ user_id }) => {
     if (historyData.length <= 1) {
       fetch();
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const nextFetch = async () => {

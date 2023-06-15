@@ -14,12 +14,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import Menuitems from "./MenuItems";
 // import Buynow from "./Buynow";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import SimpleBar from "simplebar-react";
-import checkJobLevel from "../../../utils/checkJobLevel";
-import Icon from "../../components/icons";
 import Logo from "../../../assets/images/logos/JC_LOGO.svg";
-import Image from "next/image";
+import Icon from "../../components/icons";
 
 import LogoIcon from "../logo/LogoIcon";
 
@@ -406,8 +405,6 @@ const Sidebar = ({
                   return item.isSuperAdmin;
                 } else if (data?.data.role === "admin") {
                   return item.isAdmin;
-                } else if (checkJobLevel(data?.data.jobLevel?.level ?? null)) {
-                  return item.isSPV;
                 } else if (data?.data.role === "staff") {
                   return item.isStaff;
                 }

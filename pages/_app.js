@@ -36,7 +36,7 @@ function MyApp(props) {
       <NextNProgress />
       <CacheProvider value={emotionCache}>
         <Head>
-          <title>HADIR</title>
+          <title>JC Connector</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={Gettheme}>
