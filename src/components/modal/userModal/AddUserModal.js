@@ -18,14 +18,12 @@ import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
 import { useRouter } from "next/dist/client/router";
+import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
+import BaseService from "../../../services/base";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-// import { register } from "../../../../lib/services/user";
-import axios from "axios";
-import PropTypes from "prop-types";
-import BaseService from "../../../services/base";
-import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 

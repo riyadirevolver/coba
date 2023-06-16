@@ -14,10 +14,9 @@ import {
 import FeatherIcon from "feather-icons-react";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
-import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import Transition from "../../transition";
 import NextApi from "../../../../lib/services/next-api";
+import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
@@ -50,7 +49,6 @@ const DeleteClientAttachmentModal = ({
     event.preventDefault();
     try {
       await NextApi().delete(`/api/client-attachment/${data.id}`);
-
       setLoading(false);
       openSnackBar("Berhasil menghapus client attachment");
       closeModalHandler();

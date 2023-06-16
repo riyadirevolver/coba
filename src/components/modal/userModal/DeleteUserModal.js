@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   Button,
@@ -7,18 +7,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Snackbar,
   IconButton,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
-import Transition from "../../transition";
 import { useRouter } from "next/dist/client/router";
-import { deleteUser } from "../../../../lib/services/user";
-import axios from "axios";
 import NextApi from "../../../../lib/services/next-api";
+import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
@@ -45,8 +43,7 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
     event.preventDefault();
 
     try {
-      // await deleteUser(data.id, token);
-      const res = await NextApi().delete(`/api/users/${data.id}`);
+      await NextApi().delete(`/api/users/${data.id}`);
       setLoading(false);
       openSnackBar("Berhasil menghapus user");
       closeModalHandler();

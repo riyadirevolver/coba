@@ -23,6 +23,7 @@ import FeatherIcon from "feather-icons-react";
 
 import BaseTable from "../table/BaseTable";
 import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
+import { formatRupiah } from "../../../utils/formatRupiah";
 moment.locale("id");
 
 const options = [
@@ -139,7 +140,7 @@ const ClientRequestLists = ({ data, client_id }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {row?.salary ?? "-"}
+                  {formatRupiah(String(row?.salary)) ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>

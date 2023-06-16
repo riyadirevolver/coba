@@ -15,15 +15,14 @@ import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
-import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
 import { uploadFile } from "../../../../lib/services/upload";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 

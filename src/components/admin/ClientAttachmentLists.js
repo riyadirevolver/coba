@@ -19,9 +19,10 @@ import useHandleModal from "../../hooks/useHandleModal";
 import AddClientAttachmentModal from "../modal/client-attachment/AddClientAttachmentModal";
 import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClientAttachmentModal";
 import BaseTable from "../table/BaseTable";
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 moment.locale("id");
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
 
 const ClientAttachmentLists = ({ data, client_request_id }) => {
   const router = useRouter();
@@ -78,7 +79,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
                     textAlign: "left",
                   }}
                   onClick={() =>
-                    window.open(`${BASE_URL}/${row?.url}`, "_blank")
+                    window.open(`${BASE_IMAGE_URL}/${row?.url}`, "_blank")
                   }
                 >
                   <Typography variant="h6" fontWeight="600">

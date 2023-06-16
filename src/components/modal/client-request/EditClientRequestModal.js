@@ -1,4 +1,4 @@
-import { Field, useFormik } from "formik";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 
 import {
@@ -13,22 +13,21 @@ import {
   Select,
   Snackbar,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
+import { formatRupiah } from "../../../../utils/formatRupiah";
 import clientRequestValidation from "../../../validations/clientRequestValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { formatRupiah } from "../../../../utils/formatRupiah";
-import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -61,8 +60,7 @@ const EditClientRequestModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const [salaryText, setSalaryText] = useState(data?.salary ?? "");
-
+  const [salaryText, setSalaryText] = useState(data?.salary);
   const action = (
     <React.Fragment>
       <IconButton
@@ -81,7 +79,7 @@ const EditClientRequestModal = ({
       position: data.position || "",
       last_called: data.last_called || "",
       request_date: data.request_date || "",
-      // salary: data.salary || "",
+      salary: formatRupiah(String(data.salary)) || "",
       total_requirement: data.total_requirement || "",
       status: data.status || "",
     },
@@ -102,16 +100,12 @@ const EditClientRequestModal = ({
           position: position,
           last_called: last_called,
           request_date: request_date,
-          salary: salaryText,
+          salary: Number(salary.replace(/Rp. /g, "").split(".").join("")),
           total_requirement: total_requirement,
           status: status,
         };
-        console.log("ssss", payload);
         // await axios.post("/api/client-request", payload);
-        const xx = await NextApi().patch(
-          `/api/client-request/${data.id}`,
-          payload
-        );
+        await NextApi().patch(`/api/client-request/${data.id}`, payload);
         openSnackBar("Berhasil mengubah Client Request");
         router.replace(`/management/client/request/${client_id}`);
         handleReset();
@@ -120,6 +114,7 @@ const EditClientRequestModal = ({
       } catch (error) {
         console.log(error);
         setLoading(false);
+        openSnackBar("Gagal mengubah Client Request");
       }
     },
   });
@@ -224,18 +219,26 @@ const EditClientRequestModal = ({
                 />
               </LocalizationProvider>
               <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
-              {/* <CustomTextField
+              <CustomTextField
                 required
                 id="salary"
                 name="salary"
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
                 {...formik.getFieldProps("salary")}
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
-              /> */}
-              <CustomTextField
+              />
+              {/* <CustomTextField
                 id="salary"
                 name="salary"
                 variant="outlined"
@@ -251,7 +254,7 @@ const EditClientRequestModal = ({
                 }}
                 fullWidth
                 size="small"
-              />
+              /> */}
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan
               </CustomFormLabel>

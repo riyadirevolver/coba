@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import pagination from "../../../../lib/services/pagination";
 import WithAuth from "../../../../lib/session/withAuth";
-import ClientAttachmentLists from "../../../../src/components/admin/ClientAttachment";
+import ClientAttachmentLists from "../../../../src/components/admin/ClientAttachmentLists";
 
 export const getServerSideProps = WithAuth(async ({ req, params }) => {
   const { id } = params;
