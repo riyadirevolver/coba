@@ -25,23 +25,9 @@ import Transition from "../../transition";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
+import { ROLE_LISTS } from "../../../../utils/constant";
 import userValidation from "../../../validations/userValidation";
 const upTransition = Transition("up");
-
-const ROLE_LISTS = [
-  {
-    label: "Admin",
-    value: "admin",
-  },
-  {
-    label: "Client",
-    value: "client",
-  },
-  {
-    label: "Manager",
-    value: "manager",
-  },
-];
 
 const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
   const router = useRouter();
@@ -61,34 +47,6 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
       </IconButton>
     </React.Fragment>
   );
-
-  const onEditUser = async (event) => {
-    setLoading(true);
-    event.preventDefault();
-    const { target } = event;
-    const { nama_user, email, phone, nik } = target;
-
-    const payload = {
-      nik: nik.value,
-      fullname: nama_user.value,
-      email: email.value,
-      phone: phone.value,
-      role: role,
-    };
-    try {
-      await NextApi().patch(`/api/users/${data.id}`, payload);
-      setLoading(false);
-      openSnackBar("Berhasil Mengubah User");
-      closeModalHandler();
-      router.replace(router.pathname);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      openSnackBar("Gagal Mengubah User");
-      return;
-    }
-  };
 
   const formik = useFormik({
     initialValues: {

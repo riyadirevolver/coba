@@ -117,3 +117,111 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT = [
     title: "ACTION",
   },
 ];
+
+export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
+  {
+    title: "",
+  },
+  {
+    title: "NAMA",
+  },
+  {
+    title: "TANGGAL LAHIR",
+  },
+  {
+    title: "KTP",
+  },
+  {
+    title: "TELEPHONE",
+  },
+  {
+    title: "EDUKASI",
+  },
+  {
+    title: "NAMA SEKOLAH",
+  },
+  {
+    title: "IPK",
+  },
+  {
+    title: "MAJORING",
+  },
+  {
+    title: "PENGALAMAN KERJA",
+  },
+  {
+    title: "NAMA COMPANY",
+  },
+  {
+    title: "POSISI TERAKHIR",
+  },
+  {
+    title: "JOIN TANGGAL",
+  },
+  {
+    title: "NIP CODE",
+  },
+  {
+    title: "FACEBOOK",
+  },
+  {
+    title: "INSTAGRAM",
+  },
+  {
+    title: "LINKEDIN",
+  },
+  {
+    title: "NILAI ACCURATE",
+  },
+  {
+    title: "NILAI COGNITIVE",
+  },
+  {
+    title: "NILAI PROACTIVE",
+  },
+  {
+    title: "KELAS ID",
+  },
+  {
+    title: "PAYMENT",
+  },
+  {
+    title: "CONTACT",
+  },
+  {
+    title: "TANGGAL DIBUAT",
+  },
+  {
+    title: "",
+  },
+];
+
+export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
+  {
+    title: "NAMA PERUSAHAAN",
+  },
+  {
+    title: "PERMINTAAN KLIEN",
+  },
+  {
+    title: "NAMA KANDIDAT",
+  },
+  {
+    title: "STATUS",
+  },
+  {
+    title: "CATATAN",
+  },
+  {
+    title: "DIBUAT OLEH",
+  },
+  {
+    title: "DIPERBARUI OLEH",
+  },
+  {
+    title: "TANGGAL DIBUAT",
+  },
+  {
+    title: "",
+  },
+];

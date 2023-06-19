@@ -28,27 +28,9 @@ import clientRequestValidation from "../../../validations/clientRequestValidatio
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
 
 const upTransition = Transition("up");
-
-const STATUS_LISTS = [
-  {
-    label: "PENDING",
-    value: "pending",
-  },
-  {
-    label: "HOLD",
-    value: "hold",
-  },
-  {
-    label: "ACTIVE",
-    value: "active",
-  },
-  {
-    label: "CLOSED",
-    value: "closed",
-  },
-];
 
 const EditClientRequestModal = ({
   open = false,
@@ -104,7 +86,6 @@ const EditClientRequestModal = ({
           total_requirement: total_requirement,
           status: status,
         };
-        // await axios.post("/api/client-request", payload);
         await NextApi().patch(`/api/client-request/${data.id}`, payload);
         openSnackBar("Berhasil mengubah Client Request");
         router.replace(`/management/client/request/${client_id}`);
@@ -238,23 +219,6 @@ const EditClientRequestModal = ({
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
               />
-              {/* <CustomTextField
-                id="salary"
-                name="salary"
-                variant="outlined"
-                value={formatRupiah(String(salaryText))}
-                onChange={(e) => setSalaryText(e.target.value)}
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-                inputProps={{
-                  maxLength: 14,
-                }}
-                fullWidth
-                size="small"
-              /> */}
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan
               </CustomFormLabel>
@@ -286,7 +250,7 @@ const EditClientRequestModal = ({
                   formik.setFieldValue("status", value);
                 }}
               >
-                {STATUS_LISTS.map((item, index) => (
+                {STATUS_CLIENT_REQUEST_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.label}
                   </MenuItem>

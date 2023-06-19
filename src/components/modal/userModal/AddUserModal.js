@@ -24,23 +24,9 @@ import BaseService from "../../../services/base";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { ROLE_LISTS } from "../../../../utils/constant";
 
 const upTransition = Transition("up");
-
-const ROLE_LISTS = [
-  {
-    label: "Admin",
-    value: "admin",
-  },
-  {
-    label: "Client",
-    value: "client",
-  },
-  {
-    label: "Manager",
-    value: "manager",
-  },
-];
 
 const AddUserModal = ({ open = false, closeModalHandler, type }) => {
   const router = useRouter();

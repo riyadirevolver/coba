@@ -20,7 +20,12 @@ import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
-const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
+const DeletePersonJCModal = ({
+  open = false,
+  closeModalHandler,
+  type,
+  data,
+}) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -38,21 +43,21 @@ const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
     </React.Fragment>
   );
 
-  const create = async (event) => {
+  const remove = async (event) => {
     setLoading(true);
     event.preventDefault();
 
     try {
-      await NextApi().delete(`/api/client/${data.id}`);
+      await NextApi().delete(`/api/person-jc/${data.id}`);
       setLoading(false);
-      openSnackBar("Berhasil menghapus client");
+      openSnackBar("Berhasil menghapus user Juara Coding");
       closeModalHandler();
       router.replace(router.pathname);
       return;
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar(`Gagal menghapus client`);
+      openSnackBar(`Gagal menghapus user Juara Coding`);
       return;
     }
   };
@@ -74,9 +79,9 @@ const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <form onSubmit={create}>
+        <form onSubmit={remove}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Hapus client
+            Hapus User Juara Coding
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -84,7 +89,7 @@ const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
               component="div"
             >
               <Typography variant="body1">
-                Apakah anda ingin menghapus client
+                Apakah anda ingin menghapus User
                 <span
                   style={{
                     marginLeft: "5px",
@@ -116,4 +121,4 @@ const DeleteClientModal = ({ open = false, closeModalHandler, type, data }) => {
   );
 };
 
-export default DeleteClientModal;
+export default DeletePersonJCModal;

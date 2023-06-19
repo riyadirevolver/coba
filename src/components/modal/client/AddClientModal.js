@@ -64,7 +64,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         description: description.value,
       };
       await NextApi().post("/api/client", data);
-      console.log("first", data);
       setLoading(false);
       openSnackBar("Berhasil menambahkan client");
       closeModalHandler();
@@ -115,15 +114,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 size="small"
                 variant="outlined"
               />
-              {/* <CustomFormLabel htmlFor="pic_id">PIC</CustomFormLabel>
-              <CustomTextField
-                required
-                id="pic_id"
-                name="pic_id"
-                fullWidth
-                size="small"
-                variant="outlined"
-              /> */}
               <CustomFormLabel htmlFor="input-placement">
                 PIC (People In Charge)
               </CustomFormLabel>

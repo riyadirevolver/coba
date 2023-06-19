@@ -26,25 +26,6 @@ import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
-const STATUS_LISTS = [
-  {
-    label: "PENDING",
-    value: "pending",
-  },
-  {
-    label: "HOLD",
-    value: "hold",
-  },
-  {
-    label: "ACTIVE",
-    value: "active",
-  },
-  {
-    label: "CLOSED",
-    value: "closed",
-  },
-];
-
 const AddClientAttachmentModal = ({
   open = false,
   closeModalHandler,
@@ -52,8 +33,6 @@ const AddClientAttachmentModal = ({
   client_request_id,
 }) => {
   const router = useRouter();
-  const [salaryText, setSalaryText] = useState("");
-
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
