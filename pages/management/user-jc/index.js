@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
 import pagination from "../../../lib/services/pagination";
 import WithAuth from "../../../lib/session/withAuth";
-import UserAllLists from "../../../src/components/admin/UserAllLists";
 import PersonJCLists from "../../../src/components/admin/PersonJCLists";
+import SearchPersonJC from "../../../src/components/forms/search/SearchPersonJC";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
   const companyId = req.session.user.company_id;
@@ -11,7 +11,6 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
   const users = await pagination(
     "/person-jc",
     {
-      // "id[$ne]": id,
       ...query,
     },
     {
@@ -27,6 +26,9 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
 const UserJC = ({ users }) => {
   return (
     <Grid container spacing={0}>
+      <Grid item xs={12} lg={12}>
+        <SearchPersonJC />
+      </Grid>
       <Grid item xs={12} lg={12}>
         <PersonJCLists data={users} />
       </Grid>
