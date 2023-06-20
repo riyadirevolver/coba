@@ -6,7 +6,7 @@ const clientRequestValidation = Yup.object().shape({
     .required("Position wajib diisi"),
   last_called: Yup.string()
     .max(30, "Input melebihi batas maksimal")
-    .required("Last Called wajib diisi")
+    .required("Terakhir Dipanggil wajib diisi")
     .nullable(),
   request_date: Yup.string()
     .max(30, "Input melebihi batas maksimal")
@@ -14,7 +14,7 @@ const clientRequestValidation = Yup.object().shape({
     .nullable(),
   // salary: Yup.string()
   //   .max(30, "Input melebihi batas maksimal")
-  //   .required("Salary wajib diisi"),
+  //   .required("Gaji wajib diisi"),
   total_requirement: Yup.string()
     .max(30, "Input melebihi batas maksimal")
     .required("Total Requirement wajib diisi"),

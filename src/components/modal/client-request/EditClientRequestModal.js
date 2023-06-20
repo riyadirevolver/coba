@@ -144,7 +144,7 @@ const EditClientRequestModal = ({
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
-                  Last Called
+                  Terakhir Dipanggil
                 </CustomFormLabel>
                 <DatePicker
                   required
@@ -199,7 +199,7 @@ const EditClientRequestModal = ({
                   )}
                 />
               </LocalizationProvider>
-              <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
+              <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
               <CustomTextField
                 required
                 id="salary"

@@ -12,9 +12,10 @@ import searchValidation from "../../../validations/searchValidation";
 import DashboardCard from "../../baseCard/DashboardCard";
 import FilterPersonJCModal from "../../modal/person-jc/FilterPersonJCModal";
 import CustomTextField from "../custom-elements/CustomTextField";
+import FilterClientRequestModal from "../../modal/client-request/FilterClientRequestModal";
 moment.locale("id");
 
-const SearchPersonJC = () => {
+const SearchClientRequest = ({ client_id, token }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -28,9 +29,10 @@ const SearchPersonJC = () => {
       try {
         const { search } = values;
         router.replace({
+          pathname: `/management/client/request/${client_id}`,
           query: {
-            ...router.query,
-            "name[$like]": `%${search}%`,
+            // ...router.query,
+            position: search,
           },
         });
       } catch (error) {
@@ -42,14 +44,15 @@ const SearchPersonJC = () => {
 
   const handleReset = () => {
     formik.resetForm();
-    router.replace(router.pathname);
+    router.replace(`/management/client/request/${client_id}`);
   };
 
   return (
     <>
-      <FilterPersonJCModal
+      <FilterClientRequestModal
         open={openModal}
         type={modalType}
+        token={token}
         closeModalHandler={handleCloseModal}
       />
       <DashboardCard
@@ -67,7 +70,7 @@ const SearchPersonJC = () => {
                 fullWidth
                 size="small"
                 variant="outlined"
-                placeholder="Cari berdasarkan nama"
+                placeholder="Cari berdasarkan posisi"
                 {...formik.getFieldProps("search")}
                 error={formik.touched.search && !!formik.errors.search}
                 helperText={formik.touched.search && formik.errors.search}
@@ -131,4 +134,4 @@ const SearchPersonJC = () => {
   );
 };
 
-export default SearchPersonJC;
+export default SearchClientRequest;

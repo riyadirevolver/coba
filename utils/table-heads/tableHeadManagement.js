@@ -39,13 +39,13 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "",
   },
   {
-    title: "NAMA",
+    title: "NAMA KLIEN",
   },
   {
     title: "PIC",
   },
   {
-    title: "CONTACT",
+    title: "KONTAK",
   },
   {
     title: "DESKRIPSI",
@@ -66,28 +66,28 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
 
 export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
   {
-    title: "NAMA CLIENT",
+    title: "NAMA KLIEN",
   },
   {
-    title: "POSITION",
+    title: "POSISI",
   },
   {
-    title: "LAST CALLED",
+    title: "TERAKHIR DIPANGGIL",
   },
   {
-    title: "REQUEST DATE",
+    title: "TANGGAL PERMINTAAN",
   },
   {
-    title: "SALARY",
+    title: "GAJI",
   },
   {
-    title: "TOTAL REQUIREMENT",
+    title: "PERSYARATAN TOTAL",
   },
   {
     title: "STATUS",
   },
   {
-    title: "VIEW",
+    title: "BERKAS",
   },
   {
     title: "DIBUAT OLEH",

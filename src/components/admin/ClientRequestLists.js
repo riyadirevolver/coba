@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Grid,
   IconButton,
   TableCell,
   TableRow,
@@ -76,14 +77,6 @@ const ClientRequestLists = ({ data, client_id }) => {
         open={openModal}
         type={modalType}
         data={dataClient}
-        // data={{
-        //   position: dataClient?.position,
-        //   last_called: dataClient?.last_called,
-        //   request_date: dataClient?.request_date,
-        //   salary: dataClient?.salary,
-        //   total_requirement: dataClient?.total_requirement,
-        //   status: dataClient?.status,
-        // }}
         client_id={client_id}
         closeModalHandler={handleCloseModal}
       />
@@ -101,19 +94,26 @@ const ClientRequestLists = ({ data, client_id }) => {
           overflow: "visible",
         }}
       >
-        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
-          <Box flexGrow={1} />
-          <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              handleOpenModal("add");
-            }}
-          >
-            Tambah
-          </Button>
-        </Box>
+        <Grid container spacing={2}>
+          <Grid item sm={6} xs={12}>
+            <Typography fontWeight="700" fontSize={24} ml={3}>
+              Klien Request
+            </Typography>
+          </Grid>
+          <Grid item sm={6} xs={12} display="flex" justifyContent="end">
+            <Button
+              className="button-add"
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                handleOpenModal("add");
+              }}
+              sx={{ ml: 3, mr: 3, mb: 3 }}
+            >
+              Tambah
+            </Button>
+          </Grid>
+        </Grid>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST} data={data}>
           {data.data.map((row) => (

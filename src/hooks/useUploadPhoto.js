@@ -4,10 +4,9 @@ const useUploadPhoto = (defaultPreview = []) => {
   const [gambar, setGambar] = useState([]);
   const [preview, setPreview] = useState([]);
   const [pesan, setPesan] = useState();
-  const [userPhoto, setUserPhoto] = useState(defaultPreview);
-
+  const [errorFiles, setErrorFiles] = useState(false);
   useEffect(() => {
-    if ((!gambar || gambar.length === 0) && userPhoto !== undefined) {
+    if (!gambar || gambar.length === 0) {
       setPreview(defaultPreview);
     } else if (gambar.length > 0) {
       const objectUrls = gambar.map((file) => URL.createObjectURL(file));
@@ -23,32 +22,40 @@ const useUploadPhoto = (defaultPreview = []) => {
     const files = e.target.files;
     if (!files || files.length === 0) {
       setGambar([]);
+      setErrorFiles(false);
+      setPesan("");
       return;
     }
     const selectedFiles = Array.from(files);
-    if (selectedFiles.some((file) => file.size > 5000000)) {
+    if (selectedFiles.some((file) => file.size > 2000000)) {
       setGambar([]);
-      setPesan("*File harus dibawah 5 MB");
+      setErrorFiles(true);
+      setPesan("*File harus dibawah 2 MB");
       return;
     }
     // const pattern = /image-*/;
     // if (selectedFiles.some((file) => !file.type.match(pattern))) {
     //   setGambar([]);
+    //   setErrorFiles(true);
     //   setPesan("*File harus berupa gambar");
     //   return;
     // }
     setGambar(selectedFiles);
+    setPesan("");
+    setErrorFiles(false);
   };
 
   const handleDeletePoster = () => {
     setGambar([]);
     setPreview([]);
-    setUserPhoto(undefined);
+    setPesan("");
+    setErrorFiles(false);
   };
 
   return {
     handleDeletePoster,
     onSelectFile,
+    errorFiles,
     preview,
     gambar,
     pesan,

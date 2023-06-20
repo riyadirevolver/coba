@@ -6,7 +6,7 @@ const userValidation = Yup.object().shape({
     .required("NIK wajib diisi"),
   fullname: Yup.string()
     .max(30, "Input melebihi batas maksimal")
-    .required("Last Called wajib diisi")
+    .required("Terakhir Dipanggil wajib diisi")
     .nullable(),
   email: Yup.string()
     .max(30, "Input melebihi batas maksimal")

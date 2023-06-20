@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getClientRequest } from "../../../lib/services/client-request";
 
-const useFetchClientRequest = (token) => {
+const useFetchClientRequest = (token, id) => {
   const [openClientRequest, setOpenClientRequest] = useState(false);
   const [clientRequestList, setClientRequestList] = useState([]);
   const loadingClientRequest =
@@ -17,6 +17,9 @@ const useFetchClientRequest = (token) => {
     (async () => {
       const { data } = await getClientRequest(token, {
         "$sort[position]": 1,
+        ...(id && {
+          client_id: id,
+        }),
       });
 
       if (active) {

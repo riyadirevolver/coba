@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Grid,
   IconButton,
   TableCell,
   TableRow,
@@ -52,19 +53,26 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
           overflow: "visible",
         }}
       >
-        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
-          <Box flexGrow={1} />
-          <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              handleOpenModal("add");
-            }}
-          >
-            Tambah
-          </Button>
-        </Box>
+        <Grid container spacing={2}>
+          <Grid item sm={6} xs={12}>
+            <Typography fontWeight="700" fontSize={24} ml={3}>
+              Klien Attachment
+            </Typography>
+          </Grid>
+          <Grid item sm={6} xs={12} display="flex" justifyContent="end">
+            <Button
+              className="button-add"
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                handleOpenModal("add");
+              }}
+              sx={{ ml: 3, mr: 3, mb: 3 }}
+            >
+              Tambah
+            </Button>
+          </Grid>
+        </Grid>
         {/* tabel */}
         <BaseTable
           tableHead={HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT}

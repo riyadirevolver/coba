@@ -12,7 +12,6 @@ import {
   MenuItem,
   Select,
   Snackbar,
-  Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -25,13 +24,13 @@ import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
 import { uploadFile } from "../../../../lib/services/upload";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
 import { formatRupiah } from "../../../../utils/formatRupiah";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import clientRequestValidation from "../../../validations/clientRequestValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
 
 const upTransition = Transition("up");
 
@@ -60,7 +59,7 @@ const AddClientRequestModal = ({
     </React.Fragment>
   );
 
-  const { handleDeletePoster, onSelectFile, preview, gambar, pesan } =
+  const { handleDeletePoster, onSelectFile, errorFiles, gambar, pesan } =
     useUploadPhoto(undefined);
 
   const formik = useFormik({
@@ -161,7 +160,7 @@ const AddClientRequestModal = ({
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
-                  Last Called
+                  Terakhir Dipanggil
                 </CustomFormLabel>
                 <DatePicker
                   required
@@ -216,19 +215,7 @@ const AddClientRequestModal = ({
                   )}
                 />
               </LocalizationProvider>
-              <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
-
-              {/* <CustomTextField
-                required
-                id="salary"
-                name="salary"
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...formik.getFieldProps("salary")}
-                error={formik.touched.salary && !!formik.errors.salary}
-                helperText={formik.touched.salary && formik.errors.salary}
-              /> */}
+              <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
               <CustomTextField
                 id="salary"
                 name="salary"
@@ -304,22 +291,16 @@ const AddClientRequestModal = ({
                 size="small"
                 variant="outlined"
                 inputProps={{ multiple: true }}
-                sx={{
-                  background: "#1ba0e20d",
-                  borderRadius: "6px",
-                  border: "1px solid #1ba0e20d",
-                }}
+                error={errorFiles}
+                helperText={pesan}
               />
-              <Typography color="red" fontSize="small">
-                {!gambar ? pesan : ""}
-              </Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button
               color="primary"
               variant="contained"
-              disabled={loading}
+              disabled={loading || errorFiles === true}
               type="submit"
             >
               {loading ? "Submitting..." : "Tambah"}
