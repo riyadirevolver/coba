@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Grid,
   IconButton,
   TableCell,
   TableRow,
@@ -19,6 +20,7 @@ import useHandleModal from "../../hooks/useHandleModal";
 import AddClientAttachmentModal from "../modal/client-attachment/AddClientAttachmentModal";
 import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClientAttachmentModal";
 import BaseTable from "../table/BaseTable";
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 moment.locale("id");
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
@@ -51,19 +53,26 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
           overflow: "visible",
         }}
       >
-        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
-          <Box flexGrow={1} />
-          <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              handleOpenModal("add");
-            }}
-          >
-            Tambah
-          </Button>
-        </Box>
+        <Grid container spacing={2}>
+          <Grid item sm={6} xs={12}>
+            <Typography fontWeight="700" fontSize={24} ml={3}>
+              Klien Attachment
+            </Typography>
+          </Grid>
+          <Grid item sm={6} xs={12} display="flex" justifyContent="end">
+            <Button
+              className="button-add"
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                handleOpenModal("add");
+              }}
+              sx={{ ml: 3, mr: 3, mb: 3 }}
+            >
+              Tambah
+            </Button>
+          </Grid>
+        </Grid>
         {/* tabel */}
         <BaseTable
           tableHead={HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT}
@@ -78,7 +87,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
                     textAlign: "left",
                   }}
                   onClick={() =>
-                    window.open(`${BASE_URL}/${row?.url}`, "_blank")
+                    window.open(`${BASE_IMAGE_URL}/${row?.url}`, "_blank")
                   }
                 >
                   <Typography variant="h6" fontWeight="600">

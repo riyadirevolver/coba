@@ -1,62 +1,38 @@
-import { Field, useFormik } from "formik";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Divider,
-  Grid,
   IconButton,
   MenuItem,
   Select,
   Snackbar,
-  TextField,
-  Typography,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
+import { uploadFile } from "../../../../lib/services/upload";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
+import { formatRupiah } from "../../../../utils/formatRupiah";
+import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import clientRequestValidation from "../../../validations/clientRequestValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import useUploadPhoto from "../../../hooks/useUploadPhoto";
-import { formatRupiah } from "../../../../utils/formatRupiah";
-import { uploadFile } from "../../../../lib/services/upload";
-import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
-
-const STATUS_LISTS = [
-  {
-    label: "PENDING",
-    value: "pending",
-  },
-  {
-    label: "HOLD",
-    value: "hold",
-  },
-  {
-    label: "ACTIVE",
-    value: "active",
-  },
-  {
-    label: "CLOSED",
-    value: "closed",
-  },
-];
 
 const AddClientRequestModal = ({
   open = false,
@@ -83,24 +59,14 @@ const AddClientRequestModal = ({
     </React.Fragment>
   );
 
-  const { handleDeletePoster, onSelectFile, preview, gambar, pesan } =
+  const { handleDeletePoster, onSelectFile, errorFiles, gambar, pesan } =
     useUploadPhoto(undefined);
-
-  const handleUpload = () => {
-    console.log("qwerty", gambar);
-    gambar.map(async (item, index) => {
-      console.log("first", item);
-      const upload = await uploadFile(item);
-      console.log("berhasil", upload);
-    });
-  };
 
   const formik = useFormik({
     initialValues: {
       position: "",
       last_called: "",
       request_date: "",
-      // salary: formatRupiah(String("")),
       total_requirement: "",
       status: "",
     },
@@ -113,7 +79,6 @@ const AddClientRequestModal = ({
           position,
           last_called,
           request_date,
-          salary,
           total_requirement,
           status,
         } = values;
@@ -122,7 +87,7 @@ const AddClientRequestModal = ({
           position: position,
           last_called: last_called,
           request_date: request_date,
-          salary: salaryText,
+          salary: Number(salaryText.replace(/Rp. /g, "").split(".").join("")),
           total_requirement: total_requirement,
           status: status,
         };
@@ -195,7 +160,7 @@ const AddClientRequestModal = ({
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
-                  Last Called
+                  Terakhir Dipanggil
                 </CustomFormLabel>
                 <DatePicker
                   required
@@ -250,32 +215,7 @@ const AddClientRequestModal = ({
                   )}
                 />
               </LocalizationProvider>
-              <CustomFormLabel htmlFor="salary">Salary</CustomFormLabel>
-
-              {/* <CustomTextField
-                required
-                id="salary"
-                name="salary"
-                fullWidth
-                size="small"
-                variant="outlined"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-                inputProps={{
-                  maxLength: 14,
-                }}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  const formattedValue = formatRupiah(value);
-                  formik.setFieldValue("salary", formattedValue);
-                }}
-                {...formik.getFieldProps("salary")}
-                error={formik.touched.salary && !!formik.errors.salary}
-                helperText={formik.touched.salary && formik.errors.salary}
-              /> */}
+              <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
               <CustomTextField
                 id="salary"
                 name="salary"
@@ -332,7 +272,7 @@ const AddClientRequestModal = ({
                   formik.setFieldValue("status", value);
                 }}
               >
-                {STATUS_LISTS.map((item, index) => (
+                {STATUS_CLIENT_REQUEST_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.label}
                   </MenuItem>
@@ -351,22 +291,16 @@ const AddClientRequestModal = ({
                 size="small"
                 variant="outlined"
                 inputProps={{ multiple: true }}
-                sx={{
-                  background: "#1ba0e20d",
-                  borderRadius: "6px",
-                  border: "1px solid #1ba0e20d",
-                }}
+                error={errorFiles}
+                helperText={pesan}
               />
-              <Typography color="red" fontSize="small">
-                {!gambar ? pesan : ""}
-              </Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button
               color="primary"
               variant="contained"
-              disabled={loading}
+              disabled={loading || errorFiles === true}
               type="submit"
             >
               {loading ? "Submitting..." : "Tambah"}

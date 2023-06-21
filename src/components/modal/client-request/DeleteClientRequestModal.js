@@ -14,10 +14,9 @@ import {
 import FeatherIcon from "feather-icons-react";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
-import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import Transition from "../../transition";
 import NextApi from "../../../../lib/services/next-api";
+import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
@@ -50,8 +49,7 @@ const DeleteClientRequestModal = ({
     event.preventDefault();
 
     try {
-      // await deleteUser(data.id, token);
-      const res = await NextApi().delete(`/api/client-request/${data.id}`);
+      await NextApi().delete(`/api/client-request/${data.id}`);
       setLoading(false);
       openSnackBar("Berhasil menghapus client request");
       closeModalHandler();

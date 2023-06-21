@@ -39,13 +39,13 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "",
   },
   {
-    title: "NAMA",
+    title: "NAMA KLIEN",
   },
   {
     title: "PIC",
   },
   {
-    title: "CONTACT",
+    title: "KONTAK",
   },
   {
     title: "DESKRIPSI",
@@ -66,28 +66,28 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
 
 export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
   {
-    title: "NAMA CLIENT",
+    title: "NAMA KLIEN",
   },
   {
-    title: "POSITION",
+    title: "POSISI",
   },
   {
-    title: "LAST CALLED",
+    title: "TERAKHIR DIPANGGIL",
   },
   {
-    title: "REQUEST DATE",
+    title: "TANGGAL PERMINTAAN",
   },
   {
-    title: "SALARY",
+    title: "GAJI",
   },
   {
-    title: "TOTAL REQUIREMENT",
+    title: "PERSYARATAN TOTAL",
   },
   {
     title: "STATUS",
   },
   {
-    title: "VIEW",
+    title: "BERKAS",
   },
   {
     title: "DIBUAT OLEH",
@@ -115,5 +115,113 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT = [
   },
   {
     title: "ACTION",
+  },
+];
+
+export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
+  {
+    title: "",
+  },
+  {
+    title: "NAMA",
+  },
+  {
+    title: "TANGGAL LAHIR",
+  },
+  {
+    title: "KTP",
+  },
+  {
+    title: "TELEPHONE",
+  },
+  {
+    title: "EDUKASI",
+  },
+  {
+    title: "NAMA SEKOLAH",
+  },
+  {
+    title: "IPK",
+  },
+  {
+    title: "MAJORING",
+  },
+  {
+    title: "PENGALAMAN KERJA",
+  },
+  {
+    title: "NAMA COMPANY",
+  },
+  {
+    title: "POSISI TERAKHIR",
+  },
+  {
+    title: "JOIN TANGGAL",
+  },
+  {
+    title: "NIP CODE",
+  },
+  {
+    title: "FACEBOOK",
+  },
+  {
+    title: "INSTAGRAM",
+  },
+  {
+    title: "LINKEDIN",
+  },
+  {
+    title: "NILAI ACCURATE",
+  },
+  {
+    title: "NILAI COGNITIVE",
+  },
+  {
+    title: "NILAI PROACTIVE",
+  },
+  {
+    title: "KELAS ID",
+  },
+  {
+    title: "PAYMENT",
+  },
+  {
+    title: "CONTACT",
+  },
+  {
+    title: "TANGGAL DIBUAT",
+  },
+  {
+    title: "",
+  },
+];
+
+export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
+  {
+    title: "NAMA PERUSAHAAN",
+  },
+  {
+    title: "PERMINTAAN KLIEN",
+  },
+  {
+    title: "NAMA KANDIDAT",
+  },
+  {
+    title: "STATUS",
+  },
+  {
+    title: "CATATAN",
+  },
+  {
+    title: "DIBUAT OLEH",
+  },
+  {
+    title: "DIPERBARUI OLEH",
+  },
+  {
+    title: "TANGGAL DIBUAT",
+  },
+  {
+    title: "",
   },
 ];

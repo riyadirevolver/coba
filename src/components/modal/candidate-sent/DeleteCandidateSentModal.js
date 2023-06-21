@@ -20,7 +20,12 @@ import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
-const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
+const DeleteCandidateSentModal = ({
+  open = false,
+  closeModalHandler,
+  type,
+  data,
+}) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -43,16 +48,16 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
     event.preventDefault();
 
     try {
-      await NextApi().delete(`/api/users/${data.id}`);
+      await NextApi().delete(`/api/candidate-sent/${data.id}`);
       setLoading(false);
-      openSnackBar("Berhasil menghapus user");
+      openSnackBar("Berhasil menghapus data kandidat");
       closeModalHandler();
       router.replace(router.pathname);
       return;
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar(`Gagal menghapus user`);
+      openSnackBar(`Gagal menghapus data kandidat`);
       return;
     }
   };
@@ -76,7 +81,7 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
       >
         <form onSubmit={create}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Hapus User
+            Hapus Data Kandidat
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -84,14 +89,14 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
               component="div"
             >
               <Typography variant="body1">
-                Apakah anda ingin menghapus User
+                Apakah anda ingin menghapus
                 <span
                   style={{
                     marginLeft: "5px",
                     fontWeight: 700,
                   }}
                 >
-                  {data.fullname}
+                  {data?.jc_person_data?.name}
                 </span>
               </Typography>
             </DialogContentText>
@@ -116,4 +121,4 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
   );
 };
 
-export default DeleteUserModal;
+export default DeleteCandidateSentModal;

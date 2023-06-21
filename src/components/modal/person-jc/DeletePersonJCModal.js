@@ -20,7 +20,12 @@ import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
-const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
+const DeletePersonJCModal = ({
+  open = false,
+  closeModalHandler,
+  type,
+  data,
+}) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -38,21 +43,21 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
     </React.Fragment>
   );
 
-  const create = async (event) => {
+  const remove = async (event) => {
     setLoading(true);
     event.preventDefault();
 
     try {
-      await NextApi().delete(`/api/users/${data.id}`);
+      await NextApi().delete(`/api/person-jc/${data.id}`);
       setLoading(false);
-      openSnackBar("Berhasil menghapus user");
+      openSnackBar("Berhasil menghapus user Juara Coding");
       closeModalHandler();
       router.replace(router.pathname);
       return;
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar(`Gagal menghapus user`);
+      openSnackBar(`Gagal menghapus user Juara Coding`);
       return;
     }
   };
@@ -74,9 +79,9 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <form onSubmit={create}>
+        <form onSubmit={remove}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Hapus User
+            Hapus User Juara Coding
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -91,7 +96,7 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
                     fontWeight: 700,
                   }}
                 >
-                  {data.fullname}
+                  {data.name}
                 </span>
               </Typography>
             </DialogContentText>
@@ -116,4 +121,4 @@ const DeleteUserModal = ({ open = false, closeModalHandler, type, data }) => {
   );
 };
 
-export default DeleteUserModal;
+export default DeletePersonJCModal;

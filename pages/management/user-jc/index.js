@@ -1,38 +1,39 @@
 import { Grid } from "@mui/material";
-
 import pagination from "../../../lib/services/pagination";
 import WithAuth from "../../../lib/session/withAuth";
-import ClientLists from "../../../src/components/admin/ClientLists";
-import SearchClient from "../../../src/components/forms/search/SearchClient";
+import PersonJCLists from "../../../src/components/admin/PersonJCLists";
+import SearchPersonJC from "../../../src/components/forms/search/SearchPersonJC";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
-  const token = req.session.user.token;
+  const companyId = req.session.user.company_id;
+  const id = req.session.user.id;
+
   const users = await pagination(
-    "/client",
+    "/person-jc",
     {
       ...query,
     },
     {
-      Authorization: token,
+      Authorization: req.session.user.token,
     }
   );
   return {
     props: {
       users,
-      token,
     },
   };
 });
-const ClientUpliner = ({ users, token }) => {
+const UserJC = ({ users }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <SearchClient token={token} />
+        <SearchPersonJC />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <ClientLists data={users} token={token} />
+        <PersonJCLists data={users} />
       </Grid>
     </Grid>
   );
 };
-export default ClientUpliner;
+
+export default UserJC;
