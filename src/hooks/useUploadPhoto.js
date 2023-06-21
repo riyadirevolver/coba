@@ -27,12 +27,12 @@ const useUploadPhoto = (defaultPreview = []) => {
       return;
     }
     const selectedFiles = Array.from(files);
-    if (selectedFiles.some((file) => file.size > 2000000)) {
-      setGambar([]);
-      setErrorFiles(true);
-      setPesan("*File harus dibawah 2 MB");
-      return;
-    }
+    // if (selectedFiles.some((file) => file.size > 2000000)) {
+    //   setGambar([]);
+    //   setErrorFiles(true);
+    //   setPesan("*File harus dibawah 2 MB");
+    //   return;
+    // }
     // const pattern = /image-*/;
     // if (selectedFiles.some((file) => !file.type.match(pattern))) {
     //   setGambar([]);

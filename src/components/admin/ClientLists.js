@@ -18,7 +18,6 @@ import AddClientModal from "../modal/client/AddClientModal";
 import DeleteClientModal from "../modal/client/DeleteClientModal";
 import EditClientModal from "../modal/client/EditClientModal";
 import BaseTable from "../table/BaseTable";
-import DetailClientModal from "../modal/client/DetailClientModal";
 
 const options = [
   {
@@ -58,12 +57,12 @@ const ClientLists = ({ data, token }) => {
 
   return (
     <>
-      <DetailClientModal
+      {/* <DetailClientModal
         open={openModal}
         type={modalType}
         data={dataClient}
         closeModalHandler={handleCloseModal}
-      />
+      /> */}
       <AddClientModal
         open={openModal}
         type={modalType}

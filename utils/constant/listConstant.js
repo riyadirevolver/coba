@@ -54,14 +54,3 @@ export const STATUS_CANDIDATE_SENT_LISTS = [
     value: "hired",
   },
 ];
-
-export const SEARCH_CLIENT = [
-  {
-    label: "Nama Klien",
-    value: "name",
-  },
-  {
-    label: "PIC",
-    value: "pic_name",
-  },
-];

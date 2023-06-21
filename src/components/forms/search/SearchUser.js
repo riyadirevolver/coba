@@ -7,16 +7,16 @@ import moment from "moment-timezone";
 import "moment/locale/id";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { SEARCH_USER } from "../../../../utils/constant/searchConstant";
 import useHandleModal from "../../../hooks/useHandleModal";
 import searchValidation from "../../../validations/searchValidation";
 import DashboardCard from "../../baseCard/DashboardCard";
-import FilterClientModal from "../../modal/client/FilterClientModal";
+import FilterUserModal from "../../modal/userModal/FilterUserModal";
 import CustomTextField from "../custom-elements/CustomTextField";
-import { SEARCH_CLIENT } from "../../../../utils/constant/searchConstant";
 import { handlePlaceHolder } from "../../../../utils/placeHolder";
 moment.locale("id");
 
-const SearchClient = ({ token }) => {
+const SearchUser = ({ token }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -24,7 +24,7 @@ const SearchClient = ({ token }) => {
   const formik = useFormik({
     initialValues: {
       search: "",
-      select: "client_name",
+      select: "name_user",
     },
     validationSchema: searchValidation,
     onSubmit: async (values, { setSubmitting }) => {
@@ -33,11 +33,11 @@ const SearchClient = ({ token }) => {
         router.replace({
           query: {
             ...router.query,
-            ...(select === "client_name" && {
-              "name[$like]": `%${search}%`,
+            ...(select === "name_user" && {
+              "fullname[$like]": `%${search}%`,
             }),
-            ...(select === "pic_name" && {
-              pic_name: search,
+            ...(select === "nik_user" && {
+              "nik[$like]": `%${search}%`,
             }),
           },
         });
@@ -55,7 +55,7 @@ const SearchClient = ({ token }) => {
 
   return (
     <>
-      <FilterClientModal
+      <FilterUserModal
         open={openModal}
         type={modalType}
         token={token}
@@ -86,7 +86,7 @@ const SearchClient = ({ token }) => {
                   formik.setFieldValue("select", value);
                 }}
               >
-                {SEARCH_CLIENT.map((item, index) => (
+                {SEARCH_USER.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.label}
                   </MenuItem>
@@ -163,4 +163,4 @@ const SearchClient = ({ token }) => {
   );
 };
 
-export default SearchClient;
+export default SearchUser;

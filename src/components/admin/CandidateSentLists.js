@@ -88,7 +88,7 @@ const CandidateSentLists = ({ data, token }) => {
             <TableRow key={user.id}>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.jc_person_data?.company_name ?? "-"}
+                  {user?.client_request_data?.client_data?.name ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>

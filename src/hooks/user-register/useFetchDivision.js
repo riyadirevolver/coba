@@ -26,7 +26,6 @@ const useFetchDivision = (token, company_id) => {
 
       if (active) {
         setDivisionList([...data]);
-        console.log("xxxx", data);
       }
     })();
 

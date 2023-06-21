@@ -1,11 +1,6 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
-import Axios from "axios";
+import { useState } from "react";
 import NextApi from "../../lib/services/next-api";
-
-const BASE_API = process.env.NEXT_PUBLIC_API_BASE_PATH;
-
-console.log(BASE_API);
 
 const useLogin = () => {
   const router = useRouter();

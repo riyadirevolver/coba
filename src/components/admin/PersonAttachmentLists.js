@@ -8,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import FeatherIcon from "feather-icons-react";
 import "moment/locale/id";
 import moment from "moment/moment";
@@ -17,15 +16,13 @@ import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 
-import AddClientAttachmentModal from "../modal/client-attachment/AddClientAttachmentModal";
-import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClientAttachmentModal";
-import BaseTable from "../table/BaseTable";
 import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
+import AddPersonAttachmentModal from "../modal/person-attachment/AddPersonAttachmentModal";
+import DeletePersonAttachmentModal from "../modal/person-attachment/DeletePersonAttachmentModal";
+import BaseTable from "../table/BaseTable";
 moment.locale("id");
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
-
-const ClientAttachmentLists = ({ data, client_request_id }) => {
+const PersonAttachmentLists = ({ data, person_id }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -33,17 +30,17 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
 
   return (
     <>
-      <AddClientAttachmentModal
+      <AddPersonAttachmentModal
         open={openModal}
         type={modalType}
-        client_request_id={client_request_id}
+        person_id={person_id}
         closeModalHandler={handleCloseModal}
       />
-      <DeleteClientAttachmentModal
+      <DeletePersonAttachmentModal
         open={openModal}
         type={modalType}
         data={dataClientRequest}
-        client_request_id={client_request_id}
+        person_id={person_id}
         closeModalHandler={handleCloseModal}
       />
 
@@ -56,7 +53,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
         <Grid container spacing={2}>
           <Grid item sm={6} xs={12}>
             <Typography fontWeight="700" fontSize={24} ml={3}>
-              Klien Attachment
+              Person Attachment
             </Typography>
           </Grid>
           <Grid item sm={6} xs={12} display="flex" justifyContent="end">
@@ -86,9 +83,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
                     color: "black",
                     textAlign: "left",
                   }}
-                  onClick={() =>
-                    window.open(`${BASE_IMAGE_URL}/${row?.url}`, "_blank")
-                  }
+                  onClick={() => window.open(`${row?.url}`, "_blank")}
                 >
                   <Typography variant="h6" fontWeight="600">
                     {row?.file_name || "-"}
@@ -97,7 +92,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {row?.created_user_by?.fullname ?? "-"}
+                  {row?.created_by ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
@@ -139,4 +134,4 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
   );
 };
 
-export default ClientAttachmentLists;
+export default PersonAttachmentLists;

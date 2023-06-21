@@ -5,8 +5,8 @@ import PersonJCLists from "../../../src/components/admin/PersonJCLists";
 import SearchPersonJC from "../../../src/components/forms/search/SearchPersonJC";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
-  const companyId = req.session.user.company_id;
-  const id = req.session.user.id;
+  // const companyId = req.session.user.company_id;
+  // const id = req.session.user.id;
 
   const users = await pagination(
     "/person-jc",
