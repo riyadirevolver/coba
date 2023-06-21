@@ -1,0 +1,54 @@
+name: CI/CD Pipeline to Production
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  unit_test:
+    name: Run Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install && npm test
+
+  send-pre-notif:
+    name: Send Pre Deployment Notification to Discord
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+
+  deploy:
+    name: Deployment to Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Production Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script_stop: true
+          script: |
+            cd ~/developer/job-connector/job-connector-UI
+            git fetch origin master
+            git pull
+            npm install
+            npm run build
+            pm2 restart job-connector-ui
+
+  send-post-notif:
+    name: Send Post Deployment Notification to Discord
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: '{{ EVENT_PAYLOAD.repository.name }} commits has been deployed to production! 🚀'
