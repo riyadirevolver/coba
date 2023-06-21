@@ -1,8 +1,9 @@
 module.exports = {
   /* config options here */
+  // basePath: "/job-connector",
   reactStrictMode: false,
   images: {
-    domains: ["localhost", "api.peluangkerjaku.com", "api-pro.dikahadir.com"],
+    domains: ["api-dev.dikahadir.com"],
   },
 
   async redirects() {
