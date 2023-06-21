@@ -34,7 +34,7 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            cd ~/developer/job-connector/job-connector-UI
+            cd ~/developer/job-connector/job-connector-ui
             git fetch origin master
             git pull
             npm install
