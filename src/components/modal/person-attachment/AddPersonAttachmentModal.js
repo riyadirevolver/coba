@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import {
-  Alert,
   Box,
   Button,
   Dialog,
@@ -14,16 +12,18 @@ import {
   Typography,
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
-import "react-phone-input-2/lib/material.css";
-import { useSnackbar } from "../../../hooks/useSnackbar";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
+import "react-phone-input-2/lib/material.css";
 import NextApi from "../../../../lib/services/next-api";
 import { uploadFile } from "../../../../lib/services/upload";
+import { useSnackbar } from "../../../hooks/useSnackbar";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { BASE_IMAGE_URL } from "../../../../utils/baseUrl";
 
 const upTransition = Transition("up");
 
@@ -42,11 +42,11 @@ function LinearProgressWithLabel(props) {
   );
 }
 
-const AddClientAttachmentModal = ({
+const AddPersonAttachmentModal = ({
   open = false,
   closeModalHandler,
   type,
-  client_request_id,
+  person_id,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -75,22 +75,22 @@ const AddClientAttachmentModal = ({
         const item = gambar[index];
         const upload = await uploadFile(item);
         const payloadAttachment = {
-          client_request_id: client_request_id,
-          url: upload.id,
+          person_id: person_id,
+          url: `${BASE_IMAGE_URL}/${upload.id}`,
           file_name: item.name,
         };
-        await NextApi().post("/api/client-attachment", payloadAttachment);
+        await NextApi().post("/api/person-attachment", payloadAttachment);
       }
       router.replace({
         pathname: router.asPath,
       });
-      openSnackBar("Berhasil menambahkan Client Attachment");
+      openSnackBar("Berhasil menambahkan Person Attachment");
       setLoading(false);
       closeModalHandler();
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar("Gagal menambahkan Client Attachment");
+      openSnackBar("Gagal menambahkan Person Attachment");
     }
   };
 
@@ -113,7 +113,7 @@ const AddClientAttachmentModal = ({
       >
         <form onSubmit={handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Tambah Client Attachment
+            Tambah Person Attachment
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -165,12 +165,12 @@ const AddClientAttachmentModal = ({
   );
 };
 
-AddClientAttachmentModal.defaultProps = {
+AddPersonAttachmentModal.defaultProps = {
   open: false,
 };
 
-AddClientAttachmentModal.propTypes = {
+AddPersonAttachmentModal.propTypes = {
   open: PropTypes.bool,
 };
 
-export default AddClientAttachmentModal;
+export default AddPersonAttachmentModal;

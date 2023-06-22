@@ -24,13 +24,13 @@ import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
 import { uploadFile } from "../../../../lib/services/upload";
-import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
 import { formatRupiah } from "../../../../utils/formatRupiah";
 import useUploadPhoto from "../../../hooks/useUploadPhoto";
 import clientRequestValidation from "../../../validations/clientRequestValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -98,6 +98,7 @@ const AddClientRequestModal = ({
             const payloadAttachment = {
               client_request_id: response.data.id,
               url: upload.id,
+              file_name: item.name,
             };
             await NextApi().post("/api/client-attachment", payloadAttachment);
           });

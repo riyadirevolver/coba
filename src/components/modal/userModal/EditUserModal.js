@@ -25,14 +25,13 @@ import Transition from "../../transition";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import { ROLE_LISTS } from "../../../../utils/constant";
+import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
 import userValidation from "../../../validations/userValidation";
 const upTransition = Transition("up");
 
 const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
-  const [role, setRole] = useState(data.role);
   const [loading, setLoading] = useState(false);
 
   const action = (

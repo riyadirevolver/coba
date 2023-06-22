@@ -29,7 +29,7 @@ import candidateSentValidation from "../../../validations/candidateSentValidatio
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant";
+import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 

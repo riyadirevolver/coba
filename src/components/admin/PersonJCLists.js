@@ -14,11 +14,24 @@ import { HEAD_ROWS_MANAGEMENT_PERSON_JC } from "../../../utils/table-heads/table
 import useHandleModal from "../../hooks/useHandleModal";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
 import ThreeDotsMenu from "../menu-items/ThreeDotsMenu";
-import AddUserModal from "../modal/userModal/AddUserModal";
-import DeleteUserModal from "../modal/userModal/DeleteUserModal";
-import EditUserModal from "../modal/userModal/EditUserModal";
-import BaseTable from "../table/BaseTable";
 import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
+import BaseTable from "../table/BaseTable";
+import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
+
+const options = [
+  {
+    label: "Lihat Berkas",
+    type: "detail",
+  },
+  {
+    label: "Edit",
+    type: "edit",
+  },
+  {
+    label: "Delete",
+    type: "delete",
+  },
+];
 
 const PersonJCLists = ({ data }) => {
   const router = useRouter();
@@ -28,13 +41,15 @@ const PersonJCLists = ({ data }) => {
 
   const [dataUser, setDataUser] = React.useState({});
 
-  const handleUser = (userData, type) => {
+  const handleClickDot = (userData, type, id) => {
     if (userData && type === "edit") {
       setDataUser(userData);
-      handleOpenModal("edit");
+      router.push(`/management/user-jc/edit/${id}`);
     } else if (userData && type === "delete") {
       setDataUser(userData);
       handleOpenModal("delete");
+    } else if (userData && type === "detail") {
+      router.push(`/management/user-jc/attachment/${id}`);
     }
     return;
   };
@@ -206,14 +221,10 @@ const PersonJCLists = ({ data }) => {
                 )}
               </TableCell>
               <TableCell>
-                <ThreeDotsMenu
-                  data={user}
-                  token={data}
-                  onClickEdit={() => {
-                    // handleUser(user, "edit");
-                    router.replace(`/management/user-jc/edit/${user.id}`);
-                  }}
-                  onClickDelete={() => handleUser(user, "delete")}
+                <ThreeDots
+                  sx={{ textAlign: "right" }}
+                  options={options}
+                  onClick={(show) => handleClickDot(user, show, user?.id)}
                 />
               </TableCell>
             </TableRow>

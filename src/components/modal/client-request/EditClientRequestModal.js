@@ -9,6 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  InputAdornment,
   MenuItem,
   Select,
   Snackbar,
@@ -28,7 +29,7 @@ import clientRequestValidation from "../../../validations/clientRequestValidatio
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -42,7 +43,6 @@ const EditClientRequestModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const [salaryText, setSalaryText] = useState(data?.salary);
   const action = (
     <React.Fragment>
       <IconButton
@@ -61,7 +61,10 @@ const EditClientRequestModal = ({
       position: data.position || "",
       last_called: data.last_called || "",
       request_date: data.request_date || "",
-      salary: formatRupiah(String(data.salary)) || "",
+      salary:
+        String(data.salary)
+          .replace(/\D/g, "")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ".") || "",
       total_requirement: data.total_requirement || "",
       status: data.status || "",
     },
@@ -82,7 +85,8 @@ const EditClientRequestModal = ({
           position: position,
           last_called: last_called,
           request_date: request_date,
-          salary: Number(salary.replace(/Rp. /g, "").split(".").join("")),
+          // salary: Number(salary.replace(/Rp. /g, "").split(".").join("")),
+          salary: Number(salary.replace(/[^\d]/g, "").replace(/^0+/, "")),
           total_requirement: total_requirement,
           status: status,
         };
@@ -200,7 +204,7 @@ const EditClientRequestModal = ({
                 />
               </LocalizationProvider>
               <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
-              <CustomTextField
+              {/* <CustomTextField
                 required
                 id="salary"
                 name="salary"
@@ -213,12 +217,70 @@ const EditClientRequestModal = ({
                   }
                 }}
                 inputProps={{
-                  maxLength: 14,
+                  // maxLength: 14,
+                  startAdornment: (
+                    <InputAdornment position="start">kg</InputAdornment>
+                  ),
                 }}
                 {...formik.getFieldProps("salary")}
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
+              /> */}
+              <CustomTextField
+                id="salary"
+                name="salary"
+                fullWidth
+                size="small"
+                variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                InputProps={{
+                  maxLength: 14,
+                  startAdornment: (
+                    <InputAdornment position="start">Rp.</InputAdornment>
+                  ),
+                }}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  const formattedValue = value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                  formik.setFieldValue("salary", formattedValue);
+                }}
+                value={formik.values.salary}
+                error={formik.touched.salary && !!formik.errors.salary}
+                helperText={formik.touched.salary && formik.errors.salary}
               />
+              {/* <CustomTextField
+                id="salary"
+                name="salary"
+                fullWidth
+                size="small"
+                variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">Rp.</InputAdornment>
+                  ),
+                }}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  const formattedValue = value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                  formik.setFieldValue("salary", formattedValue);
+                }}
+                value={formik.values.salary}
+                error={formik.touched.salary && !!formik.errors.salary}
+                helperText={formik.touched.salary && formik.errors.salary}
+              /> */}
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan
               </CustomFormLabel>

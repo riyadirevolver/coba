@@ -87,9 +87,6 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
     title: "STATUS",
   },
   {
-    title: "BERKAS",
-  },
-  {
     title: "DIBUAT OLEH",
   },
   {

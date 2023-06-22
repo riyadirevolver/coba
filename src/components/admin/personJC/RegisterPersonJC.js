@@ -121,7 +121,6 @@ const RegisterPersonJC = ({ classData }) => {
           channel_payment: channel_payment,
         };
         const response = await NextApi().post("/api/person-jc", payload);
-        console.log("mau", response);
         openSnackBar("Berhasil menambahkan User JC");
         router.replace("/management/user-jc");
         setLoading(false);

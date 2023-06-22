@@ -8,7 +8,6 @@ import SearchClientRequest from "../../../../src/components/forms/search/SearchC
 export const getServerSideProps = WithAuth(async ({ req, params, query }) => {
   const { id } = params;
   const token = req.session.user.token;
-  console.log("xxxxxxxxx", token);
   const data = await pagination(
     "/client-request",
     {

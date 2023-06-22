@@ -24,7 +24,7 @@ import BaseService from "../../../services/base";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { ROLE_LISTS } from "../../../../utils/constant";
+import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 

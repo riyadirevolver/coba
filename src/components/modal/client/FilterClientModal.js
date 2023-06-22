@@ -61,19 +61,11 @@ const FilterClientModal = ({
   );
 
   const formik = useFormik({
-    initialValues: {
-      // client_name: null,
-      // pic_name: null,
-    },
-    validationSchema: Yup.object().shape({
-      // client_name: Yup.string().nullable(true),
-      // pic_name: Yup.string().nullable(true),
-    }),
+    initialValues: {},
+    validationSchema: Yup.object().shape({}),
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        //   const { client_name } = values;
-        //   console.log("zzzzzzzzzz", client_name);
         router.replace({
           query: {
             ...router.query,

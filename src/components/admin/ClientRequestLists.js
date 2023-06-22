@@ -2,13 +2,10 @@ import {
   Button,
   Card,
   Grid,
-  IconButton,
   TableCell,
   TableRow,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import "moment/locale/id";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
@@ -18,16 +15,17 @@ import useHandleModal from "../../hooks/useHandleModal";
 import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
 import AddClientRequestModal from "../modal/client-request/AddClientRequestModal";
 import DeleteClientRequestModal from "../modal/client-request/DeleteClientRequestModal";
-import DetailClientModal from "../modal/client/DetailClientModal";
-import EditClientModal from "../modal/client/EditClientModal";
-import FeatherIcon from "feather-icons-react";
 
-import BaseTable from "../table/BaseTable";
-import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
 import { formatRupiah } from "../../../utils/formatRupiah";
+import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
+import BaseTable from "../table/BaseTable";
 moment.locale("id");
 
 const options = [
+  {
+    label: "Lihat Berkas",
+    type: "detail",
+  },
   {
     label: "Edit",
     type: "edit",
@@ -54,19 +52,13 @@ const ClientRequestLists = ({ data, client_id }) => {
       setDataClient(userData);
       handleOpenModal("delete");
     } else if (userData && type === "detail") {
-      router.push(`/management/client/request/${id}`);
+      router.push(`/management/client/attachment/${id}`);
     }
     return;
   };
 
   return (
     <>
-      <DetailClientModal
-        open={openModal}
-        type={modalType}
-        data={dataClient}
-        closeModalHandler={handleCloseModal}
-      />
       <AddClientRequestModal
         open={openModal}
         type={modalType}
@@ -152,18 +144,6 @@ const ClientRequestLists = ({ data, client_id }) => {
                 <Typography variant="h6" fontWeight="600">
                   {row?.status}
                 </Typography>
-              </TableCell>
-              <TableCell>
-                <Tooltip
-                  onClick={() => {
-                    router.push(`/management/client/attachment/${row?.id}`);
-                  }}
-                  title="Views Data"
-                >
-                  <IconButton>
-                    <FeatherIcon icon="eye" width="24" />
-                  </IconButton>
-                </Tooltip>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">

@@ -126,7 +126,6 @@ const EditPersonJC = ({ id_user, data, classData }) => {
           `/api/person-jc/${id_user}`,
           payload
         );
-        console.log("mau", response);
         openSnackBar("Berhasil merubah User JC");
         router.replace("/management/user-jc");
         setLoading(false);
