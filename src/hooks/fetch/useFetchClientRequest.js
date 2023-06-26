@@ -15,15 +15,16 @@ const useFetchClientRequest = (token, id) => {
     }
 
     (async () => {
-      const { data } = await getClientRequest(token, {
+      const data = await getClientRequest(token, {
         "$sort[position]": 1,
+        $limit: "-1",
         ...(id && {
           client_id: id,
         }),
       });
 
       if (active) {
-        setClientRequestList(data);
+        setClientRequestList([...data]);
       }
     })();
 

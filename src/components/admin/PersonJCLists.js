@@ -13,14 +13,18 @@ import React from "react";
 import { HEAD_ROWS_MANAGEMENT_PERSON_JC } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
-import ThreeDotsMenu from "../menu-items/ThreeDotsMenu";
+import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
 import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
 import BaseTable from "../table/BaseTable";
-import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
+import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 
 const options = [
   {
     label: "Lihat Berkas",
+    type: "file",
+  },
+  {
+    label: "Detail",
     type: "detail",
   },
   {
@@ -45,10 +49,13 @@ const PersonJCLists = ({ data }) => {
     if (userData && type === "edit") {
       setDataUser(userData);
       router.push(`/management/user-jc/edit/${id}`);
+    } else if (userData && type === "detail") {
+      setDataUser(userData);
+      handleOpenModal("detail");
     } else if (userData && type === "delete") {
       setDataUser(userData);
       handleOpenModal("delete");
-    } else if (userData && type === "detail") {
+    } else if (userData && type === "file") {
       router.push(`/management/user-jc/attachment/${id}`);
     }
     return;
@@ -56,6 +63,12 @@ const PersonJCLists = ({ data }) => {
 
   return (
     <>
+      <DetailPersonJCModal
+        open={openModal}
+        type={modalType}
+        data={dataUser}
+        closeModalHandler={handleCloseModal}
+      />
       <DeletePersonJCModal
         open={openModal}
         type={modalType}
@@ -100,9 +113,6 @@ const PersonJCLists = ({ data }) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user?.number_id ?? "-"}</Typography>
-              </TableCell>
-              <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {user?.batch ?? "-"}
                 </Typography>
@@ -110,96 +120,6 @@ const PersonJCLists = ({ data }) => {
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {user?.mobile_phone_number ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.education}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.school_name ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.school_name ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.ipk_value ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.majoring ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.job_experience ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.company_name ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.last_position ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.join_date ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.nipp_code ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.facebook ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.instagram ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.linkedin ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.nilai_accurate ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.nilai_cognitive ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.nilai_proactive ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.class_id ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.channel_payment ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>

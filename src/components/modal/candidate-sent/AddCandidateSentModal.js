@@ -138,7 +138,9 @@ const AddCandidateSentModal = ({
                 clearOnBlur
                 handleHomeEndKeys
                 options={clientRequestList}
-                getOptionLabel={(option) => option.position}
+                getOptionLabel={(option) =>
+                  option.position + " - " + option?.client_data?.name
+                }
                 loading={loadingClientRequest}
                 open={openClientRequest}
                 onOpen={() => {
