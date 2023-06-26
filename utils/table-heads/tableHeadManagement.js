@@ -126,64 +126,10 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "TANGGAL LAHIR",
   },
   {
-    title: "KTP",
+    title: "BATCH",
   },
   {
-    title: "TELEPHONE",
-  },
-  {
-    title: "EDUKASI",
-  },
-  {
-    title: "NAMA SEKOLAH",
-  },
-  {
-    title: "IPK",
-  },
-  {
-    title: "MAJORING",
-  },
-  {
-    title: "PENGALAMAN KERJA",
-  },
-  {
-    title: "NAMA COMPANY",
-  },
-  {
-    title: "POSISI TERAKHIR",
-  },
-  {
-    title: "JOIN TANGGAL",
-  },
-  {
-    title: "NIP CODE",
-  },
-  {
-    title: "FACEBOOK",
-  },
-  {
-    title: "INSTAGRAM",
-  },
-  {
-    title: "LINKEDIN",
-  },
-  {
-    title: "NILAI ACCURATE",
-  },
-  {
-    title: "NILAI COGNITIVE",
-  },
-  {
-    title: "NILAI PROACTIVE",
-  },
-  {
-    title: "KELAS ID",
-  },
-  {
-    title: "PAYMENT",
-  },
-  {
-    title: "CONTACT",
+    title: "NO. TELEPON",
   },
   {
     title: "TANGGAL DIBUAT",

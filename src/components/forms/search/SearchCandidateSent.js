@@ -10,11 +10,11 @@ import React from "react";
 import useHandleModal from "../../../hooks/useHandleModal";
 import searchValidation from "../../../validations/searchValidation";
 import DashboardCard from "../../baseCard/DashboardCard";
-import FilterClientRequestModal from "../../modal/client-request/FilterClientRequestModal";
+import FilterClientModal from "../../modal/candidate-sent/FilterCandidateSentModal";
 import CustomTextField from "../custom-elements/CustomTextField";
 moment.locale("id");
 
-const SearchClientRequest = ({ client_id, token }) => {
+const SearchCandidatSent = ({ token }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -28,10 +28,9 @@ const SearchClientRequest = ({ client_id, token }) => {
       try {
         const { search } = values;
         router.replace({
-          pathname: `/management/client/request/${client_id}`,
           query: {
-            // ...router.query,
-            position: search,
+            ...router.query,
+            jc_fullname: search,
           },
         });
       } catch (error) {
@@ -43,12 +42,12 @@ const SearchClientRequest = ({ client_id, token }) => {
 
   const handleReset = () => {
     formik.resetForm();
-    router.replace(`/management/client/request/${client_id}`);
+    router.replace(router.pathname);
   };
 
   return (
     <>
-      <FilterClientRequestModal
+      <FilterClientModal
         open={openModal}
         type={modalType}
         token={token}
@@ -69,7 +68,7 @@ const SearchClientRequest = ({ client_id, token }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
-                placeholder="Cari berdasarkan posisi"
+                placeholder="Cari berdasarkan nama kandidat"
                 {...formik.getFieldProps("search")}
                 error={formik.touched.search && !!formik.errors.search}
                 helperText={formik.touched.search && formik.errors.search}
@@ -133,4 +132,4 @@ const SearchClientRequest = ({ client_id, token }) => {
   );
 };
 
-export default SearchClientRequest;
+export default SearchCandidatSent;

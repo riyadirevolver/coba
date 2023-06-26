@@ -13,7 +13,6 @@ import {
   IconButton,
   Snackbar,
 } from "@mui/material";
-import * as Yup from "yup";
 
 import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
@@ -22,11 +21,9 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
-import useFetchUser from "../../../hooks/fetch/useFetchUser";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import useFetchClient from "../../../hooks/fetch/useFetchClient";
 
 const upTransition = Transition("up");
 
@@ -71,8 +68,6 @@ const FilterClientRequestModal = ({
         router.replace({
           query: {
             ...router.query,
-            // "batch[$like]": `%${batch}%`,
-
             ...(payload.posisi && {
               position: payload.posisi,
             }),

@@ -13,7 +13,6 @@ import {
   IconButton,
   Snackbar,
 } from "@mui/material";
-import * as Yup from "yup";
 
 import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
@@ -21,11 +20,11 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
-import useFetchClient from "../../../hooks/fetch/useFetchClient";
-import useFetchUser from "../../../hooks/fetch/useFetchUser";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import useFetchClient from "../../../hooks/fetch/useFetchClient";
+import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
 
 const upTransition = Transition("up");
 
@@ -38,13 +37,19 @@ const FilterClientModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [payload, setPayload] = React.useState({
-    pic_name: null,
-    client_name: null,
+    client_id: null,
+    posisi: null,
   });
 
-  const { userList, openUser, setOpenUser, loadingUser } = useFetchUser(token);
   const { clientList, openClient, setOpenClient, loadingClient } =
     useFetchClient(token);
+
+  const {
+    clientRequestList,
+    openClientRequest,
+    setOpenClientRequest,
+    loadingClientRequest,
+  } = useFetchClientRequest(token);
 
   const action = (
     <React.Fragment>
@@ -60,23 +65,23 @@ const FilterClientModal = ({
   );
 
   const formik = useFormik({
-    initialValues: {},
-    validationSchema: Yup.object().shape({}),
-
+    initialValues: {
+      search: "",
+    },
     onSubmit: async (values, { setSubmitting }) => {
       try {
         router.replace({
           query: {
             ...router.query,
-            ...(payload.client_name && {
-              "name[$like]": payload.client_name,
+            ...(payload.client_id && {
+              client_id: payload.client_id,
             }),
-            ...(payload.pic_name && {
-              pic_name: payload.pic_name,
+            ...(payload.posisi && {
+              position: payload.posisi,
             }),
           },
         });
-        openSnackBar("Berhasil filter user Juara Coding");
+        openSnackBar("Berhasil filter klien request");
         closeModalHandler();
       } catch (error) {
         console.log(error);
@@ -108,7 +113,7 @@ const FilterClientModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Filter Client
+            Filter Kandidat Sent
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -116,7 +121,7 @@ const FilterClientModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="input-placement">
-                Nama Klien
+                Nama Perusahaan
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus
@@ -135,14 +140,14 @@ const FilterClientModal = ({
                 onChange={(e, newInputValue) => {
                   setPayload((prevState) => ({
                     ...prevState,
-                    client_name: newInputValue?.name,
+                    client_id: newInputValue?.id,
                   }));
                 }}
                 renderInput={(params) => (
                   <CustomTextField
                     {...params}
                     size="small"
-                    placeholder="Pilih Nama Klien"
+                    placeholder="Pilih Nama Perusahaan"
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (
@@ -157,37 +162,40 @@ const FilterClientModal = ({
                   />
                 )}
               />
-              <CustomFormLabel htmlFor="input-placement">PIC</CustomFormLabel>
+
+              <CustomFormLabel htmlFor="input-placement">
+                Permintaan Klien
+              </CustomFormLabel>
               <Autocomplete
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
-                options={userList}
-                getOptionLabel={(option) => option.fullname}
-                loading={loadingUser}
-                open={openUser}
+                options={clientRequestList}
+                getOptionLabel={(option) => option.position}
+                loading={loadingClientRequest}
+                open={openClientRequest}
                 onOpen={() => {
-                  setOpenUser(true);
+                  setOpenClientRequest(true);
                 }}
                 onClose={() => {
-                  setOpenUser(false);
+                  setOpenClientRequest(false);
                 }}
                 onChange={(e, newInputValue) => {
                   setPayload((prevState) => ({
                     ...prevState,
-                    pic_name: newInputValue?.fullname,
+                    posisi: newInputValue?.position,
                   }));
                 }}
                 renderInput={(params) => (
                   <CustomTextField
                     {...params}
                     size="small"
-                    placeholder="Pilih PIC (People In Charge)"
+                    placeholder="Pilih Permintaan Klien"
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingUser ? (
+                          {loadingClientRequest ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}
