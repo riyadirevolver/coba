@@ -34,25 +34,22 @@ import { GENDER_LISTS } from "../../../../utils/constant/listConstant";
 const filter = createFilterOptions();
 
 const EditPersonJC = ({ id_user, data, classData }) => {
-  console.log("vvvvvv", data);
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
-
-  const [loading, setLoading] = React.useState(false);
-  const [skill, setSkill] = React.useState([]);
-  const [interestPosition, setInterestPosition] = React.useState([]);
-  console.log("ininini", interestPosition);
-  const [willingJakarta, setWillingJakarta] = React.useState(false);
-  const [province, setProvince] = React.useState("");
 
   const arraySkill = data?.skills?.split(",").map((item) => ({ title: item }));
   const arrayInterest = data?.interest_positions
     ?.split(",")
     .map((item) => ({ title: item }));
-
   const defaultProvince = data?.current_domicile?.split(", ");
 
-  console.log("ccccc", defaultProvince);
+  const [loading, setLoading] = React.useState(false);
+  const [skill, setSkill] = React.useState(arraySkill || []);
+  const [interestPosition, setInterestPosition] = React.useState(
+    arrayInterest || []
+  );
+  const [willingJakarta, setWillingJakarta] = React.useState(false);
+  const [province, setProvince] = React.useState("");
 
   const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
   const { setOpenInterest, interestList, openInterest, loadingInterest } =
@@ -263,14 +260,10 @@ const EditPersonJC = ({ id_user, data, classData }) => {
           channel_payment: channel_payment,
           gender: gender,
           willing_work_jakarta: willingJakarta,
-          ...(skill.length > 0 && {
-            skills: skill.map((item) => item.title).join(","),
-          }),
-          ...(interestPosition.length > 0 && {
-            interest_positions: interestPosition
-              .map((item) => item.title)
-              .join(","),
-          }),
+          skills: skill.map((item) => item.title).join(","),
+          interest_positions: interestPosition
+            .map((item) => item.title)
+            .join(","),
           ...(province && {
             current_domicile: `${province.kabupaten}, ${province.propinsi}`,
           }),
@@ -485,16 +478,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                   multiple
                   onChange={autoCompleteOnChangeSkill}
                   filterOptions={filterOptionsSkill}
-                  defaultValue={
-                    arraySkill ===
-                    [
-                      {
-                        title: "",
-                      },
-                    ]
-                      ? []
-                      : arraySkill
-                  }
+                  defaultValue={data?.skills ? arraySkill : []}
                   selectOnFocus
                   clearOnBlur
                   handleHomeEndKeys
@@ -528,16 +512,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                   multiple
                   onChange={autoCompleteOnChangeInterest}
                   filterOptions={filterOptionsInterest}
-                  defaultValue={
-                    arrayInterest ===
-                    [
-                      {
-                        title: "",
-                      },
-                    ]
-                      ? []
-                      : arrayInterest
-                  }
+                  defaultValue={data?.interest_positions ? arrayInterest : []}
                   selectOnFocus
                   clearOnBlur
                   handleHomeEndKeys
