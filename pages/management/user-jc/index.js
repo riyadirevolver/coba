@@ -5,8 +5,7 @@ import PersonJCLists from "../../../src/components/admin/PersonJCLists";
 import SearchPersonJC from "../../../src/components/forms/search/SearchPersonJC";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
-  // const companyId = req.session.user.company_id;
-  // const id = req.session.user.id;
+  const token = req.session.user.token;
 
   const users = await pagination(
     "/person-jc",
@@ -20,17 +19,18 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
   return {
     props: {
       users,
+      token: token,
     },
   };
 });
-const UserJC = ({ users }) => {
+const UserJC = ({ users, token }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
         <SearchPersonJC />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <PersonJCLists data={users} />
+        <PersonJCLists data={users} token={token} />
       </Grid>
     </Grid>
   );

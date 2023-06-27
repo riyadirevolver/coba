@@ -23,28 +23,25 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
+import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
-import useFetchPersonJC from "../../../hooks/fetch/useFetchPersonJC";
 import candidateSentValidation from "../../../validations/candidateSentValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
-const EditCandidateSentModal = ({
+const AddSubmitCandidateModal = ({
   open = false,
   closeModalHandler,
   type,
-  data,
   token,
+  data,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const { personJCList, openPersonJC, setOpenPersonJC, loadingPersonJC } =
-    useFetchPersonJC(token);
   const {
     clientRequestList,
     openClientRequest,
@@ -55,26 +52,6 @@ const EditCandidateSentModal = ({
     jc_person_id: null,
     client_request_id: null,
   });
-
-  const optionLabelPersonJC = (option) => {
-    if (typeof option === "string") {
-      return option;
-    }
-    if (option.inputValue) {
-      return option.inputValue;
-    }
-    return option.name;
-  };
-
-  const optionLabelClientRequest = (option) => {
-    if (typeof option === "string") {
-      return option;
-    }
-    if (option.inputValue) {
-      return option.inputValue;
-    }
-    return option.position;
-  };
 
   const action = (
     <React.Fragment>
@@ -95,8 +72,8 @@ const EditCandidateSentModal = ({
 
   const formik = useFormik({
     initialValues: {
-      status: data.status || "",
-      notes: data.notes || "",
+      status: "",
+      notes: "",
     },
     validationSchema: candidateSentValidation,
     enableReinitialize: true,
@@ -105,23 +82,19 @@ const EditCandidateSentModal = ({
       try {
         const { status, notes } = values;
         const payloadData = {
-          ...(payload.client_request_id && {
-            client_request_id: payload.client_request_id,
-          }),
-          ...(payload.jc_person_id && {
-            jc_person_id: payload.jc_person_id,
-          }),
+          client_request_id: payload.client_request_id,
+          jc_person_id: data?.id,
           status: status,
           notes: notes,
         };
-        await NextApi().patch(`/api/candidate-sent/${data.id}`, payloadData);
-        openSnackBar("Berhasil mengubah Kandidat");
-        router.replace(router.pathname);
+        await NextApi().post("/api/candidate-sent", payloadData);
+        openSnackBar("Berhasil membuat kandidat");
+        router.replace("/management/candidate-sent");
         handleReset();
         setLoading(false);
         closeModalHandler();
       } catch (error) {
-        openSnackBar("Gagal mengubah Kandidat");
+        openSnackBar("Gagal membuat kandidat");
         console.log(error);
         setLoading(false);
       }
@@ -139,7 +112,7 @@ const EditCandidateSentModal = ({
         autoHideDuration={5000}
       />
       <Dialog
-        open={open && type === "edit"}
+        open={open && type === "submit_candidate"}
         TransitionComponent={upTransition}
         onClose={closeModalHandler}
         fullWidth
@@ -148,7 +121,7 @@ const EditCandidateSentModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Ubah Kandidat
+            Submit Kandidat
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -156,15 +129,16 @@ const EditCandidateSentModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="input-placement">
-                Client Request
+                Klien Request
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
-                defaultValue={data?.client_request_data?.position || ""}
                 options={clientRequestList}
-                getOptionLabel={optionLabelClientRequest}
+                getOptionLabel={(option) =>
+                  option.position + " - " + option?.client_data?.name
+                }
                 loading={loadingClientRequest}
                 open={openClientRequest}
                 onOpen={() => {
@@ -202,46 +176,14 @@ const EditCandidateSentModal = ({
               <CustomFormLabel htmlFor="input-placement">
                 Nama Kandidat
               </CustomFormLabel>
-              <Autocomplete
-                selectOnFocus
-                clearOnBlur
-                handleHomeEndKeys
-                options={personJCList}
-                defaultValue={data?.jc_person_data?.name}
-                getOptionLabel={optionLabelPersonJC}
-                loading={loadingPersonJC}
-                open={openPersonJC}
-                onOpen={() => {
-                  setOpenPersonJC(true);
+              <CustomTextField
+                id="candidate_name"
+                InputProps={{
+                  readOnly: true,
                 }}
-                onClose={() => {
-                  setOpenPersonJC(false);
-                }}
-                onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    jc_person_id: newInputValue?.id,
-                  }));
-                }}
-                renderInput={(params) => (
-                  <CustomTextField
-                    {...params}
-                    required
-                    size="small"
-                    placeholder="Pilih Nama Kandidat"
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {loadingPersonJC ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                  />
-                )}
+                fullWidth
+                size="small"
+                defaultValue={data?.name ?? ""}
               />
               <CustomFormLabel htmlFor="status">Status</CustomFormLabel>
               <Select
@@ -282,7 +224,7 @@ const EditCandidateSentModal = ({
               disabled={loading}
               type="submit"
             >
-              {loading ? "Submitting..." : "Simpan"}
+              {loading ? "Submitting..." : "Tambah"}
             </Button>
             <Button
               onClick={() => {
@@ -300,10 +242,10 @@ const EditCandidateSentModal = ({
   );
 };
 
-EditCandidateSentModal.defaultProps = {
+AddSubmitCandidateModal.defaultProps = {
   open: false,
 };
-EditCandidateSentModal.propTypes = {
+AddSubmitCandidateModal.propTypes = {
   open: PropTypes.bool,
 };
-export default EditCandidateSentModal;
+export default AddSubmitCandidateModal;

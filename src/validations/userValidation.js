@@ -12,8 +12,10 @@ const userValidation = Yup.object().shape({
     .max(30, "Input melebihi batas maksimal")
     .required("Email wajib diisi")
     .nullable(),
-  phone: Yup.string()
-    .max(30, "Input melebihi batas maksimal")
+  phone: Yup.number()
+    .typeError("Itu tidak terlihat seperti nomor telepon")
+    .positive("Nomor telepon tidak dapat dimulai dengan tanda minus")
+    .integer("Nomor telepon tidak boleh menyertakan koma desimal")
     .required("Telepon wajib diisi"),
   role: Yup.string()
     .max(30, "Input melebihi batas maksimal")

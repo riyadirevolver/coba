@@ -17,11 +17,16 @@ import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
 import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
 import BaseTable from "../table/BaseTable";
 import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
+import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
 
 const options = [
   {
     label: "Lihat Berkas",
     type: "file",
+  },
+  {
+    label: "Submit Kandidat",
+    type: "submit_candidate",
   },
   {
     label: "Detail",
@@ -37,7 +42,7 @@ const options = [
   },
 ];
 
-const PersonJCLists = ({ data }) => {
+const PersonJCLists = ({ data, token }) => {
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
@@ -52,6 +57,9 @@ const PersonJCLists = ({ data }) => {
     } else if (userData && type === "detail") {
       setDataUser(userData);
       handleOpenModal("detail");
+    } else if (userData && type === "submit_candidate") {
+      setDataUser(userData);
+      handleOpenModal("submit_candidate");
     } else if (userData && type === "delete") {
       setDataUser(userData);
       handleOpenModal("delete");
@@ -63,6 +71,13 @@ const PersonJCLists = ({ data }) => {
 
   return (
     <>
+      <AddSubmitCandidateModal
+        open={openModal}
+        type={modalType}
+        data={dataUser}
+        token={token}
+        closeModalHandler={handleCloseModal}
+      />
       <DetailPersonJCModal
         open={openModal}
         type={modalType}

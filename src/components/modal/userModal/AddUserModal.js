@@ -63,7 +63,6 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
         phone: phone.value,
         role: role,
       };
-      // await service.post('a');
       await NextApi().post("/api/users", data);
       setLoading(false);
       openSnackBar("Berhasil menambahkan user");
@@ -104,7 +103,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="nik">NIK</CustomFormLabel>
+              <CustomFormLabel htmlFor="nik">*NIK</CustomFormLabel>
               <CustomTextField
                 required
                 id="nik"
@@ -113,7 +112,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="nama_user">Nama User</CustomFormLabel>
+              <CustomFormLabel htmlFor="nama_user">*Nama User</CustomFormLabel>
               <CustomTextField
                 required
                 id="nama_user"
@@ -122,7 +121,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
+              <CustomFormLabel htmlFor="email">*Email</CustomFormLabel>
               <CustomTextField
                 required
                 id="email"
@@ -132,7 +131,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
+              <CustomFormLabel htmlFor="password">*Password</CustomFormLabel>
               <CustomTextField
                 required
                 id="password"
@@ -142,8 +141,9 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 size="small"
                 variant="outlined"
               />
-              <CustomFormLabel htmlFor="role">Role</CustomFormLabel>
+              <CustomFormLabel htmlFor="role">*Role</CustomFormLabel>
               <Select
+                required
                 size="small"
                 fullWidth
                 value={role || ""}
@@ -155,7 +155,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                   </MenuItem>
                 ))}
               </Select>
-              <CustomFormLabel htmlFor="phone">Phone</CustomFormLabel>
+              <CustomFormLabel htmlFor="phone">*Telepon</CustomFormLabel>
               <CustomTextField
                 required
                 id="phone"
@@ -163,6 +163,14 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
               />
             </DialogContentText>
           </DialogContent>

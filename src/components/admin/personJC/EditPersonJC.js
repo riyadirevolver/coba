@@ -1,14 +1,18 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
   CardContent,
+  Checkbox,
   Divider,
+  FormControlLabel,
   Grid,
   IconButton,
   MenuItem,
   Select,
   Snackbar,
+  createFilterOptions,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -22,11 +26,41 @@ import personJCValidation from "../../../validations/personJCValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import MenuTitle from "../../typography/MenuTitle";
+import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
+import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
+import useFetchZip from "../../../hooks/fetch/useFetchZip";
+import { GENDER_LISTS } from "../../../../utils/constant/listConstant";
+
+const filter = createFilterOptions();
 
 const EditPersonJC = ({ id_user, data, classData }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
+
+  const arraySkill = data?.skills?.split(",").map((item) => ({ title: item }));
+  const arrayInterest = data?.interest_positions
+    ?.split(",")
+    .map((item) => ({ title: item }));
+  const defaultProvince = data?.current_domicile?.split(", ");
+
   const [loading, setLoading] = React.useState(false);
+  const [skill, setSkill] = React.useState(arraySkill || []);
+  const [interestPosition, setInterestPosition] = React.useState(
+    arrayInterest || []
+  );
+  const [willingJakarta, setWillingJakarta] = React.useState(false);
+  const [province, setProvince] = React.useState("");
+
+  const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
+  const { setOpenInterest, interestList, openInterest, loadingInterest } =
+    useFetchInterestPosition();
+  const {
+    loadingZip,
+    openZip,
+    setOpenZip,
+    setTempQuery: setZipTempQuery,
+    searchZip,
+  } = useFetchZip();
 
   const action = (
     <>
@@ -40,6 +74,107 @@ const EditPersonJC = ({ id_user, data, classData }) => {
       </IconButton>
     </>
   );
+
+  const autoCompleteOnChangeSkill = (event, newValue) => {
+    if (typeof newValue === "string") {
+      setSkill({
+        title: newValue,
+      });
+    } else if (newValue && newValue.inputValue) {
+      setSkill({
+        title: newValue.inputValue,
+      });
+    } else {
+      const mapInputValue = newValue.map((value) => {
+        if (value.inputValue) {
+          value.title = value.inputValue;
+        }
+        return value;
+      });
+      setSkill(mapInputValue);
+    }
+  };
+  const autoCompleteOnChangeInterest = (event, newValue) => {
+    if (typeof newValue === "string") {
+      setInterestPosition({
+        title: newValue,
+      });
+    } else if (newValue && newValue.inputValue) {
+      setInterestPosition({
+        title: newValue.inputValue,
+      });
+    } else {
+      const mapInputValue = newValue.map((value) => {
+        if (value.inputValue) {
+          value.title = value.inputValue;
+        }
+        return value;
+      });
+      setInterestPosition(mapInputValue);
+    }
+  };
+
+  const autocompleteOnChangeZip = (event, newValue) => {
+    if (typeof newValue === "string") {
+      setProvince({
+        propinsi: newValue,
+      });
+    } else if (newValue && newValue.inputValue) {
+      // Create a new value from the user input
+      setProvince({
+        propinsi: newValue.inputValue,
+      });
+    } else {
+      setProvince(newValue);
+    }
+  };
+
+  const optionLabel = (option) => {
+    if (typeof option === "string") {
+      return option;
+    }
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    return option.title;
+  };
+
+  const filterOptionsSkill = (options, params) => {
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+    const selected = skill.some((option) => inputValue === option.title);
+    if (inputValue !== "" && !selected) {
+      filtered.push({
+        inputValue,
+        title: `Tambahkan "${inputValue}"`,
+      });
+    }
+    return filtered;
+  };
+  const filterOptionsInterest = (options, params) => {
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+    const selected = interestPosition.some(
+      (option) => inputValue === option.title
+    );
+    if (inputValue !== "" && !selected) {
+      filtered.push({
+        inputValue,
+        title: `Tambahkan "${inputValue}"`,
+      });
+    }
+    return filtered;
+  };
+
+  const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
+
+  const handleCheckbox = (e) => {
+    if (e.target.checked) {
+      setWillingJakarta(true);
+    } else {
+      setWillingJakarta(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -66,6 +201,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
       nilai_proactive: data.nilai_proactive || "",
       class_id: data.class_id || "",
       channel_payment: data.channel_payment || "",
+      gender: data.gender || "",
     },
     validationSchema: personJCValidation,
     enableReinitialize: true,
@@ -96,6 +232,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
           nilai_proactive,
           class_id,
           channel_payment,
+          gender,
         } = values;
         const payload = {
           name: fullname,
@@ -121,6 +258,15 @@ const EditPersonJC = ({ id_user, data, classData }) => {
           nilai_proactive: nilai_proactive,
           class_id: class_id,
           channel_payment: channel_payment,
+          gender: gender,
+          willing_work_jakarta: willingJakarta,
+          skills: skill.map((item) => item.title).join(","),
+          interest_positions: interestPosition
+            .map((item) => item.title)
+            .join(","),
+          ...(province && {
+            current_domicile: `${province.kabupaten}, ${province.propinsi}`,
+          }),
         };
         const response = await NextApi().patch(
           `/api/person-jc/${id_user}`,
@@ -129,7 +275,6 @@ const EditPersonJC = ({ id_user, data, classData }) => {
         openSnackBar("Berhasil merubah User JC");
         router.replace("/management/user-jc");
         setLoading(false);
-        closeModalHandler();
       } catch (error) {
         console.log(error);
         openSnackBar("Gagal merubah User JC");
@@ -150,7 +295,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
       />
       <Grid container>
         <Grid item lg={6} sx={{ p: "15px" }}>
-          <MenuTitle title="Registrasi User JC" />
+          <MenuTitle title="Ubah User JC" />
         </Grid>
       </Grid>
       <Card sx={{ p: 0 }}>
@@ -188,6 +333,27 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                   error={formik.touched.fullname && !!formik.errors.fullname}
                   helperText={formik.touched.fullname && formik.errors.fullname}
                 />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="gender">
+                  Jenis Kelamin
+                </CustomFormLabel>
+                <Select
+                  name="gender"
+                  size="small"
+                  fullWidth
+                  value={formik.values.gender || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("gender", value);
+                  }}
+                >
+                  {GENDER_LISTS.map((item, index) => (
+                    <MenuItem value={item.value} key={index}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
@@ -303,6 +469,126 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                   error={formik.touched.nipp_code && !!formik.errors.nipp_code}
                   helperText={
                     formik.touched.nipp_code && formik.errors.nipp_code
+                  }
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="skills">Keahlian</CustomFormLabel>
+                <Autocomplete
+                  multiple
+                  onChange={autoCompleteOnChangeSkill}
+                  filterOptions={filterOptionsSkill}
+                  defaultValue={data?.skills ? arraySkill : []}
+                  selectOnFocus
+                  clearOnBlur
+                  handleHomeEndKeys
+                  id="free-solo-with-text-demo"
+                  options={skillList}
+                  loading={loadingSkill}
+                  open={openSkill}
+                  onOpen={() => {
+                    setOpenSkill(true);
+                  }}
+                  onClose={() => {
+                    setOpenSkill(false);
+                  }}
+                  filterSelectedOptions
+                  getOptionLabel={optionLabel}
+                  renderOption={renderOptions}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      placeholder="Masukan keahlian, tambahkan jika tidak ada"
+                      size="small"
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="interest_positions">
+                  Posisi yang diminati
+                </CustomFormLabel>
+                <Autocomplete
+                  multiple
+                  onChange={autoCompleteOnChangeInterest}
+                  filterOptions={filterOptionsInterest}
+                  defaultValue={data?.interest_positions ? arrayInterest : []}
+                  selectOnFocus
+                  clearOnBlur
+                  handleHomeEndKeys
+                  id="free-solo-with-text-demo"
+                  options={interestList}
+                  loading={loadingInterest}
+                  open={openInterest}
+                  onOpen={() => {
+                    setOpenInterest(true);
+                  }}
+                  onClose={() => {
+                    setOpenInterest(false);
+                  }}
+                  filterSelectedOptions
+                  getOptionLabel={optionLabel}
+                  renderOption={renderOptions}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      placeholder="Masukan posisi yang diminati, tambahkan jika tidak ada"
+                      size="small"
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="input-name">
+                  Domisili saat ini
+                </CustomFormLabel>
+                <Autocomplete
+                  selectOnFocus
+                  clearOnBlur
+                  handleHomeEndKeys
+                  limitTags={2}
+                  filterOptions={(x) => x}
+                  id="free-solo-with-text-demo"
+                  options={searchZip}
+                  loading={loadingZip}
+                  onChange={autocompleteOnChangeZip}
+                  defaultValue={
+                    data?.current_domicile && {
+                      kabupaten: defaultProvince[0],
+                      propinsi: defaultProvince[1],
+                    }
+                  }
+                  onInputChange={(e, newInputValue) =>
+                    setZipTempQuery(newInputValue)
+                  }
+                  getOptionLabel={(option) =>
+                    option.kabupaten + ", " + option.propinsi
+                  }
+                  renderOption={(props, option) => (
+                    <li {...props}>{`${option.kabupaten ?? ""} - ${
+                      option.propinsi ?? ""
+                    }`}</li>
+                  )}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      size="small"
+                      placeholder={"Cari berdasarkan kota"}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <FormControlLabel
+                  label="Bersedia ditempatkan di Jakarta"
+                  name="is_for_male"
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox}
+                      defaultChecked={
+                        data?.willing_work_jakarta === 1 ? true : false
+                      }
+                    />
                   }
                 />
               </Grid>
