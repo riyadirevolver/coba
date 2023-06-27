@@ -106,7 +106,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="nik">NIK</CustomFormLabel>
+              <CustomFormLabel htmlFor="nik">*NIK</CustomFormLabel>
               <CustomTextField
                 required
                 id="nik"
@@ -118,7 +118,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                 error={formik.touched.nik && !!formik.errors.nik}
                 helperText={formik.touched.nik && formik.errors.nik}
               />
-              <CustomFormLabel htmlFor="fullname">Nama User</CustomFormLabel>
+              <CustomFormLabel htmlFor="fullname">*Nama User</CustomFormLabel>
               <CustomTextField
                 required
                 id="fullname"
@@ -130,7 +130,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                 error={formik.touched.fullname && !!formik.errors.fullname}
                 helperText={formik.touched.fullname && formik.errors.fullname}
               />
-              <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
+              <CustomFormLabel htmlFor="email">*Email</CustomFormLabel>
               <CustomTextField
                 required
                 defaultValue={data.email}
@@ -144,8 +144,9 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                 error={formik.touched.email && !!formik.errors.email}
                 helperText={formik.touched.email && formik.errors.email}
               />
-              <CustomFormLabel htmlFor="role">Role</CustomFormLabel>
+              <CustomFormLabel htmlFor="role">*Role</CustomFormLabel>
               <Select
+                required
                 name="role"
                 size="small"
                 fullWidth
@@ -161,7 +162,7 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                   </MenuItem>
                 ))}
               </Select>
-              <CustomFormLabel htmlFor="phone">Phone</CustomFormLabel>
+              <CustomFormLabel htmlFor="phone">*Telepon</CustomFormLabel>
               <CustomTextField
                 required
                 id="phone"
@@ -169,6 +170,14 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                inputProps={{
+                  maxLength: 14,
+                }}
                 {...formik.getFieldProps("phone")}
                 error={formik.touched.phone && !!formik.errors.phone}
                 helperText={formik.touched.phone && formik.errors.phone}

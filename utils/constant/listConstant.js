@@ -54,3 +54,14 @@ export const STATUS_CANDIDATE_SENT_LISTS = [
     value: "hired",
   },
 ];
+
+export const GENDER_LISTS = [
+  {
+    label: "Laki - laki",
+    value: "L",
+  },
+  {
+    label: "Perempuan",
+    value: "P",
+  },
+];

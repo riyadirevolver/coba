@@ -96,7 +96,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
       >
         <form onSubmit={create}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Tambah Client
+            Tambah Klien
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -104,7 +104,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
               component="div"
             >
               <CustomFormLabel htmlFor="name_client">
-                Nama Client
+                *Nama Klien
               </CustomFormLabel>
               <CustomTextField
                 required
@@ -115,7 +115,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 variant="outlined"
               />
               <CustomFormLabel htmlFor="input-placement">
-                PIC (People In Charge)
+                *PIC (People In Charge)
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus
@@ -157,7 +157,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   />
                 )}
               />
-              <CustomFormLabel htmlFor="contact">Contact</CustomFormLabel>
+              <CustomFormLabel htmlFor="contact">*Kontak</CustomFormLabel>
               <CustomTextField
                 required
                 id="contact"
@@ -168,7 +168,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
               />
               <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
               <CustomTextField
-                required
                 id="description"
                 name="description"
                 fullWidth

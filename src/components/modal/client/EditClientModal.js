@@ -112,7 +112,7 @@ const EditClientModal = ({
       >
         <form onSubmit={onEditClient}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Edit Client
+            Edit Klien
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -120,7 +120,7 @@ const EditClientModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="name_client">
-                Nama Client
+                *Nama Klien
               </CustomFormLabel>
               <CustomTextField
                 required
@@ -132,7 +132,7 @@ const EditClientModal = ({
                 variant="outlined"
               />
               <CustomFormLabel htmlFor="input-placement">
-                PIC (People In Charge)
+                *PIC (People In Charge)
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus
@@ -176,7 +176,7 @@ const EditClientModal = ({
                   />
                 )}
               />
-              <CustomFormLabel htmlFor="contact">Contact</CustomFormLabel>
+              <CustomFormLabel htmlFor="contact">*Kontak</CustomFormLabel>
               <CustomTextField
                 required
                 defaultValue={data.contact}
@@ -189,7 +189,6 @@ const EditClientModal = ({
               />
               <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
               <CustomTextField
-                required
                 defaultValue={data.description}
                 id="description"
                 name="description"

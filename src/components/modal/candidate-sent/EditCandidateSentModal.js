@@ -105,8 +105,12 @@ const EditCandidateSentModal = ({
       try {
         const { status, notes } = values;
         const payloadData = {
-          client_request_id: payload.client_request_id,
-          jc_person_id: payload.jc_person_id,
+          ...(payload.client_request_id && {
+            client_request_id: payload.client_request_id,
+          }),
+          ...(payload.jc_person_id && {
+            jc_person_id: payload.jc_person_id,
+          }),
           status: status,
           notes: notes,
         };
