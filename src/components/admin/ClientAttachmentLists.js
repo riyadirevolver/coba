@@ -8,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import FeatherIcon from "feather-icons-react";
 import "moment/locale/id";
 import moment from "moment/moment";
@@ -17,15 +16,15 @@ import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 import AddClientAttachmentModal from "../modal/client-attachment/AddClientAttachmentModal";
 import DeleteClientAttachmentModal from "../modal/client-attachment/DeleteClientAttachmentModal";
 import BaseTable from "../table/BaseTable";
-import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 moment.locale("id");
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_IMAGE_URL;
 
-const ClientAttachmentLists = ({ data, client_request_id }) => {
+const ClientAttachmentLists = ({ data, client_request_id, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -36,6 +35,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
       <AddClientAttachmentModal
         open={openModal}
         type={modalType}
+        session={session}
         client_request_id={client_request_id}
         closeModalHandler={handleCloseModal}
       />
@@ -43,6 +43,7 @@ const ClientAttachmentLists = ({ data, client_request_id }) => {
         open={openModal}
         type={modalType}
         data={dataClientRequest}
+        session={session}
         client_request_id={client_request_id}
         closeModalHandler={handleCloseModal}
       />

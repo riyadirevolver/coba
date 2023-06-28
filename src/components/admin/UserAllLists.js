@@ -19,7 +19,7 @@ import DeleteUserModal from "../modal/userModal/DeleteUserModal";
 import EditUserModal from "../modal/userModal/EditUserModal";
 import BaseTable from "../table/BaseTable";
 
-const UserAllLists = ({ data }) => {
+const UserAllLists = ({ data, token }) => {
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
@@ -44,6 +44,7 @@ const UserAllLists = ({ data }) => {
         open={openModal}
         type={modalType}
         data={dataUser}
+        token={token}
         closeModalHandler={handleCloseModal}
       />
       <EditUserModal

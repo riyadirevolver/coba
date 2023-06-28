@@ -40,7 +40,7 @@ const useLogin = () => {
       handleLoading(false);
 
       if (res.role === "client" || res.role === "client3") {
-        return router.replace("/client/all");
+        return router.replace("/client/client");
       }
 
       if (res.isLeader) {

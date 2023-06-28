@@ -52,7 +52,9 @@ const DeleteClientAttachmentModal = ({
       setLoading(false);
       openSnackBar("Berhasil menghapus client attachment");
       closeModalHandler();
-      router.replace(`/management/client/attachment/${client_request_id}`);
+      router.replace({
+        pathname: router.asPath,
+      });
       return;
     } catch (error) {
       console.log(error);

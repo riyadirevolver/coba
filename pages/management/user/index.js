@@ -5,8 +5,8 @@ import UserAllLists from "../../../src/components/admin/UserAllLists";
 import SearchUser from "../../../src/components/forms/search/SearchUser";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
-  const companyId = req.session.user.company_id;
   const id = req.session.user.id;
+  const token = req.session.user.token;
 
   const users = await pagination(
     "/users",
@@ -21,17 +21,18 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
   return {
     props: {
       users,
+      token: token,
     },
   };
 });
-const User = ({ users }) => {
+const User = ({ users, token }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
         <SearchUser />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <UserAllLists data={users} />
+        <UserAllLists data={users} token={token} />
       </Grid>
     </Grid>
   );
