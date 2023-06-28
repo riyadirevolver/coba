@@ -38,6 +38,7 @@ const AddSubmitCandidateModal = ({
   type,
   token,
   data,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -47,7 +48,7 @@ const AddSubmitCandidateModal = ({
     openClientRequest,
     setOpenClientRequest,
     loadingClientRequest,
-  } = useFetchClientRequest(token);
+  } = useFetchClientRequest(token, session?.client_id);
   const [payload, setPayload] = useState({
     jc_person_id: null,
     client_request_id: null,

@@ -36,7 +36,7 @@ const options = [
   },
 ];
 
-const ClientRequestLists = ({ data, client_id }) => {
+const ClientRequestLists = ({ data, client_id, session }) => {
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
@@ -44,7 +44,7 @@ const ClientRequestLists = ({ data, client_id }) => {
 
   const [dataClient, setDataClient] = React.useState({});
 
-  const handleClickDot = (userData, type, id) => {
+  const handleClickDot = (userData, type, id, role) => {
     if (userData && type === "edit") {
       setDataClient(userData);
       handleOpenModal("edit");
@@ -52,6 +52,9 @@ const ClientRequestLists = ({ data, client_id }) => {
       setDataClient(userData);
       handleOpenModal("delete");
     } else if (userData && type === "detail") {
+      if (role === "client") {
+        return router.push(`/client/client/attachment/${id}`);
+      }
       router.push(`/management/client/attachment/${id}`);
     }
     return;
@@ -63,6 +66,7 @@ const ClientRequestLists = ({ data, client_id }) => {
         open={openModal}
         type={modalType}
         client_id={client_id}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <EditClientRequestModal
@@ -70,6 +74,7 @@ const ClientRequestLists = ({ data, client_id }) => {
         type={modalType}
         data={dataClient}
         client_id={client_id}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <DeleteClientRequestModal
@@ -77,6 +82,7 @@ const ClientRequestLists = ({ data, client_id }) => {
         type={modalType}
         data={dataClient}
         client_id={client_id}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
 
@@ -178,7 +184,9 @@ const ClientRequestLists = ({ data, client_id }) => {
                 <ThreeDots
                   sx={{ textAlign: "right" }}
                   options={options}
-                  onClick={(show) => handleClickDot(row, show, row.id)}
+                  onClick={(show) =>
+                    handleClickDot(row, show, row.id, session?.role)
+                  }
                 />
               </TableCell>
             </TableRow>

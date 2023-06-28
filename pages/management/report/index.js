@@ -6,9 +6,7 @@ import { getReport } from "../../../lib/services/report";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
   const token = req.session.user.token;
-
   const report = await getReport(token);
-  console.log("xxxxxxxxxxx", report);
 
   return {
     props: {

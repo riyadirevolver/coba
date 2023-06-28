@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -25,15 +27,21 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
+import { useFormik } from "formik";
+import userValidation from "../../../validations/userValidation";
+import useFetchClient from "../../../hooks/fetch/useFetchClient";
 
 const upTransition = Transition("up");
 
-const AddUserModal = ({ open = false, closeModalHandler, type }) => {
+const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
-  const [role, setRole] = useState("");
+  const [payload, setPayload] = React.useState({
+    client_id: null,
+  });
   const [loading, setLoading] = useState(false);
-  const service = new BaseService("users");
+  const { clientList, openClient, setOpenClient, loadingClient } =
+    useFetchClient(token);
 
   const action = (
     <React.Fragment>
@@ -48,33 +56,48 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
     </React.Fragment>
   );
 
-  const create = async (event) => {
-    setLoading(true);
-    event.preventDefault();
-    try {
-      const { target } = event;
-      const { nama_user, email, password, phone, nik } = target;
+  const formik = useFormik({
+    initialValues: {
+      nik: "",
+      fullname: "",
+      email: "",
+      password: "",
+      phone: "",
+      role: "",
+    },
+    validationSchema: userValidation,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const { nik, fullname, email, password, phone, role } = values;
+        const data = {
+          nik: nik,
+          fullname: fullname,
+          email: email,
+          password: password,
+          phone: phone,
+          role: role,
+          ...(role === "client" && {
+            client_id: payload.client_id,
+          }),
+        };
+        await NextApi().post("/api/users", data);
+        openSnackBar("Berhasil menambahkan user");
+        router.replace(router.pathname);
+        setLoading(false);
+        closeModalHandler();
+        handleReset();
+      } catch (error) {
+        console.log(error);
+        openSnackBar("Gagal menambahkan user");
+        setLoading(false);
+      }
+    },
+  });
 
-      const data = {
-        nik: nik.value,
-        fullname: nama_user.value,
-        email: email.value,
-        password: password.value,
-        phone: phone.value,
-        role: role,
-      };
-      await NextApi().post("/api/users", data);
-      setLoading(false);
-      openSnackBar("Berhasil menambahkan user");
-      closeModalHandler();
-      router.replace(router.pathname);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      openSnackBar("Gagal mendaftarkan user");
-      return;
-    }
+  const handleReset = () => {
+    formik.resetForm();
   };
 
   return (
@@ -94,7 +117,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <form onSubmit={create}>
+        <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
             Tambah User
           </DialogTitle>
@@ -111,15 +134,21 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("nik")}
+                error={formik.touched.nik && !!formik.errors.nik}
+                helperText={formik.touched.nik && formik.errors.nik}
               />
-              <CustomFormLabel htmlFor="nama_user">*Nama User</CustomFormLabel>
+              <CustomFormLabel htmlFor="fullname">*Nama User</CustomFormLabel>
               <CustomTextField
                 required
-                id="nama_user"
-                name="nama_user"
+                id="fullname"
+                name="fullname"
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("fullname")}
+                error={formik.touched.fullname && !!formik.errors.fullname}
+                helperText={formik.touched.fullname && formik.errors.fullname}
               />
               <CustomFormLabel htmlFor="email">*Email</CustomFormLabel>
               <CustomTextField
@@ -130,6 +159,9 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("email")}
+                error={formik.touched.email && !!formik.errors.email}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <CustomFormLabel htmlFor="password">*Password</CustomFormLabel>
               <CustomTextField
@@ -140,14 +172,21 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("password")}
+                error={formik.touched.password && !!formik.errors.password}
+                helperText={formik.touched.password && formik.errors.password}
               />
               <CustomFormLabel htmlFor="role">*Role</CustomFormLabel>
               <Select
                 required
+                name="role"
                 size="small"
                 fullWidth
-                value={role || ""}
-                onChange={(e) => setRole(e.target.value)}
+                value={formik.values.role || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("role", value);
+                }}
               >
                 {ROLE_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
@@ -155,6 +194,52 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                   </MenuItem>
                 ))}
               </Select>
+              {formik.values.role === "client" && (
+                <>
+                  <CustomFormLabel htmlFor="input-placement">
+                    Nama Perusahaan
+                  </CustomFormLabel>
+                  <Autocomplete
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    options={clientList}
+                    getOptionLabel={(option) => option.name}
+                    loading={loadingClient}
+                    open={openClient}
+                    onOpen={() => {
+                      setOpenClient(true);
+                    }}
+                    onClose={() => {
+                      setOpenClient(false);
+                    }}
+                    onChange={(e, newInputValue) => {
+                      setPayload((prevState) => ({
+                        ...prevState,
+                        client_id: newInputValue?.id,
+                      }));
+                    }}
+                    renderInput={(params) => (
+                      <CustomTextField
+                        {...params}
+                        size="small"
+                        placeholder="Pilih Nama Perusahaan"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <React.Fragment>
+                              {loadingClient ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </>
+              )}
               <CustomFormLabel htmlFor="phone">*Telepon</CustomFormLabel>
               <CustomTextField
                 required
@@ -171,6 +256,9 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
                 inputProps={{
                   maxLength: 14,
                 }}
+                {...formik.getFieldProps("phone")}
+                error={formik.touched.phone && !!formik.errors.phone}
+                helperText={formik.touched.phone && formik.errors.phone}
               />
             </DialogContentText>
           </DialogContent>
@@ -184,7 +272,13 @@ const AddUserModal = ({ open = false, closeModalHandler, type }) => {
             >
               {loading ? "Submitting..." : "Tambah"}
             </Button>
-            <Button onClick={closeModalHandler} color="secondary">
+            <Button
+              onClick={() => {
+                closeModalHandler();
+                handleReset();
+              }}
+              color="secondary"
+            >
               Batal
             </Button>
           </DialogActions>

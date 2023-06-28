@@ -47,6 +47,7 @@ const AddClientAttachmentModal = ({
   closeModalHandler,
   type,
   client_request_id,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();

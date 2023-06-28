@@ -38,6 +38,7 @@ const EditClientRequestModal = ({
   closeModalHandler,
   type,
   client_id,
+  session,
   data,
 }) => {
   const router = useRouter();
@@ -92,10 +93,13 @@ const EditClientRequestModal = ({
         };
         await NextApi().patch(`/api/client-request/${data.id}`, payload);
         openSnackBar("Berhasil mengubah Client Request");
-        router.replace(`/management/client/request/${client_id}`);
         handleReset();
         setLoading(false);
         closeModalHandler();
+        if (session?.role === "client") {
+          return router.replace(router.pathname);
+        }
+        router.replace(`/management/client/request/${client_id}`);
       } catch (error) {
         console.log(error);
         setLoading(false);

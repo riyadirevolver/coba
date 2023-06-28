@@ -258,7 +258,6 @@ const RegisterPersonJC = ({ classData }) => {
           willing_work_jakarta: willingJakarta,
         };
         const response = await NextApi().post("/api/person-jc", payload);
-        // console.log("masuk", response);
         openSnackBar("Berhasil menambahkan User JC");
         router.replace("/management/user-jc");
         setLoading(false);

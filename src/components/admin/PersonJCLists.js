@@ -42,7 +42,7 @@ const options = [
   },
 ];
 
-const PersonJCLists = ({ data, token }) => {
+const PersonJCLists = ({ data, token, session }) => {
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
@@ -76,6 +76,7 @@ const PersonJCLists = ({ data, token }) => {
         type={modalType}
         data={dataUser}
         token={token}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <DetailPersonJCModal

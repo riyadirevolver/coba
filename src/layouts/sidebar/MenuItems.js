@@ -1,6 +1,27 @@
 const Menuitems = [
   {
     title: "Management",
+    icon: "report",
+    href: "/client",
+    collapse: true,
+    isCLient: true,
+    children: [
+      {
+        title: "Klien",
+        icon: "all-report",
+        href: "/client/client",
+        isCLient: true,
+      },
+      {
+        title: "User JC",
+        icon: "absent",
+        href: "/client/user-jc",
+        isCLient: true,
+      },
+    ],
+  },
+  {
+    title: "Management",
     icon: "management",
     href: "/management",
     collapse: true,

@@ -108,14 +108,15 @@ const CheckInButton = ({ onSuccess }) => {
       const parser = new UAParser(ua);
       const payload = {
         message: errors.message ?? "Terjadi Kesalahan Server",
-        trace: `${errors.code ?? "500"} - IN - ${errors.message ?? "General Error"}`,
+        trace: `${errors.code ?? "500"} - IN - ${
+          errors.message ?? "General Error"
+        }`,
         version: parser.getOS().version,
         device_model: parser.getDevice().model,
         device_os: parser.getOS().name,
         user_agent: parser.getUA(),
         platform: parser.getDevice().type,
       };
-      // console.log(payload);
       await axios.post("/api/error-log", payload);
 
       setShowLoading(false);
@@ -234,7 +235,6 @@ const CheckInButton = ({ onSuccess }) => {
         user_agent: parser.getUA(),
         platform: parser.getDevice().type,
       };
-      // console.log(payload);
       const res = await axios.post("/api/error-log", payload);
       console.log(res);
       setShowLoading(false);

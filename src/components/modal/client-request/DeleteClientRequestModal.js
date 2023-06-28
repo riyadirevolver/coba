@@ -26,6 +26,7 @@ const DeleteClientRequestModal = ({
   type,
   data,
   client_id,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -53,6 +54,9 @@ const DeleteClientRequestModal = ({
       setLoading(false);
       openSnackBar("Berhasil menghapus client request");
       closeModalHandler();
+      if (session?.role === "client") {
+        return router.replace(router.pathname);
+      }
       router.replace(`/management/client/request/${client_id}`);
       return;
     } catch (error) {

@@ -39,6 +39,7 @@ const AddClientRequestModal = ({
   closeModalHandler,
   type,
   client_id,
+  session,
 }) => {
   const router = useRouter();
   const [salaryText, setSalaryText] = useState("");
@@ -83,7 +84,7 @@ const AddClientRequestModal = ({
           status,
         } = values;
         const data = {
-          client_id: client_id,
+          client_id: client_id ?? session?.client_id,
           position: position,
           last_called: last_called,
           request_date: request_date,
@@ -105,10 +106,13 @@ const AddClientRequestModal = ({
         }
 
         openSnackBar("Berhasil menambahkan Client Request");
-        router.replace(`/management/client/request/${client_id}`);
         handleReset();
         setLoading(false);
         closeModalHandler();
+        if (session?.role === "client") {
+          return router.replace(router.pathname);
+        }
+        router.replace(`/management/client/request/${client_id}`);
       } catch (error) {
         console.log(error);
         setLoading(false);
