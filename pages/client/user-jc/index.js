@@ -10,7 +10,6 @@ export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
     client_id,
     role,
   };
-  console.log("babi", session);
   const users = await pagination(
     "/person-jc",
     {
