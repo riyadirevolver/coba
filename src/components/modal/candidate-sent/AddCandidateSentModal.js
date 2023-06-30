@@ -38,6 +38,7 @@ const AddCandidateSentModal = ({
   closeModalHandler,
   type,
   token,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -49,7 +50,7 @@ const AddCandidateSentModal = ({
     openClientRequest,
     setOpenClientRequest,
     loadingClientRequest,
-  } = useFetchClientRequest(token);
+  } = useFetchClientRequest(token, session?.client_id);
   const [payload, setPayload] = useState({
     jc_person_id: null,
     client_request_id: null,
@@ -89,7 +90,12 @@ const AddCandidateSentModal = ({
           status: status,
           notes: notes,
         };
-        await NextApi().post("/api/candidate-sent", payloadData);
+        const res = await NextApi().post("/api/candidate-sent", payloadData);
+        await NextApi().post("/api/candidate-sent-logs", {
+          ...payloadData,
+          candidate_sent_id: res.data.id,
+          created_by: res.data.created_by,
+        });
         openSnackBar("Berhasil membuat kandidat");
         router.replace(router.pathname);
         handleReset();

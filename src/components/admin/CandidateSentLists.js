@@ -22,7 +22,7 @@ const options = [
   },
 ];
 
-const CandidateSentLists = ({ data, token }) => {
+const CandidateSentLists = ({ data, token, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -47,6 +47,7 @@ const CandidateSentLists = ({ data, token }) => {
         open={openModal}
         type={modalType}
         token={token}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <EditCandidateSentModal
@@ -54,6 +55,7 @@ const CandidateSentLists = ({ data, token }) => {
         type={modalType}
         data={dataCandidateSent}
         token={token}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <DeleteCandidateSentModal
@@ -84,54 +86,54 @@ const CandidateSentLists = ({ data, token }) => {
         </Box>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT} data={data}>
-          {data.data.map((user) => (
-            <TableRow key={user.id}>
+          {data.data.map((row) => (
+            <TableRow key={row.id}>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.client_request_data?.client_data?.name ?? "-"}
+                  {row?.client_request_data?.client_data?.name ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.client_request_data?.position ?? "-"}
+                  {row?.client_request_data?.position ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.jc_person_data?.name ?? "-"}
+                  {row?.jc_person_data?.name ?? "-"}
                 </Typography>
               </TableCell>
 
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.status}
+                  {row?.status}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user?.notes ?? "-"}</Typography>
+                <Typography variant="h6">{row?.notes ?? "-"}</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.created_user_by?.fullname ?? "-"}
+                  {row?.created_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.updated_user_by?.fullname ?? "-"}
+                  {row?.updated_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                {user?.created_at ? (
+                {row?.created_at ? (
                   <>
                     <Typography variant="h6" fontWeight="600">
-                      {moment(user?.created_at).format("DD MMM YYYY") ?? "-"}
+                      {moment(row?.created_at).format("DD MMM YYYY") ?? "-"}
                     </Typography>
                     <Typography
                       color="textSecondary"
                       variant="h6"
                       fontWeight="600"
                     >
-                      {moment(user?.created_at).format("HH:mm:ss") ?? "-"}
+                      {moment(row?.created_at).format("HH:mm:ss") ?? "-"}
                     </Typography>
                   </>
                 ) : (
@@ -143,7 +145,7 @@ const CandidateSentLists = ({ data, token }) => {
                 <ThreeDots
                   sx={{ textAlign: "right" }}
                   options={options}
-                  onClick={(show) => handleClickDot(user, show, user.id)}
+                  onClick={(show) => handleClickDot(row, show, row.id)}
                 />
               </TableCell>
             </TableRow>

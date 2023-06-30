@@ -39,6 +39,7 @@ const EditCandidateSentModal = ({
   type,
   data,
   token,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -50,7 +51,7 @@ const EditCandidateSentModal = ({
     openClientRequest,
     setOpenClientRequest,
     loadingClientRequest,
-  } = useFetchClientRequest(token);
+  } = useFetchClientRequest(token, session?.client_id);
   const [payload, setPayload] = useState({
     jc_person_id: null,
     client_request_id: null,
@@ -73,7 +74,7 @@ const EditCandidateSentModal = ({
     if (option.inputValue) {
       return option.inputValue;
     }
-    return option.position;
+    return option.position + " - " + option?.client_data?.name;
   };
 
   const action = (
@@ -114,7 +115,21 @@ const EditCandidateSentModal = ({
           status: status,
           notes: notes,
         };
-        await NextApi().patch(`/api/candidate-sent/${data.id}`, payloadData);
+        const res = await NextApi().patch(
+          `/api/candidate-sent/${data.id}`,
+          payloadData
+        );
+        await NextApi().post("/api/candidate-sent-logs", {
+          ...payloadData,
+          ...(!payload.client_request_id && {
+            client_request_id: data.client_request_id,
+          }),
+          ...(!payload.jc_person_id && {
+            jc_person_id: data.jc_person_id,
+          }),
+          candidate_sent_id: res.data.id,
+          created_by: res.data.created_by,
+        });
         openSnackBar("Berhasil mengubah Kandidat");
         router.replace(router.pathname);
         handleReset();
@@ -162,7 +177,10 @@ const EditCandidateSentModal = ({
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
-                defaultValue={data?.client_request_data?.position || ""}
+                defaultValue={
+                  `${data?.client_request_data?.position} - ${data?.client_request_data?.client_data?.name}` ||
+                  ""
+                }
                 options={clientRequestList}
                 getOptionLabel={optionLabelClientRequest}
                 loading={loadingClientRequest}

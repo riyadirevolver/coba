@@ -16,13 +16,12 @@ import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CLIENT_ATTACHMENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 
-import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 import AddPersonAttachmentModal from "../modal/person-attachment/AddPersonAttachmentModal";
 import DeletePersonAttachmentModal from "../modal/person-attachment/DeletePersonAttachmentModal";
 import BaseTable from "../table/BaseTable";
 moment.locale("id");
 
-const PersonAttachmentLists = ({ data, person_id }) => {
+const PersonAttachmentLists = ({ data, person_id, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -57,17 +56,19 @@ const PersonAttachmentLists = ({ data, person_id }) => {
             </Typography>
           </Grid>
           <Grid item sm={6} xs={12} display="flex" justifyContent="end">
-            <Button
-              className="button-add"
-              color="primary"
-              variant="contained"
-              onClick={() => {
-                handleOpenModal("add");
-              }}
-              sx={{ ml: 3, mr: 3, mb: 3 }}
-            >
-              Tambah
-            </Button>
+            {session?.role === "admin" && (
+              <Button
+                className="button-add"
+                color="primary"
+                variant="contained"
+                onClick={() => {
+                  handleOpenModal("add");
+                }}
+                sx={{ ml: 3, mr: 3, mb: 3 }}
+              >
+                Tambah
+              </Button>
+            )}
           </Grid>
         </Grid>
         {/* tabel */}

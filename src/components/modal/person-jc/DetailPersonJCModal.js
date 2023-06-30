@@ -20,6 +20,7 @@ import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import Transition from "../../transition";
 import { MomentDateID } from "../../../../utils/momentId";
+import { GENDER_LIST } from "../../../../utils/constant/changeLabel";
 
 const upTransition = Transition("up");
 
@@ -29,6 +30,7 @@ const DetailPersonJCModal = ({
   type,
   data,
 }) => {
+  console.log("ddddd", data);
   const router = useRouter();
 
   return (
@@ -90,6 +92,17 @@ const DetailPersonJCModal = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="outlined-read-only-input"
+                  label="Jenis Kelamin"
+                  fullWidth
+                  defaultValue={GENDER_LIST[data?.gender] || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
                   label="No. KTP"
                   fullWidth
                   defaultValue={data.number_id || "-"}
@@ -115,6 +128,52 @@ const DetailPersonJCModal = ({
                   label="No Telepon"
                   fullWidth
                   defaultValue={data.mobile_phone_number || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Domisili saat ini"
+                  fullWidth
+                  defaultValue={data?.current_domicile || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Keahlian"
+                  fullWidth
+                  defaultValue={data?.skills || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Posisi yang diminati"
+                  fullWidth
+                  defaultValue={data?.interest_positions || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Bersedia ditempatkan di Jakarta"
+                  fullWidth
+                  defaultValue={
+                    data?.willing_work_jakarta ? "Siap" : "Tidak Siap"
+                  }
                   InputProps={{
                     readOnly: true,
                   }}
@@ -238,7 +297,7 @@ const DetailPersonJCModal = ({
                   id="outlined-read-only-input"
                   label="Tanggal Bergabung (Join Date)"
                   fullWidth
-                  defaultValue={data.join_date || "-"}
+                  defaultValue={MomentDateID(data.join_date) || "-"}
                   InputProps={{
                     readOnly: true,
                   }}

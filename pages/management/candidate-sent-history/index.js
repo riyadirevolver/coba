@@ -1,43 +1,38 @@
 import { Grid } from "@mui/material";
+
 import pagination from "../../../lib/services/pagination";
 import WithAuth from "../../../lib/session/withAuth";
-import PersonJCLists from "../../../src/components/admin/PersonJCLists";
-import SearchPersonJC from "../../../src/components/forms/search/SearchPersonJC";
+import CandidateSentLogLists from "../../../src/components/admin/CandidateSentLogLists";
+import SearchCandidateSent from "../../../src/components/forms/search/SearchCandidateSent";
 
 export const getServerSideProps = WithAuth(async ({ query, req }) => {
-  const { token, role } = req.session.user;
-  const session = {
-    role,
-  };
-
+  const token = req.session.user.token;
   const users = await pagination(
-    "/person-jc",
+    "/candidate-sent-logs",
     {
       ...query,
     },
     {
-      Authorization: req.session.user.token,
+      Authorization: token,
     }
   );
   return {
     props: {
       users,
-      token: token,
-      session: session,
+      token,
     },
   };
 });
-const UserJC = ({ users, token, session }) => {
+const ClientUpliner = ({ users, token }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <SearchPersonJC />
+        <SearchCandidateSent token={token} />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <PersonJCLists data={users} token={token} session={session} />
+        <CandidateSentLogLists data={users} />
       </Grid>
     </Grid>
   );
 };
-
-export default UserJC;
+export default ClientUpliner;

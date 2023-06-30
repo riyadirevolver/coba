@@ -88,12 +88,21 @@ const AddSubmitCandidateModal = ({
           status: status,
           notes: notes,
         };
-        await NextApi().post("/api/candidate-sent", payloadData);
+        const res = await NextApi().post("/api/candidate-sent", payloadData);
+        await NextApi().post("/api/candidate-sent-logs", {
+          ...payloadData,
+          candidate_sent_id: res.data.id,
+          created_by: res.data.created_by,
+        });
         openSnackBar("Berhasil membuat kandidat");
-        router.replace("/management/candidate-sent");
+
         handleReset();
         setLoading(false);
         closeModalHandler();
+        if (session?.role === "client") {
+          return router.replace("/client/candidate-sent");
+        }
+        router.replace("/management/candidate-sent");
       } catch (error) {
         openSnackBar("Gagal membuat kandidat");
         console.log(error);
