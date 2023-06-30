@@ -30,6 +30,10 @@ const OPTIONS_ADMIN = [
     type: "submit_candidate",
   },
   {
+    label: "History Kandidat",
+    type: "history_candidate",
+  },
+  {
     label: "Detail",
     type: "detail",
   },
@@ -76,6 +80,15 @@ const PersonJCLists = ({ data, token, session }) => {
     } else if (userData && type === "submit_candidate") {
       setDataUser(userData);
       handleOpenModal("submit_candidate");
+    } else if (userData && type === "history_candidate") {
+      setDataUser(userData);
+      console.log("masuk", id);
+      return router.push({
+        pathname: "/management/candidate-sent-history",
+        query: {
+          jc_person_id: id,
+        },
+      });
     } else if (userData && type === "delete") {
       setDataUser(userData);
       handleOpenModal("delete");

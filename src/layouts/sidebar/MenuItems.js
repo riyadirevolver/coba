@@ -75,12 +75,6 @@ const Menuitems = [
         href: "/management/candidate-sent-history",
         isAdmin: true,
       },
-      {
-        title: "Report",
-        icon: "book",
-        href: "/management/report",
-        isAdmin: true,
-      },
     ],
   },
 ];

@@ -2,11 +2,6 @@ import { Box, Typography } from "@mui/material";
 
 export const TypographyList = ({ data, background, color }) => {
   const objectData = data?.split(",").map((item) => ({ title: item }));
-
-  console.log(
-    "dataaa",
-    data?.split(",").map((item) => ({ title: item }))
-  );
   return (
     <>
       <Box display="flex" justifyContent="start" flexWrap="wrap" width="300px">
