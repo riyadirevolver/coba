@@ -18,8 +18,9 @@ import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
 import BaseTable from "../table/BaseTable";
 import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
+import { TypographyList } from "../typography/TypographyList";
 
-const options = [
+const OPTIONS_ADMIN = [
   {
     label: "Lihat Berkas",
     type: "file",
@@ -39,6 +40,21 @@ const options = [
   {
     label: "Delete",
     type: "delete",
+  },
+];
+
+const OPTIONS_CLIENT = [
+  {
+    label: "Lihat Berkas",
+    type: "file",
+  },
+  {
+    label: "Submit Kandidat",
+    type: "submit_candidate",
+  },
+  {
+    label: "Detail",
+    type: "detail",
   },
 ];
 
@@ -64,6 +80,9 @@ const PersonJCLists = ({ data, token, session }) => {
       setDataUser(userData);
       handleOpenModal("delete");
     } else if (userData && type === "file") {
+      if (session.role === "client") {
+        return router.push(`/client/user-jc/attachment/${id}`);
+      }
       router.push(`/management/user-jc/attachment/${id}`);
     }
     return;
@@ -100,16 +119,18 @@ const PersonJCLists = ({ data, token, session }) => {
       >
         <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
-          <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              router.replace("/management/user-jc/register");
-            }}
-          >
-            Tambah
-          </Button>
+          {session?.role === "admin" && (
+            <Button
+              className="button-add"
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                router.replace("/management/user-jc/register");
+              }}
+            >
+              Tambah
+            </Button>
+          )}
         </Box>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_PERSON_JC} data={data}>
@@ -130,8 +151,22 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.batch ?? "-"}
+                  {user?.current_domicile ?? "-"}
                 </Typography>
+              </TableCell>
+              <TableCell>
+                <TypographyList
+                  data={user?.skills}
+                  background="#CDFFCD"
+                  color="#007F00"
+                ></TypographyList>
+              </TableCell>
+              <TableCell>
+                <TypographyList
+                  data={user?.interest_positions}
+                  background="#CDFFCD"
+                  color="#007F00"
+                ></TypographyList>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
@@ -159,7 +194,9 @@ const PersonJCLists = ({ data, token, session }) => {
               <TableCell>
                 <ThreeDots
                   sx={{ textAlign: "right" }}
-                  options={options}
+                  options={
+                    session?.role === "client" ? OPTIONS_CLIENT : OPTIONS_ADMIN
+                  }
                   onClick={(show) => handleClickDot(user, show, user?.id)}
                 />
               </TableCell>

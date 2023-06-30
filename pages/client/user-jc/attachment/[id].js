@@ -1,10 +1,10 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import pagination from "../../../../lib/services/pagination";
-import WithAuth from "../../../../lib/session/withAuth";
+import WithAuthClient from "../../../../lib/session/withAuthClient";
 import PersonAttachmentLists from "../../../../src/components/admin/PersonAttachmentLists";
 
-export const getServerSideProps = WithAuth(async ({ req, params }) => {
+export const getServerSideProps = WithAuthClient(async ({ req, params }) => {
   const { id } = params;
   const { token, client_id, role } = req.session.user;
   const session = {

@@ -329,7 +329,11 @@ const Sidebar = ({
                           handleTitle(item.title);
                         }}
                       >
-                        <Typography>{item.title}</Typography>
+                        <Typography
+                          color={pathDirect === item.href ? "#00C298" : "white"}
+                        >
+                          {item.title}
+                        </Typography>
                       </Box>
                     </Box>
                   </NextLink>

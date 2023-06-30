@@ -126,7 +126,13 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "TANGGAL LAHIR",
   },
   {
-    title: "BATCH",
+    title: "DOMISILI",
+  },
+  {
+    title: "KEAHLIAN",
+  },
+  {
+    title: "POSISI YANG DIMINATI",
   },
   {
     title: "NO. TELEPON",
@@ -166,5 +172,29 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
   },
   {
     title: "",
+  },
+];
+
+export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG = [
+  {
+    title: "NAMA PERUSAHAAN",
+  },
+  {
+    title: "PERMINTAAN KLIEN",
+  },
+  {
+    title: "NAMA KANDIDAT",
+  },
+  {
+    title: "STATUS",
+  },
+  {
+    title: "CATATAN",
+  },
+  {
+    title: "DIBUAT OLEH",
+  },
+  {
+    title: "TANGGAL HISTORY",
   },
 ];

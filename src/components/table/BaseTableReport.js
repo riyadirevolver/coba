@@ -13,9 +13,12 @@ import React from "react";
 
 const DATA_HEAD = [{ title: "data" }];
 
-const BaseTableReport = ({ children, tableHead, noWrap }) => {
+const BaseTableReport = ({ title, children, tableHead, noWrap }) => {
   return (
     <>
+      <Typography fontSize={24} color="black" fontWeight={700} ml={2} mb={2}>
+        {title ?? "data"}
+      </Typography>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer
         // sx={{ maxHeight: "55vh" }}

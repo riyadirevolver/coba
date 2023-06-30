@@ -18,7 +18,22 @@ const Menuitems = [
         href: "/client/user-jc",
         isCLient: true,
       },
+      {
+        title: "Kandidat",
+        icon: "users",
+        href: "/client/candidate-sent",
+        isCLient: true,
+      },
     ],
+  },
+  {
+    title: "Dashboard",
+    icon: "dashboard",
+    href: "/dashboards/dashboard",
+    collapse: true,
+    isAdmin: true,
+    isSPV: true,
+    isStaff: false,
   },
   {
     title: "Management",
@@ -52,6 +67,12 @@ const Menuitems = [
         title: "Kandidat",
         icon: "users",
         href: "/management/candidate-sent",
+        isAdmin: true,
+      },
+      {
+        title: "Kandidat History",
+        icon: "book",
+        href: "/management/candidate-sent-history",
         isAdmin: true,
       },
       {
