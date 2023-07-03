@@ -21,15 +21,17 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
 import NextApi from "../../../../lib/services/next-api";
+import { uploadFile } from "../../../../lib/services/upload";
+import { GENDER_LISTS } from "../../../../utils/constant/listConstant";
+import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
+import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
+import useFetchZip from "../../../hooks/fetch/useFetchZip";
 import { useSnackbar } from "../../../hooks/useSnackbar";
+import useUploadSingle from "../../../hooks/useUploadSingle";
 import personJCValidation from "../../../validations/personJCValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import MenuTitle from "../../typography/MenuTitle";
-import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
-import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
-import useFetchZip from "../../../hooks/fetch/useFetchZip";
-import { GENDER_LISTS } from "../../../../utils/constant/listConstant";
 
 const filter = createFilterOptions();
 
@@ -51,6 +53,8 @@ const EditPersonJC = ({ id_user, data, classData }) => {
   const [willingJakarta, setWillingJakarta] = React.useState(false);
   const [province, setProvince] = React.useState("");
 
+  const { handleDeletePoster, onSelectFile, banner, errorFiles, pesan } =
+    useUploadSingle();
   const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
   const { setOpenInterest, interestList, openInterest, loadingInterest } =
     useFetchInterestPosition();
@@ -207,6 +211,11 @@ const EditPersonJC = ({ id_user, data, classData }) => {
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
+      if (errorFiles) {
+        openSnackBar(pesan);
+        setLoading(false);
+        return;
+      }
       try {
         const {
           fullname,
@@ -267,7 +276,14 @@ const EditPersonJC = ({ id_user, data, classData }) => {
           ...(province && {
             current_domicile: `${province.kabupaten}, ${province.propinsi}`,
           }),
+          ...(banner && {
+            file_name: banner?.name,
+          }),
         };
+        if (banner && banner != undefined) {
+          const upload = await uploadFile(banner);
+          payload.file_url = upload?.id;
+        }
         const response = await NextApi().patch(
           `/api/person-jc/${id_user}`,
           payload
@@ -581,6 +597,21 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                 />
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="input-placement">
+                  Upload CV
+                </CustomFormLabel>
+                <CustomTextField
+                  type="file"
+                  name="file"
+                  onChange={onSelectFile}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  error={errorFiles}
+                  helperText={pesan}
+                />
+              </Grid>
+              <Grid item lg={12} md={6} sm={12} xs={12}>
                 <FormControlLabel
                   label="Bersedia ditempatkan di Jakarta"
                   name="is_for_male"

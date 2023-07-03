@@ -26,10 +26,12 @@ import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosit
 import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
 import useFetchZip from "../../../hooks/fetch/useFetchZip";
 import { useSnackbar } from "../../../hooks/useSnackbar";
+import useUploadSingle from "../../../hooks/useUploadSingle";
 import personJCValidation from "../../../validations/personJCValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import MenuTitle from "../../typography/MenuTitle";
+import { uploadFile } from "../../../../lib/services/upload";
 
 const filter = createFilterOptions();
 
@@ -43,6 +45,8 @@ const RegisterPersonJC = ({ classData }) => {
   const [willingJakarta, setWillingJakarta] = React.useState(false);
   const [province, setProvince] = React.useState("");
 
+  const { handleDeletePoster, onSelectFile, banner, errorFiles, pesan } =
+    useUploadSingle();
   const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
   const { setOpenInterest, interestList, openInterest, loadingInterest } =
     useFetchInterestPosition();
@@ -197,6 +201,11 @@ const RegisterPersonJC = ({ classData }) => {
     validationSchema: personJCValidation,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
+      if (errorFiles) {
+        openSnackBar(pesan);
+        setLoading(false);
+        return;
+      }
       try {
         const {
           fullname,
@@ -255,7 +264,14 @@ const RegisterPersonJC = ({ classData }) => {
           current_domicile: `${province.kabupaten}, ${province.propinsi}`,
           gender: gender,
           willing_work_jakarta: willingJakarta,
+          ...(banner && {
+            file_name: banner?.name,
+          }),
         };
+        if (banner && banner != undefined) {
+          const upload = await uploadFile(banner);
+          payload.file_url = upload?.id;
+        }
         const response = await NextApi().post("/api/person-jc", payload);
         openSnackBar("Berhasil menambahkan User JC");
         router.replace("/management/user-jc");
@@ -558,6 +574,21 @@ const RegisterPersonJC = ({ classData }) => {
                 />
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="input-placement">
+                  Upload CV
+                </CustomFormLabel>
+                <CustomTextField
+                  type="file"
+                  name="file"
+                  onChange={onSelectFile}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  error={errorFiles}
+                  helperText={pesan}
+                />
+              </Grid>
+              <Grid item lg={12} md={6} sm={12} xs={12}>
                 <FormControlLabel
                   label="Bersedia ditempatkan di Jakarta"
                   name="is_for_male"

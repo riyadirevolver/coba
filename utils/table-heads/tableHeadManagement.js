@@ -135,6 +135,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "NO. TELEPON",
   },
   {
+    title: "CV",
+  },
+  {
     title: "TANGGAL DIBUAT",
   },
   {

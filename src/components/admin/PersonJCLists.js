@@ -19,6 +19,7 @@ import BaseTable from "../table/BaseTable";
 import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
 import { TypographyList } from "../typography/TypographyList";
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 
 const OPTIONS_ADMIN = [
   {
@@ -185,6 +186,26 @@ const PersonJCLists = ({ data, token, session }) => {
                 <Typography variant="h6" fontWeight="600">
                   {user?.mobile_phone_number ?? "-"}
                 </Typography>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ width: "100%", textAlign: "center" }}>
+                  {user?.file_name ? (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() =>
+                        window.open(
+                          `${BASE_IMAGE_URL}/${user?.file_url}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      Lihat CV
+                    </Button>
+                  ) : (
+                    "-"
+                  )}
+                </Box>
               </TableCell>
               <TableCell>
                 {user?.created_at ? (
