@@ -15,10 +15,6 @@ export const ROLE_LISTS = [
 
 export const STATUS_CLIENT_REQUEST_LISTS = [
   {
-    label: "PENDING",
-    value: "pending",
-  },
-  {
     label: "HOLD",
     value: "hold",
   },

@@ -66,14 +66,21 @@ const EditClientRequestModal = ({
           .replace(/\B(?=(\d{3})+(?!\d))/g, ".") || "",
       total_requirement: data.total_requirement || "",
       status: data.status || "",
+      job_description: data.job_description || "",
     },
     validationSchema: clientRequestValidation,
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const { position, request_date, salary, total_requirement, status } =
-          values;
+        const {
+          position,
+          request_date,
+          salary,
+          total_requirement,
+          status,
+          job_description,
+        } = values;
         const payload = {
           position: position,
           request_date: request_date,
@@ -81,6 +88,7 @@ const EditClientRequestModal = ({
           salary: Number(salary.replace(/[^\d]/g, "").replace(/^0+/, "")),
           total_requirement: total_requirement,
           status: status,
+          job_description: job_description,
         };
         await NextApi().patch(`/api/client-request/${data.id}`, payload);
         openSnackBar("Berhasil mengubah Client Request");
@@ -173,28 +181,6 @@ const EditClientRequestModal = ({
                 />
               </LocalizationProvider>
               <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
-              {/* <CustomTextField
-                required
-                id="salary"
-                name="salary"
-                fullWidth
-                size="small"
-                variant="outlined"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-                inputProps={{
-                  // maxLength: 14,
-                  startAdornment: (
-                    <InputAdornment position="start">kg</InputAdornment>
-                  ),
-                }}
-                {...formik.getFieldProps("salary")}
-                error={formik.touched.salary && !!formik.errors.salary}
-                helperText={formik.touched.salary && formik.errors.salary}
-              /> */}
               <CustomTextField
                 id="salary"
                 name="salary"
@@ -223,33 +209,6 @@ const EditClientRequestModal = ({
                 error={formik.touched.salary && !!formik.errors.salary}
                 helperText={formik.touched.salary && formik.errors.salary}
               />
-              {/* <CustomTextField
-                id="salary"
-                name="salary"
-                fullWidth
-                size="small"
-                variant="outlined"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
-                inputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">Rp.</InputAdornment>
-                  ),
-                }}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  const formattedValue = value
-                    .replace(/\D/g, "")
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                  formik.setFieldValue("salary", formattedValue);
-                }}
-                value={formik.values.salary}
-                error={formik.touched.salary && !!formik.errors.salary}
-                helperText={formik.touched.salary && formik.errors.salary}
-              /> */}
               <CustomFormLabel htmlFor="total_requirement">
                 Total Permintaan
               </CustomFormLabel>
@@ -287,6 +246,26 @@ const EditClientRequestModal = ({
                   </MenuItem>
                 ))}
               </Select>
+              <CustomFormLabel htmlFor="job_description">
+                Deskripsi Pekerjaan
+              </CustomFormLabel>
+              <CustomTextField
+                required
+                id="job_description"
+                name="job_description"
+                fullWidth
+                size="small"
+                variant="outlined"
+                {...formik.getFieldProps("job_description")}
+                error={
+                  formik.touched.job_description &&
+                  !!formik.errors.job_description
+                }
+                helperText={
+                  formik.touched.job_description &&
+                  formik.errors.job_description
+                }
+              />
             </DialogContentText>
           </DialogContent>
           <DialogActions>

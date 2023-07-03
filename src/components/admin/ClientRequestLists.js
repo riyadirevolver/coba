@@ -95,7 +95,7 @@ const ClientRequestLists = ({ data, client_id, session }) => {
         <Grid container spacing={2}>
           <Grid item sm={6} xs={12}>
             <Typography fontWeight="700" fontSize={24} ml={3}>
-              Klien Request
+              Project
             </Typography>
           </Grid>
           <Grid item sm={6} xs={12} display="flex" justifyContent="end">
@@ -144,6 +144,11 @@ const ClientRequestLists = ({ data, client_id, session }) => {
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.status}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.job_description}
                 </Typography>
               </TableCell>
               <TableCell>

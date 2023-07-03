@@ -14,7 +14,7 @@ import BaseTable from "../table/BaseTable";
 
 const options = [
   {
-    label: "Request",
+    label: "Project",
     type: "request",
   },
   {
