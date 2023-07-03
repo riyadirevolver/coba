@@ -66,7 +66,6 @@ const AddClientRequestModal = ({
   const formik = useFormik({
     initialValues: {
       position: "",
-      last_called: "",
       request_date: "",
       total_requirement: "",
       status: "",
@@ -76,17 +75,10 @@ const AddClientRequestModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const {
-          position,
-          last_called,
-          request_date,
-          total_requirement,
-          status,
-        } = values;
+        const { position, request_date, total_requirement, status } = values;
         const data = {
           client_id: client_id ?? session?.client_id,
           position: position,
-          last_called: last_called,
           request_date: request_date,
           salary: Number(salaryText.replace(/Rp. /g, "").split(".").join("")),
           total_requirement: total_requirement,
@@ -164,32 +156,6 @@ const AddClientRequestModal = ({
                 helperText={formik.touched.position && formik.errors.position}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CustomFormLabel htmlFor="last_called">
-                  Terakhir Dipanggil
-                </CustomFormLabel>
-                <DatePicker
-                  required
-                  id="last_called"
-                  name="last_called"
-                  // label="Last Called"
-                  value={formik.values.last_called}
-                  onChange={(date) => formik.setFieldValue("last_called", date)}
-                  renderInput={(params) => (
-                    <CustomTextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      variant="outlined"
-                      error={
-                        formik.touched.last_called &&
-                        !!formik.errors.last_called
-                      }
-                      helperText={
-                        formik.touched.last_called && formik.errors.last_called
-                      }
-                    />
-                  )}
-                />
                 <CustomFormLabel htmlFor="request_date">
                   Tanggal Permintaan
                 </CustomFormLabel>

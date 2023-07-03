@@ -14,7 +14,7 @@ import FilterClientModal from "../../modal/candidate-sent/FilterCandidateSentMod
 import CustomTextField from "../custom-elements/CustomTextField";
 moment.locale("id");
 
-const SearchCandidatSent = ({ token }) => {
+const SearchCandidatSent = ({ token, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -51,6 +51,7 @@ const SearchCandidatSent = ({ token }) => {
         open={openModal}
         type={modalType}
         token={token}
+        session={session}
         closeModalHandler={handleCloseModal}
       />
       <DashboardCard

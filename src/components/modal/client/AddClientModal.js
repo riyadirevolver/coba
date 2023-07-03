@@ -12,19 +12,22 @@ import {
   IconButton,
   Snackbar,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import FeatherIcon from "feather-icons-react";
-
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
-import axios from "axios";
+import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import NextApi from "../../../../lib/services/next-api";
+import useFetchUser from "../../../hooks/fetch/useFetchUser";
+import clientValidation from "../../../validations/clientValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import useFetchUser from "../../../hooks/fetch/useFetchUser";
-import NextApi from "../../../../lib/services/next-api";
 
 const upTransition = Transition("up");
 
@@ -51,30 +54,42 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
     </React.Fragment>
   );
 
-  const create = async (event) => {
-    setLoading(true);
-    event.preventDefault();
-    const { target } = event;
-    const { name_client, contact, description } = target;
-    try {
+  const formik = useFormik({
+    initialValues: {
+      client_name: "",
+      last_called: "",
+      contact: "",
+      description: "",
+    },
+    validationSchema: clientValidation,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      setLoading(true);
+      const { client_name, last_called, contact, description } = values;
       const data = {
-        name: name_client.value,
+        name: client_name,
         pic_id: payload.pic_id,
-        contact: contact.value,
-        description: description.value,
+        last_called: last_called,
+        contact: contact,
+        description: description,
       };
-      await NextApi().post("/api/client", data);
-      setLoading(false);
-      openSnackBar("Berhasil menambahkan client");
-      closeModalHandler();
-      router.replace(router.pathname);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      openSnackBar("Gagal mendaftarkan client");
-      return;
-    }
+      try {
+        await NextApi().post("/api/client", data);
+        openSnackBar("Berhasil menambahkan klien");
+        router.replace(router.pathname);
+        setLoading(false);
+        closeModalHandler();
+        handleReset();
+      } catch (error) {
+        openSnackBar("Gagal menambahkan klien");
+        console.log(error);
+        setLoading(false);
+      }
+    },
+  });
+
+  const handleReset = () => {
+    formik.resetForm();
   };
 
   return (
@@ -94,7 +109,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <form onSubmit={create}>
+        <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
             Tambah Klien
           </DialogTitle>
@@ -103,16 +118,23 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="name_client">
+              <CustomFormLabel htmlFor="client_name">
                 *Nama Klien
               </CustomFormLabel>
               <CustomTextField
                 required
-                id="name_client"
-                name="name_client"
+                id="client_name"
+                name="client_name"
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("client_name")}
+                error={
+                  formik.touched.client_name && !!formik.errors.client_name
+                }
+                helperText={
+                  formik.touched.client_name && formik.errors.client_name
+                }
               />
               <CustomFormLabel htmlFor="input-placement">
                 *PIC (People In Charge)
@@ -157,6 +179,34 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   />
                 )}
               />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <CustomFormLabel htmlFor="last_called">
+                  Terakhir Dipanggil
+                </CustomFormLabel>
+                <DatePicker
+                  required
+                  id="last_called"
+                  name="last_called"
+                  // label="Last Called"
+                  value={formik.values.last_called}
+                  onChange={(date) => formik.setFieldValue("last_called", date)}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      error={
+                        formik.touched.last_called &&
+                        !!formik.errors.last_called
+                      }
+                      helperText={
+                        formik.touched.last_called && formik.errors.last_called
+                      }
+                    />
+                  )}
+                />
+              </LocalizationProvider>
               <CustomFormLabel htmlFor="contact">*Kontak</CustomFormLabel>
               <CustomTextField
                 required
@@ -165,14 +215,25 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("contact")}
+                error={formik.touched.contact && !!formik.errors.contact}
+                helperText={formik.touched.contact && formik.errors.contact}
               />
               <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
               <CustomTextField
+                required
                 id="description"
                 name="description"
                 fullWidth
                 size="small"
                 variant="outlined"
+                {...formik.getFieldProps("description")}
+                error={
+                  formik.touched.description && !!formik.errors.description
+                }
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
               />
             </DialogContentText>
           </DialogContent>
@@ -186,7 +247,13 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
             >
               {loading ? "Submitting..." : "Tambah"}
             </Button>
-            <Button onClick={closeModalHandler} color="secondary">
+            <Button
+              onClick={() => {
+                closeModalHandler();
+                handleReset();
+              }}
+              color="secondary"
+            >
               Batal
             </Button>
           </DialogActions>

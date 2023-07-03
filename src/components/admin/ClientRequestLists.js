@@ -127,11 +127,6 @@ const ClientRequestLists = ({ data, client_id, session }) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {moment(row?.last_called).format("DD MMM YYYY") ?? "-"}
-                </Typography>
-              </TableCell>
-              <TableCell>
                 <Typography variant="h6">
                   {moment(row?.request_date).format("DD MMM YYYY") ?? "-"}
                 </Typography>

@@ -24,12 +24,11 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import { formatRupiah } from "../../../../utils/formatRupiah";
+import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant/listConstant";
 import clientRequestValidation from "../../../validations/clientRequestValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -60,7 +59,6 @@ const EditClientRequestModal = ({
   const formik = useFormik({
     initialValues: {
       position: data.position || "",
-      last_called: data.last_called || "",
       request_date: data.request_date || "",
       salary:
         String(data.salary)
@@ -74,17 +72,10 @@ const EditClientRequestModal = ({
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const {
-          position,
-          last_called,
-          request_date,
-          salary,
-          total_requirement,
-          status,
-        } = values;
+        const { position, request_date, salary, total_requirement, status } =
+          values;
         const payload = {
           position: position,
-          last_called: last_called,
           request_date: request_date,
           // salary: Number(salary.replace(/Rp. /g, "").split(".").join("")),
           salary: Number(salary.replace(/[^\d]/g, "").replace(/^0+/, "")),
@@ -151,32 +142,6 @@ const EditClientRequestModal = ({
                 helperText={formik.touched.position && formik.errors.position}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CustomFormLabel htmlFor="last_called">
-                  Terakhir Dipanggil
-                </CustomFormLabel>
-                <DatePicker
-                  required
-                  id="last_called"
-                  name="last_called"
-                  // label="Last Called"
-                  value={formik.values.last_called}
-                  onChange={(date) => formik.setFieldValue("last_called", date)}
-                  renderInput={(params) => (
-                    <CustomTextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      variant="outlined"
-                      error={
-                        formik.touched.last_called &&
-                        !!formik.errors.last_called
-                      }
-                      helperText={
-                        formik.touched.last_called && formik.errors.last_called
-                      }
-                    />
-                  )}
-                />
                 <CustomFormLabel htmlFor="request_date">
                   Tanggal Permintaan
                 </CustomFormLabel>
