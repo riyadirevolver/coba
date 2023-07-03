@@ -14,12 +14,12 @@ const useFetchSkill = () => {
 
     (async () => {
       const SKILL_LISTS = [
-        { title: "Memasak" },
-        { title: "Menulis" },
-        { title: "Menggambar" },
-        { title: "Mencontek" },
+        { title: "Java" },
+        { title: "PHP" },
+        { title: "Javascript" },
+        { title: "Python" },
+        { title: "C++" },
       ];
-      // const data = await getSkills();
       if (active) {
         setSkillList(SKILL_LISTS);
       }

@@ -33,6 +33,7 @@ const FilterClientModal = ({
   closeModalHandler,
   type,
   token,
+  session,
 }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -49,7 +50,7 @@ const FilterClientModal = ({
     openClientRequest,
     setOpenClientRequest,
     loadingClientRequest,
-  } = useFetchClientRequest(token);
+  } = useFetchClientRequest(token, session?.client_id);
 
   const action = (
     <React.Fragment>
@@ -120,48 +121,52 @@ const FilterClientModal = ({
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="input-placement">
-                Nama Perusahaan
-              </CustomFormLabel>
-              <Autocomplete
-                selectOnFocus
-                clearOnBlur
-                handleHomeEndKeys
-                options={clientList}
-                getOptionLabel={(option) => option.name}
-                loading={loadingClient}
-                open={openClient}
-                onOpen={() => {
-                  setOpenClient(true);
-                }}
-                onClose={() => {
-                  setOpenClient(false);
-                }}
-                onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    client_id: newInputValue?.id,
-                  }));
-                }}
-                renderInput={(params) => (
-                  <CustomTextField
-                    {...params}
-                    size="small"
-                    placeholder="Pilih Nama Perusahaan"
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {loadingClient ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
+              {session?.role === "admin" && (
+                <>
+                  <CustomFormLabel htmlFor="input-placement">
+                    Nama Perusahaan
+                  </CustomFormLabel>
+                  <Autocomplete
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    options={clientList}
+                    getOptionLabel={(option) => option.name}
+                    loading={loadingClient}
+                    open={openClient}
+                    onOpen={() => {
+                      setOpenClient(true);
                     }}
+                    onClose={() => {
+                      setOpenClient(false);
+                    }}
+                    onChange={(e, newInputValue) => {
+                      setPayload((prevState) => ({
+                        ...prevState,
+                        client_id: newInputValue?.id,
+                      }));
+                    }}
+                    renderInput={(params) => (
+                      <CustomTextField
+                        {...params}
+                        size="small"
+                        placeholder="Pilih Nama Perusahaan"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <React.Fragment>
+                              {loadingClient ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }}
+                      />
+                    )}
                   />
-                )}
-              />
+                </>
+              )}
 
               <CustomFormLabel htmlFor="input-placement">
                 Permintaan Klien
@@ -171,7 +176,9 @@ const FilterClientModal = ({
                 clearOnBlur
                 handleHomeEndKeys
                 options={clientRequestList}
-                getOptionLabel={(option) => option.position}
+                getOptionLabel={(option) =>
+                  option.position + " - " + option?.client_data?.name
+                }
                 loading={loadingClientRequest}
                 open={openClientRequest}
                 onOpen={() => {

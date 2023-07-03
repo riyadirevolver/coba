@@ -1,18 +1,11 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Button, Card, TableCell, TableRow, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { MomentDateID } from "../../../utils/momentId";
 import { HEAD_ROWS_MANAGEMENT_CLIENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
-import { stringAvatar } from "../../layouts/header/stringAvatar";
 import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
 import AddClientModal from "../modal/client/AddClientModal";
 import DeleteClientModal from "../modal/client/DeleteClientModal";
@@ -107,9 +100,6 @@ const ClientLists = ({ data, token }) => {
           {data.data.map((user) => (
             <TableRow key={user.id}>
               <TableCell>
-                <Avatar {...stringAvatar(user?.name, 50)} />
-              </TableCell>
-              <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {user?.name ?? "-"}
                 </Typography>
@@ -117,6 +107,13 @@ const ClientLists = ({ data, token }) => {
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {user?.pic_data?.fullname ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {user.last_called != null
+                    ? MomentDateID(user?.last_called)
+                    : "-"}
                 </Typography>
               </TableCell>
               <TableCell>

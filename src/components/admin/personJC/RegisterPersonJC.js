@@ -42,7 +42,6 @@ const RegisterPersonJC = ({ classData }) => {
   const [interestPosition, setInterestPosition] = React.useState([]);
   const [willingJakarta, setWillingJakarta] = React.useState(false);
   const [province, setProvince] = React.useState("");
-  console.log("first", province);
 
   const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
   const { setOpenInterest, interestList, openInterest, loadingInterest } =
@@ -459,7 +458,9 @@ const RegisterPersonJC = ({ classData }) => {
                 />
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
-                <CustomFormLabel htmlFor="skills">Keahlian</CustomFormLabel>
+                <CustomFormLabel htmlFor="skills">
+                  Bahasa Pemograman
+                </CustomFormLabel>
                 <Autocomplete
                   multiple
                   onChange={autoCompleteOnChangeSkill}
@@ -483,7 +484,7 @@ const RegisterPersonJC = ({ classData }) => {
                   renderInput={(params) => (
                     <CustomTextField
                       {...params}
-                      placeholder="Masukan keahlian, tambahkan jika tidak ada"
+                      placeholder="Masukin Bahasa Pemograman, tambahkan jika tidak ada"
                       size="small"
                     />
                   )}

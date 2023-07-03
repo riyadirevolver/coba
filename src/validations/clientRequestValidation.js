@@ -4,10 +4,6 @@ const clientRequestValidation = Yup.object().shape({
   position: Yup.string()
     .max(30, "Input melebihi batas maksimal")
     .required("Position wajib diisi"),
-  last_called: Yup.string()
-    .max(30, "Input melebihi batas maksimal")
-    .required("Terakhir Dipanggil wajib diisi")
-    .nullable(),
   request_date: Yup.string()
     .max(30, "Input melebihi batas maksimal")
     .required("Request Date wajib diisi")

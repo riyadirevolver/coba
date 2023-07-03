@@ -27,12 +27,12 @@ const useUploadPhoto = (defaultPreview = []) => {
       return;
     }
     const selectedFiles = Array.from(files);
-    // if (selectedFiles.some((file) => file.size > 2000000)) {
-    //   setGambar([]);
-    //   setErrorFiles(true);
-    //   setPesan("*File harus dibawah 2 MB");
-    //   return;
-    // }
+    if (selectedFiles.some((file) => file.size > 2000000)) {
+      setGambar([]);
+      setErrorFiles(true);
+      setPesan("*File harus dibawah 2 MB");
+      return;
+    }
     // const pattern = /image-*/;
     // if (selectedFiles.some((file) => !file.type.match(pattern))) {
     //   setGambar([]);
@@ -40,6 +40,15 @@ const useUploadPhoto = (defaultPreview = []) => {
     //   setPesan("*File harus berupa gambar");
     //   return;
     // }
+    const allowedExtensions = /\.(docx|pdf|jpg|jpeg|png)$/i;
+    if (selectedFiles.some((file) => !allowedExtensions.test(file.name))) {
+      setGambar([]);
+      setErrorFiles(true);
+      setPesan(
+        "*File harus berupa dokumen teks (word), PDF, atau format gambar (JPG/JPEG/PNG)"
+      );
+      return;
+    }
     setGambar(selectedFiles);
     setPesan("");
     setErrorFiles(false);

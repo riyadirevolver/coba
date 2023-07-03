@@ -36,13 +36,13 @@ export const HEAD_ROWS_MANAGEMENT_USER = [
 
 export const HEAD_ROWS_MANAGEMENT_CLIENT = [
   {
-    title: "",
-  },
-  {
     title: "NAMA KLIEN",
   },
   {
     title: "PIC",
+  },
+  {
+    title: "TERAKHIR DIPANGGIL",
   },
   {
     title: "KONTAK",
@@ -70,9 +70,6 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
   },
   {
     title: "POSISI",
-  },
-  {
-    title: "TERAKHIR DIPANGGIL",
   },
   {
     title: "TANGGAL PERMINTAAN",
@@ -129,7 +126,7 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "DOMISILI",
   },
   {
-    title: "KEAHLIAN",
+    title: "BAHASA PEMOGRAMAN",
   },
   {
     title: "POSISI YANG DIMINATI",
