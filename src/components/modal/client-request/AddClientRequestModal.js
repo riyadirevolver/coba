@@ -69,13 +69,20 @@ const AddClientRequestModal = ({
       request_date: "",
       total_requirement: "",
       status: "",
+      job_description: "",
     },
     validationSchema: clientRequestValidation,
 
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { position, request_date, total_requirement, status } = values;
+        const {
+          position,
+          request_date,
+          total_requirement,
+          status,
+          job_description,
+        } = values;
         const data = {
           client_id: client_id ?? session?.client_id,
           position: position,
@@ -83,6 +90,7 @@ const AddClientRequestModal = ({
           salary: Number(salaryText.replace(/Rp. /g, "").split(".").join("")),
           total_requirement: total_requirement,
           status: status,
+          job_description: job_description,
         };
         const response = await NextApi().post("/api/client-request", data);
         if (gambar.length > 0) {
@@ -249,6 +257,26 @@ const AddClientRequestModal = ({
                   </MenuItem>
                 ))}
               </Select>
+              <CustomFormLabel htmlFor="job_description">
+                Deskripsi Pekerjaan
+              </CustomFormLabel>
+              <CustomTextField
+                required
+                id="job_description"
+                name="job_description"
+                fullWidth
+                size="small"
+                variant="outlined"
+                {...formik.getFieldProps("job_description")}
+                error={
+                  formik.touched.job_description &&
+                  !!formik.errors.job_description
+                }
+                helperText={
+                  formik.touched.job_description &&
+                  formik.errors.job_description
+                }
+              />
               <CustomFormLabel htmlFor="upload">
                 Upload (Opsional)
               </CustomFormLabel>

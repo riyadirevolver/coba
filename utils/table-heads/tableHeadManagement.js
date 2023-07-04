@@ -84,6 +84,9 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT_REQUEST = [
     title: "STATUS",
   },
   {
+    title: "DESKRPISI PEKERJAAN",
+  },
+  {
     title: "DIBUAT OLEH",
   },
   {
@@ -133,6 +136,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
   },
   {
     title: "NO. TELEPON",
+  },
+  {
+    title: "CV",
   },
   {
     title: "TANGGAL DIBUAT",

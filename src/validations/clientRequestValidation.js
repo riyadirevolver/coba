@@ -14,6 +14,7 @@ const clientRequestValidation = Yup.object().shape({
   total_requirement: Yup.string()
     .max(30, "Input melebihi batas maksimal")
     .required("Total Requirement wajib diisi"),
+  job_description: Yup.string().nullable(),
 });
 
 export default clientRequestValidation;
