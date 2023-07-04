@@ -41,7 +41,7 @@ const STATUS_CODE = {
   test: 1,
   interview: 2,
   rejected: 3,
-  hired: 4,
+  hired: 3,
 };
 
 const EditCandidateSentModal = ({

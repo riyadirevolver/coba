@@ -52,7 +52,7 @@ export const STATUS_CANDIDATE_SENT_LISTS = [
   {
     label: "Hired",
     value: "hired",
-    status_code: 5,
+    status_code: 3,
   },
 ];
 

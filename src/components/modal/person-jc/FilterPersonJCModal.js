@@ -12,6 +12,7 @@ import {
   DialogTitle,
   IconButton,
   Snackbar,
+  createFilterOptions,
 } from "@mui/material";
 import * as Yup from "yup";
 
@@ -29,6 +30,8 @@ import useFetchFilterInterestPosition from "../../../hooks/fetch/useFetchFilterI
 
 const upTransition = Transition("up");
 
+const filter = createFilterOptions();
+
 const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
@@ -40,7 +43,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
   const concatFilters = skill.concat(interestPosition);
   concatFilters.map((x, i) => {
     const query = `$or[${i}][${x.field}][$like]`;
-    const queryValue = `%${x.value}%`;
+    const queryValue = `%${x.title}%`;
     queryParameters[query] = queryValue;
   });
 
@@ -60,40 +63,79 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
   const autoCompleteOnChangeSkill = (event, newValue) => {
     if (typeof newValue === "string") {
       setSkill({
-        field: newValue,
+        title: newValue,
       });
     } else if (newValue && newValue.inputValue) {
       setSkill({
-        field: newValue.inputValue,
+        title: newValue.inputValue,
       });
     } else {
       const mapInputValue = newValue.map((value) => {
         if (value.inputValue) {
-          value.field = value.inputValue;
+          value.title = value.inputValue;
         }
         return value;
       });
       setSkill(mapInputValue);
     }
   };
+
   const autoCompleteOnChangeInterestPositions = (event, newValue) => {
     if (typeof newValue === "string") {
       setInterestPosition({
-        field: newValue,
+        title: newValue,
       });
     } else if (newValue && newValue.inputValue) {
       setInterestPosition({
-        field: newValue.inputValue,
+        title: newValue.inputValue,
       });
     } else {
       const mapInputValue = newValue.map((value) => {
         if (value.inputValue) {
-          value.field = value.inputValue;
+          value.title = value.inputValue;
         }
         return value;
       });
       setInterestPosition(mapInputValue);
     }
+  };
+
+  const filterOptionsSkill = (options, params) => {
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+    const selected = skill.some((option) => inputValue === option.title);
+    if (inputValue !== "" && !selected) {
+      filtered.push({
+        inputValue,
+        title: `Tambahkan "${inputValue}"`,
+        field: "skills",
+      });
+    }
+    return filtered;
+  };
+  const filterOptionsInterestPosition = (options, params) => {
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+    const selected = skill.some((option) => inputValue === option.title);
+    if (inputValue !== "" && !selected) {
+      filtered.push({
+        inputValue,
+        title: `Tambahkan "${inputValue}"`,
+        field: "interest_positions",
+      });
+    }
+    return filtered;
+  };
+
+  const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
+  const optionLabel = (option) => {
+    if (typeof option === "string") {
+      return option;
+    }
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    return option.title;
   };
 
   const action = (
@@ -189,6 +231,34 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
               </CustomFormLabel>
               <Autocomplete
                 multiple
+                onChange={autoCompleteOnChangeSkill}
+                filterOptions={filterOptionsSkill}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={filterSkillsList}
+                loading={loadingFilterSkills}
+                open={openFilterSkills}
+                onOpen={() => {
+                  setOpenFilterSkills(true);
+                }}
+                onClose={() => {
+                  setOpenFilterSkills(false);
+                }}
+                filterSelectedOptions
+                getOptionLabel={optionLabel}
+                renderOption={renderOptions}
+                renderInput={(params) => (
+                  <CustomTextField
+                    {...params}
+                    placeholder="Masukin Bahasa Pemrograman, tambahkan jika tidak ada"
+                    size="small"
+                  />
+                )}
+              />
+              {/* <Autocomplete
+                multiple
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
@@ -221,11 +291,11 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                     }}
                   />
                 )}
-              />
+              /> */}
               <CustomFormLabel htmlFor="input-placement">
                 Posisi yang diminati
               </CustomFormLabel>
-              <Autocomplete
+              {/* <Autocomplete
                 multiple
                 selectOnFocus
                 clearOnBlur
@@ -257,6 +327,34 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                         </React.Fragment>
                       ),
                     }}
+                  />
+                )}
+              /> */}
+              <Autocomplete
+                multiple
+                onChange={autoCompleteOnChangeInterestPositions}
+                filterOptions={filterOptionsInterestPosition}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={filterInterestPositionList}
+                loading={loadingFilterInterestPosition}
+                open={openFilterInterestPosition}
+                onOpen={() => {
+                  setOpenFilterInterestPosition(true);
+                }}
+                onClose={() => {
+                  setOpenFilterInterestPosition(false);
+                }}
+                filterSelectedOptions
+                getOptionLabel={optionLabel}
+                renderOption={renderOptions}
+                renderInput={(params) => (
+                  <CustomTextField
+                    {...params}
+                    placeholder="Pilih Posisi yang diminati"
+                    size="small"
                   />
                 )}
               />
