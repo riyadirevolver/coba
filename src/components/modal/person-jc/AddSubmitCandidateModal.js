@@ -14,11 +14,12 @@ import {
   Select,
   Snackbar,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import FeatherIcon from "feather-icons-react";
-
-import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
@@ -75,18 +76,26 @@ const AddSubmitCandidateModal = ({
     initialValues: {
       status: "",
       notes: "",
+      test_date: "",
+      interview_date: "",
     },
     validationSchema: candidateSentValidation,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { status, notes } = values;
+        const { status, notes, test_date, interview_date } = values;
         const payloadData = {
           client_request_id: payload.client_request_id,
           jc_person_id: data?.id,
           status: status,
           notes: notes,
+          ...(test_date !== "" && {
+            test_date: test_date,
+          }),
+          ...(interview_date !== "" && {
+            interview_date: interview_date,
+          }),
         };
         const res = await NextApi().post("/api/candidate-sent", payloadData);
         await NextApi().post("/api/candidate-sent-logs", {
@@ -95,7 +104,6 @@ const AddSubmitCandidateModal = ({
           created_by: res.data.created_by,
         });
         openSnackBar("Berhasil membuat kandidat");
-
         handleReset();
         setLoading(false);
         closeModalHandler();
@@ -212,6 +220,75 @@ const AddSubmitCandidateModal = ({
                   </MenuItem>
                 ))}
               </Select>
+              {formik.values.status === "test" && (
+                <>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CustomFormLabel htmlFor="test_date">
+                      Tanggal Test
+                    </CustomFormLabel>
+                    <DateTimePicker
+                      required
+                      id="test_date"
+                      name="test_date"
+                      ampm={false}
+                      value={formik.values.test_date}
+                      onChange={(date) =>
+                        formik.setFieldValue("test_date", date)
+                      }
+                      renderInput={(params) => (
+                        <CustomTextField
+                          {...params}
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          error={
+                            formik.touched.test_date &&
+                            !!formik.errors.test_date
+                          }
+                          helperText={
+                            formik.touched.test_date && formik.errors.test_date
+                          }
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </>
+              )}
+              {formik.values.status === "interview" && (
+                <>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CustomFormLabel htmlFor="interview_date">
+                      Tanggal Interview
+                    </CustomFormLabel>
+                    <DateTimePicker
+                      required
+                      id="interview_date"
+                      name="interview_date"
+                      ampm={false}
+                      value={formik.values.interview_date}
+                      onChange={(date) =>
+                        formik.setFieldValue("interview_date", date)
+                      }
+                      renderInput={(params) => (
+                        <CustomTextField
+                          {...params}
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          error={
+                            formik.touched.interview_date &&
+                            !!formik.errors.interview_date
+                          }
+                          helperText={
+                            formik.touched.interview_date &&
+                            formik.errors.interview_date
+                          }
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </>
+              )}
               <CustomFormLabel htmlFor="notes">Catatan</CustomFormLabel>
               <CustomTextField
                 required

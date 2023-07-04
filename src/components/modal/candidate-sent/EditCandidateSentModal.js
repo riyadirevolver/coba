@@ -16,22 +16,33 @@ import {
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
+import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
 import useFetchPersonJC from "../../../hooks/fetch/useFetchPersonJC";
 import candidateSentValidation from "../../../validations/candidateSentValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
+
+const STATUS_CODE = {
+  process: 0,
+  test: 1,
+  interview: 2,
+  rejected: 3,
+  hired: 4,
+};
 
 const EditCandidateSentModal = ({
   open = false,
@@ -98,13 +109,15 @@ const EditCandidateSentModal = ({
     initialValues: {
       status: data.status || "",
       notes: data.notes || "",
+      test_date: data.test_date || "",
+      interview_date: data.interview_date || "",
     },
     validationSchema: candidateSentValidation,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { status, notes } = values;
+        const { status, notes, test_date, interview_date } = values;
         const payloadData = {
           ...(payload.client_request_id && {
             client_request_id: payload.client_request_id,
@@ -114,6 +127,12 @@ const EditCandidateSentModal = ({
           }),
           status: status,
           notes: notes,
+          ...(test_date !== "" && {
+            test_date: test_date,
+          }),
+          ...(interview_date !== "" && {
+            interview_date: interview_date,
+          }),
         };
         const res = await NextApi().patch(
           `/api/candidate-sent/${data.id}`,
@@ -273,11 +292,84 @@ const EditCandidateSentModal = ({
                 }}
               >
                 {STATUS_CANDIDATE_SENT_LISTS.map((item, index) => (
-                  <MenuItem value={item.value} key={index}>
+                  <MenuItem
+                    value={item.value}
+                    key={index}
+                    disabled={item.status_code <= STATUS_CODE[data?.status]}
+                  >
                     {item.value}
                   </MenuItem>
                 ))}
               </Select>
+              {formik.values.status === "test" && (
+                <>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CustomFormLabel htmlFor="test_date">
+                      Tanggal Test
+                    </CustomFormLabel>
+                    <DateTimePicker
+                      required
+                      id="test_date"
+                      name="test_date"
+                      ampm={false}
+                      value={formik.values.test_date}
+                      onChange={(date) =>
+                        formik.setFieldValue("test_date", date)
+                      }
+                      renderInput={(params) => (
+                        <CustomTextField
+                          {...params}
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          error={
+                            formik.touched.test_date &&
+                            !!formik.errors.test_date
+                          }
+                          helperText={
+                            formik.touched.test_date && formik.errors.test_date
+                          }
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </>
+              )}
+              {formik.values.status === "interview" && (
+                <>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CustomFormLabel htmlFor="interview_date">
+                      Tanggal Interview
+                    </CustomFormLabel>
+                    <DateTimePicker
+                      required
+                      id="interview_date"
+                      name="interview_date"
+                      ampm={false}
+                      value={formik.values.interview_date}
+                      onChange={(date) =>
+                        formik.setFieldValue("interview_date", date)
+                      }
+                      renderInput={(params) => (
+                        <CustomTextField
+                          {...params}
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          error={
+                            formik.touched.interview_date &&
+                            !!formik.errors.interview_date
+                          }
+                          helperText={
+                            formik.touched.interview_date &&
+                            formik.errors.interview_date
+                          }
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </>
+              )}
               <CustomFormLabel htmlFor="notes">Catatan</CustomFormLabel>
               <CustomTextField
                 required

@@ -123,6 +123,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "NAMA",
   },
   {
+    title: "JENIS KELAMIN",
+  },
+  {
     title: "TANGGAL LAHIR",
   },
   {
@@ -136,6 +139,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
   },
   {
     title: "NO. TELEPON",
+  },
+  {
+    title: "BERSEDIA DI TEMPATKAN JAKARTA",
   },
   {
     title: "CV",
@@ -160,6 +166,12 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
   },
   {
     title: "STATUS",
+  },
+  {
+    title: "TANGGAL TEST",
+  },
+  {
+    title: "TANGGAL INTERVIEW",
   },
   {
     title: "CATATAN",
@@ -190,6 +202,12 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG = [
   },
   {
     title: "STATUS",
+  },
+  {
+    title: "TANGGAL TEST",
+  },
+  {
+    title: "TANGGAL INTERVIEW",
   },
   {
     title: "CATATAN",
