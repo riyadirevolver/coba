@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { MomentDateID } from "../../../utils/momentId";
 import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
 import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
@@ -103,10 +104,21 @@ const CandidateSentLists = ({ data, token, session }) => {
                   {row?.jc_person_data?.name ?? "-"}
                 </Typography>
               </TableCell>
-
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.status}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.test_date ? MomentDateID(row?.test_date) : "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.interview_date
+                    ? MomentDateID(row?.interview_date)
+                    : "-"}
                 </Typography>
               </TableCell>
               <TableCell>

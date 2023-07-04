@@ -4,6 +4,7 @@ import moment from "moment/moment";
 import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG } from "../../../utils/table-heads/tableHeadManagement";
 import BaseTable from "../table/BaseTable";
+import { MomentDateID } from "../../../utils/momentId";
 
 const CandidateSentLogLists = ({ data }) => {
   return (
@@ -41,6 +42,18 @@ const CandidateSentLogLists = ({ data }) => {
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.status}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.test_date ? MomentDateID(row?.test_date) : "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.interview_date
+                    ? MomentDateID(row?.interview_date)
+                    : "-"}
                 </Typography>
               </TableCell>
               <TableCell>

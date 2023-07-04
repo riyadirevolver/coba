@@ -162,6 +162,12 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
     title: "STATUS",
   },
   {
+    title: "TANGGAL TEST",
+  },
+  {
+    title: "TANGGAL INTERVIEW",
+  },
+  {
     title: "CATATAN",
   },
   {
@@ -190,6 +196,12 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG = [
   },
   {
     title: "STATUS",
+  },
+  {
+    title: "TANGGAL TEST",
+  },
+  {
+    title: "TANGGAL INTERVIEW",
   },
   {
     title: "CATATAN",
