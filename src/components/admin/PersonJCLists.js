@@ -67,6 +67,11 @@ const OPTIONS_CLIENT = [
   },
 ];
 
+const GENDER_DATA = {
+  L: "Laki - laki",
+  P: "Perempuan",
+};
+
 const PersonJCLists = ({ data, token, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
@@ -170,6 +175,11 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
+                  {GENDER_DATA[user?.gender] ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
                   {moment(user?.date_of_birth).format("DD MMMM YYYY") ?? "-"}
                 </Typography>
               </TableCell>
@@ -195,6 +205,11 @@ const PersonJCLists = ({ data, token, session }) => {
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {user?.mobile_phone_number ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {user?.willing_work_jakarta ? "Siap" : "Tidak Siap"}
                 </Typography>
               </TableCell>
               <TableCell>

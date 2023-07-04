@@ -123,6 +123,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "NAMA",
   },
   {
+    title: "JENIS KELAMIN",
+  },
+  {
     title: "TANGGAL LAHIR",
   },
   {
@@ -136,6 +139,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
   },
   {
     title: "NO. TELEPON",
+  },
+  {
+    title: "BERSEDIA DI TEMPATKAN",
   },
   {
     title: "CV",
