@@ -141,7 +141,7 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "NO. TELEPON",
   },
   {
-    title: "BERSEDIA DI TEMPATKAN",
+    title: "BERSEDIA DI TEMPATKAN JAKARTA",
   },
   {
     title: "CV",
