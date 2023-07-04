@@ -36,6 +36,14 @@ import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
+const STATUS_CODE = {
+  process: 0,
+  test: 1,
+  interview: 2,
+  rejected: 3,
+  hired: 4,
+};
+
 const EditCandidateSentModal = ({
   open = false,
   closeModalHandler,
@@ -284,7 +292,11 @@ const EditCandidateSentModal = ({
                 }}
               >
                 {STATUS_CANDIDATE_SENT_LISTS.map((item, index) => (
-                  <MenuItem value={item.value} key={index}>
+                  <MenuItem
+                    value={item.value}
+                    key={index}
+                    disabled={item.status_code <= STATUS_CODE[data?.status]}
+                  >
                     {item.value}
                   </MenuItem>
                 ))}
@@ -299,7 +311,7 @@ const EditCandidateSentModal = ({
                       required
                       id="test_date"
                       name="test_date"
-                      // label="Last Called"
+                      ampm={false}
                       value={formik.values.test_date}
                       onChange={(date) =>
                         formik.setFieldValue("test_date", date)
@@ -333,6 +345,7 @@ const EditCandidateSentModal = ({
                       required
                       id="interview_date"
                       name="interview_date"
+                      ampm={false}
                       value={formik.values.interview_date}
                       onChange={(date) =>
                         formik.setFieldValue("interview_date", date)

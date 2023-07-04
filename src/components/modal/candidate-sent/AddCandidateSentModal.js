@@ -262,7 +262,7 @@ const AddCandidateSentModal = ({
                       required
                       id="test_date"
                       name="test_date"
-                      // label="Last Called"
+                      ampm={false}
                       value={formik.values.test_date}
                       onChange={(date) =>
                         formik.setFieldValue("test_date", date)
@@ -296,6 +296,7 @@ const AddCandidateSentModal = ({
                       required
                       id="interview_date"
                       name="interview_date"
+                      ampm={false}
                       value={formik.values.interview_date}
                       onChange={(date) =>
                         formik.setFieldValue("interview_date", date)
