@@ -4,7 +4,7 @@ import moment from "moment/moment";
 import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG } from "../../../utils/table-heads/tableHeadManagement";
 import BaseTable from "../table/BaseTable";
-import { MomentDateID } from "../../../utils/momentId";
+import { MomentDateID, MomentTimeID } from "../../../utils/momentId";
 
 const CandidateSentLogLists = ({ data }) => {
   return (
@@ -45,16 +45,40 @@ const CandidateSentLogLists = ({ data }) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.test_date ? MomentDateID(row?.test_date) : "-"}
-                </Typography>
+                {row?.test_date ? (
+                  <>
+                    <Typography variant="h6" fontWeight="600">
+                      {MomentDateID(row?.test_date)}
+                    </Typography>
+                    <Typography
+                      color="textSecondary"
+                      variant="h6"
+                      fontWeight="600"
+                    >
+                      {MomentTimeID(row?.test_date)}
+                    </Typography>
+                  </>
+                ) : (
+                  "-"
+                )}
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.interview_date
-                    ? MomentDateID(row?.interview_date)
-                    : "-"}
-                </Typography>
+                {row?.interview_date ? (
+                  <>
+                    <Typography variant="h6" fontWeight="600">
+                      {MomentDateID(row?.interview_date)}
+                    </Typography>
+                    <Typography
+                      color="textSecondary"
+                      variant="h6"
+                      fontWeight="600"
+                    >
+                      {MomentTimeID(row?.interview_date)}
+                    </Typography>
+                  </>
+                ) : (
+                  "-"
+                )}
               </TableCell>
               <TableCell>
                 <Typography variant="h6">{row?.notes ?? "-"}</Typography>

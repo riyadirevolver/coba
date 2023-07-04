@@ -31,7 +31,7 @@ const OPTIONS_ADMIN = [
     type: "submit_candidate",
   },
   {
-    label: "History Kandidat",
+    label: "Submit History",
     type: "history_candidate",
   },
   {
@@ -58,7 +58,7 @@ const OPTIONS_CLIENT = [
     type: "submit_candidate",
   },
   {
-    label: "History Kandidat",
+    label: "Submit History",
     type: "history_candidate",
   },
   {

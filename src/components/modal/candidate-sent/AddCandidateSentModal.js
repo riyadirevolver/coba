@@ -17,11 +17,11 @@ import {
 import FeatherIcon from "feather-icons-react";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
@@ -258,7 +258,7 @@ const AddCandidateSentModal = ({
                     <CustomFormLabel htmlFor="test_date">
                       Tanggal Test
                     </CustomFormLabel>
-                    <DatePicker
+                    <DateTimePicker
                       required
                       id="test_date"
                       name="test_date"
@@ -292,7 +292,7 @@ const AddCandidateSentModal = ({
                     <CustomFormLabel htmlFor="interview_date">
                       Tanggal Interview
                     </CustomFormLabel>
-                    <DatePicker
+                    <DateTimePicker
                       required
                       id="interview_date"
                       name="interview_date"
