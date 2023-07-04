@@ -58,6 +58,10 @@ const OPTIONS_CLIENT = [
     type: "submit_candidate",
   },
   {
+    label: "History Kandidat",
+    type: "history_candidate",
+  },
+  {
     label: "Detail",
     type: "detail",
   },
@@ -65,7 +69,6 @@ const OPTIONS_CLIENT = [
 
 const PersonJCLists = ({ data, token, session }) => {
   const router = useRouter();
-
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
 
@@ -83,7 +86,14 @@ const PersonJCLists = ({ data, token, session }) => {
       handleOpenModal("submit_candidate");
     } else if (userData && type === "history_candidate") {
       setDataUser(userData);
-      console.log("masuk", id);
+      if (session?.role === "client") {
+        return router.push({
+          pathname: "/client/candidate-sent-history",
+          query: {
+            jc_person_id: id,
+          },
+        });
+      }
       return router.push({
         pathname: "/management/candidate-sent-history",
         query: {

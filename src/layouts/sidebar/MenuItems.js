@@ -24,6 +24,12 @@ const Menuitems = [
         href: "/client/candidate-sent",
         isCLient: true,
       },
+      {
+        title: "Kandidat History",
+        icon: "books",
+        href: "/client/candidate-sent-history",
+        isCLient: true,
+      },
     ],
   },
   {
