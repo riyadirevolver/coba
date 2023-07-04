@@ -132,7 +132,7 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "DOMISILI",
   },
   {
-    title: "BAHASA PEMOGRAMAN",
+    title: "BAHASA PEMROGRAMAN",
   },
   {
     title: "POSISI YANG DIMINATI",

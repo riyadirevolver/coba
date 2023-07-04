@@ -475,7 +475,7 @@ const RegisterPersonJC = ({ classData }) => {
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="skills">
-                  Bahasa Pemograman
+                  Bahasa Pemrograman
                 </CustomFormLabel>
                 <Autocomplete
                   multiple
@@ -500,7 +500,7 @@ const RegisterPersonJC = ({ classData }) => {
                   renderInput={(params) => (
                     <CustomTextField
                       {...params}
-                      placeholder="Masukin Bahasa Pemograman, tambahkan jika tidak ada"
+                      placeholder="Masukin Bahasa Pemrograman, tambahkan jika tidak ada"
                       size="small"
                     />
                   )}

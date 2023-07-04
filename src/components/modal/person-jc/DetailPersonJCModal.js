@@ -147,7 +147,7 @@ const DetailPersonJCModal = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="outlined-read-only-input"
-                  label="Bahasa Pemograman"
+                  label="Bahasa Pemrograman"
                   fullWidth
                   defaultValue={data?.skills || "-"}
                   InputProps={{

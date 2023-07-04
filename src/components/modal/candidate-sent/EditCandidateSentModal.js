@@ -195,6 +195,7 @@ const EditCandidateSentModal = ({
               <Autocomplete
                 selectOnFocus
                 clearOnBlur
+                readOnly
                 handleHomeEndKeys
                 defaultValue={
                   `${data?.client_request_data?.position} - ${data?.client_request_data?.client_data?.name}` ||
@@ -243,6 +244,7 @@ const EditCandidateSentModal = ({
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
+                readOnly
                 options={personJCList}
                 defaultValue={data?.jc_person_data?.name}
                 getOptionLabel={optionLabelPersonJC}
