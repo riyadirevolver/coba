@@ -185,7 +185,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 helperText={formik.touched.batch && formik.errors.batch}
               />
               <CustomFormLabel htmlFor="input-placement">
-                Bahasa Pemograman
+                Bahasa Pemrograman
               </CustomFormLabel>
               <Autocomplete
                 multiple
@@ -207,7 +207,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                   <CustomTextField
                     {...params}
                     size="small"
-                    placeholder="Pilih Bahasa Pemograman"
+                    placeholder="Pilih Bahasa Pemrograman"
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (

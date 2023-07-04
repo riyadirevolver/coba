@@ -490,7 +490,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="skills">
-                  Bahasa Pemograman
+                  Bahasa Pemrograman
                 </CustomFormLabel>
                 <Autocomplete
                   multiple
@@ -516,7 +516,7 @@ const EditPersonJC = ({ id_user, data, classData }) => {
                   renderInput={(params) => (
                     <CustomTextField
                       {...params}
-                      placeholder="Masukan Bahasa Pemograman, tambahkan jika tidak ada"
+                      placeholder="Masukan Bahasa Pemrograman, tambahkan jika tidak ada"
                       size="small"
                     />
                   )}
