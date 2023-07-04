@@ -24,7 +24,7 @@ const useFetchFilterSkills = () => {
           if (skill) {
             result.push({
               field: "skills",
-              value: skill,
+              title: skill,
             });
           }
         }

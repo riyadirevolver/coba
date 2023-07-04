@@ -30,7 +30,7 @@ const useFetchFilterInterestPosition = () => {
           if (data) {
             result.push({
               field: "interest_positions",
-              value: data,
+              title: data,
             });
           }
         }
