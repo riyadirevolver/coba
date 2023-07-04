@@ -7,7 +7,7 @@ const Menuitems = [
     isCLient: true,
     children: [
       {
-        title: "Klien",
+        title: "Project",
         icon: "all-report",
         href: "/client/client",
         isCLient: true,
