@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ServiceAdapter from "../../../lib/services";
 
 const useFetchInterestPosition = () => {
   const [openInterest, setOpenInterest] = useState(false);
@@ -13,9 +14,22 @@ const useFetchInterestPosition = () => {
     }
 
     (async () => {
-      const SKILL_LISTS = [];
+      const { data } = await ServiceAdapter().get("/filter-interest-positions");
       if (active) {
-        setInterestList(SKILL_LISTS);
+        const interest_positions = data[0].interest_positions
+          .split(",")
+          .slice(1);
+        const result = [];
+        for (let i = 0; i < interest_positions.length; i++) {
+          const data = interest_positions[i].trim();
+          if (data) {
+            result.push({
+              field: "interest_positions",
+              title: data,
+            });
+          }
+        }
+        setInterestList(result);
       }
     })();
 

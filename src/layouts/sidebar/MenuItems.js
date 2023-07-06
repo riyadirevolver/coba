@@ -26,7 +26,7 @@ const Menuitems = [
       },
       {
         title: "Submit History",
-        icon: "books",
+        icon: "book",
         href: "/client/candidate-sent-history",
         isCLient: true,
       },

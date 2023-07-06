@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ServiceAdapter from "../../../lib/services";
 
 const useFetchSkill = () => {
   const [openSkill, setOpenSkill] = useState(false);
@@ -13,15 +14,20 @@ const useFetchSkill = () => {
     }
 
     (async () => {
-      const SKILL_LISTS = [
-        { title: "Java" },
-        { title: "PHP" },
-        { title: "Javascript" },
-        { title: "Python" },
-        { title: "C++" },
-      ];
+      const { data } = await ServiceAdapter().get("/filter-skills");
       if (active) {
-        setSkillList(SKILL_LISTS);
+        const skills = data[0].skills.split(",").slice(1);
+        const result = [];
+        for (let i = 0; i < skills.length; i++) {
+          const skill = skills[i].trim();
+          if (skill) {
+            result.push({
+              field: "skills",
+              title: skill,
+            });
+          }
+        }
+        setSkillList(result);
       }
     })();
 

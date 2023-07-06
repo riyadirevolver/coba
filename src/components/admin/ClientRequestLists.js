@@ -19,6 +19,7 @@ import DeleteClientRequestModal from "../modal/client-request/DeleteClientReques
 import { formatRupiah } from "../../../utils/formatRupiah";
 import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
 import BaseTable from "../table/BaseTable";
+import { TypographyStatus } from "../typography/TypographyStatus";
 moment.locale("id");
 
 const options = [
@@ -142,9 +143,7 @@ const ClientRequestLists = ({ data, client_id, session }) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.status}
-                </Typography>
+                <TypographyStatus title={row?.status} />
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
