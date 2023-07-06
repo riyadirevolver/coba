@@ -4,7 +4,6 @@ import React from "react";
 import {
   Autocomplete,
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -22,11 +21,11 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
+import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
+import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import useFetchFilterSkills from "../../../hooks/fetch/useFetchFilterSkills";
-import useFetchFilterInterestPosition from "../../../hooks/fetch/useFetchFilterInterestPosition";
 
 const upTransition = Transition("up");
 
@@ -47,18 +46,9 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
     queryParameters[query] = queryValue;
   });
 
-  const {
-    setOpenFilterSkills,
-    filterSkillsList,
-    openFilterSkills,
-    loadingFilterSkills,
-  } = useFetchFilterSkills();
-  const {
-    setOpenFilterInterestPosition,
-    filterInterestPositionList,
-    openFilterInterestPosition,
-    loadingFilterInterestPosition,
-  } = useFetchFilterInterestPosition();
+  const { setOpenSkill, skillList, openSkill, loadingSkill } = useFetchSkill();
+  const { setOpenInterest, interestList, openInterest, loadingInterest } =
+    useFetchInterestPosition();
 
   const autoCompleteOnChangeSkill = (event, newValue) => {
     if (typeof newValue === "string") {
@@ -237,14 +227,14 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 clearOnBlur
                 handleHomeEndKeys
                 id="free-solo-with-text-demo"
-                options={filterSkillsList}
-                loading={loadingFilterSkills}
-                open={openFilterSkills}
+                options={skillList}
+                loading={loadingSkill}
+                open={openSkill}
                 onOpen={() => {
-                  setOpenFilterSkills(true);
+                  setOpenSkill(true);
                 }}
                 onClose={() => {
-                  setOpenFilterSkills(false);
+                  setOpenSkill(false);
                 }}
                 filterSelectedOptions
                 getOptionLabel={optionLabel}
@@ -262,15 +252,15 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
-                options={filterSkillsList}
+                options={skillList}
                 getOptionLabel={(option) => option.value}
-                loading={loadingFilterSkills}
-                open={openFilterSkills}
+                loading={loadingSkill}
+                open={openSkill}
                 onOpen={() => {
-                  setOpenFilterSkills(true);
+                  setOpenSkill(true);
                 }}
                 onClose={() => {
-                  setOpenFilterSkills(false);
+                  setOpenSkill(false);
                 }}
                 onChange={autoCompleteOnChangeSkill}
                 renderInput={(params) => (
@@ -282,7 +272,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingFilterSkills ? (
+                          {loadingSkill ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}
@@ -300,15 +290,15 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
-                options={filterInterestPositionList}
+                options={interestList}
                 getOptionLabel={(option) => option.value}
-                loading={loadingFilterInterestPosition}
-                open={openFilterInterestPosition}
+                loading={loadingInterest}
+                open={openInterest}
                 onOpen={() => {
-                  setOpenFilterInterestPosition(true);
+                  setOpenInterest(true);
                 }}
                 onClose={() => {
-                  setOpenFilterInterestPosition(false);
+                  setOpenInterest(false);
                 }}
                 onChange={autoCompleteOnChangeInterestPositions}
                 renderInput={(params) => (
@@ -320,7 +310,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingFilterInterestPosition ? (
+                          {loadingInterest ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}
@@ -338,14 +328,14 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 clearOnBlur
                 handleHomeEndKeys
                 id="free-solo-with-text-demo"
-                options={filterInterestPositionList}
-                loading={loadingFilterInterestPosition}
-                open={openFilterInterestPosition}
+                options={interestList}
+                loading={loadingInterest}
+                open={openInterest}
                 onOpen={() => {
-                  setOpenFilterInterestPosition(true);
+                  setOpenInterest(true);
                 }}
                 onClose={() => {
-                  setOpenFilterInterestPosition(false);
+                  setOpenInterest(false);
                 }}
                 filterSelectedOptions
                 getOptionLabel={optionLabel}

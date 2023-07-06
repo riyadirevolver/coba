@@ -11,6 +11,7 @@ import AddCandidateSentModal from "../modal/candidate-sent/AddCandidateSentModal
 import DeleteCandidateSentModal from "../modal/candidate-sent/DeleteCandidateSentModal";
 import EditCandidateSentModal from "../modal/candidate-sent/EditCandidateSentModal";
 import BaseTable from "../table/BaseTable";
+import { TypographyStatus } from "../typography/TypographyStatus";
 
 const options = [
   {
@@ -105,9 +106,7 @@ const CandidateSentLists = ({ data, token, session }) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.status}
-                </Typography>
+                <TypographyStatus title={row?.status} />
               </TableCell>
               <TableCell>
                 {row?.test_date ? (

@@ -5,6 +5,7 @@ import React from "react";
 import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT_LOG } from "../../../utils/table-heads/tableHeadManagement";
 import BaseTable from "../table/BaseTable";
 import { MomentDateID, MomentTimeID } from "../../../utils/momentId";
+import { TypographyStatus } from "../typography/TypographyStatus";
 
 const CandidateSentLogLists = ({ data }) => {
   return (
@@ -40,9 +41,7 @@ const CandidateSentLogLists = ({ data }) => {
               </TableCell>
 
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.status}
-                </Typography>
+                <TypographyStatus title={row?.status} />
               </TableCell>
               <TableCell>
                 {row?.test_date ? (
