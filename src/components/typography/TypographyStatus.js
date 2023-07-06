@@ -2,25 +2,34 @@ import { Box, Typography } from "@mui/material";
 
 const STATUS_COLOR = {
   process: "#007FBA",
-  test: "#FCB712",
+  test: "#7200BF",
   interview: "#FCB712",
+  hold: "#FCB712",
   rejected: "#7F0000",
+  closed: "#7F0000",
   hired: "#007F00",
+  active: "#007F00",
 };
 
 const STATUS_BACKGROUND = {
   process: "#89CFF0",
-  test: "#FFF8CD",
+  test: "#EBD8F8",
   interview: "#FFF8CD",
+  hold: "#FFF8CD",
   rejected: "#FFACAC",
+  closed: "#FFACAC",
   hired: "#CDFFCD",
+  active: "#CDFFCD",
 };
 
 const STATUS_WIDTH = {
   process: "90px",
   test: "60px",
   interview: "95px",
+  hold: "60px",
   rejected: "95px",
+  closed: "78px",
+  active: "75px",
   hired: "70px",
 };
 
@@ -30,7 +39,7 @@ export const TypographyStatus = ({ title }) => {
       variant="h6"
       fontWeight="600"
       sx={{
-        width: STATUS_WIDTH[title],
+        width: STATUS_WIDTH[title] || "100px",
         background: STATUS_BACKGROUND[title] || "#FFF8CD",
         color: STATUS_COLOR[title] || "#FCB712",
         p: "6px 16px",
