@@ -147,7 +147,7 @@ const AddSubmitCandidateModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="input-placement">
-                Klien Request
+                Project
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus

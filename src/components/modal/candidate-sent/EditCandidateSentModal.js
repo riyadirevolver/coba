@@ -190,7 +190,7 @@ const EditCandidateSentModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="input-placement">
-                Client Request
+                Project
               </CustomFormLabel>
               <Autocomplete
                 selectOnFocus

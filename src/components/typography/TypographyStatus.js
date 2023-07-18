@@ -39,14 +39,14 @@ export const TypographyStatus = ({ title }) => {
       variant="h6"
       fontWeight="600"
       sx={{
-        width: STATUS_WIDTH[title] || "100px",
+        width: STATUS_WIDTH[title] || "140px",
         background: STATUS_BACKGROUND[title] || "#FFF8CD",
         color: STATUS_COLOR[title] || "#FCB712",
         p: "6px 16px",
         borderRadius: "100px",
       }}
     >
-      {title}
+      {title || "belum diproses"}
     </Typography>
   );
 };
