@@ -159,7 +159,7 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
     title: "NAMA PERUSAHAAN",
   },
   {
-    title: "PERMINTAAN KLIEN",
+    title: "PROJECT",
   },
   {
     title: "NAMA KANDIDAT",
