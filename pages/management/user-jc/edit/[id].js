@@ -19,21 +19,39 @@ export const getServerSideProps = WithAuth(async ({ req, params }) => {
       password: BASE_DIKA_URL.password,
     },
   });
+  const responsePayment = await axios.get(
+    `${BASE_DIKA_URL.base_url}/refchannelpayment`,
+    {
+      headers: {
+        "X-API-KEY": BASE_DIKA_URL.x_api_key,
+      },
+      auth: {
+        username: BASE_DIKA_URL.username,
+        password: BASE_DIKA_URL.password,
+      },
+    }
+  );
   return {
     props: {
       id_user: id,
       session: session,
       classData: responseClass.data.data,
+      paymentData: responsePayment.data.data,
       user: user,
     },
   };
 });
 
-const PersonJCEdit = ({ id_user, user, classData }) => {
+const PersonJCEdit = ({ id_user, user, classData, paymentData }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <EditPersonJC id_user={id_user} data={user} classData={classData} />
+        <EditPersonJC
+          id_user={id_user}
+          data={user}
+          classData={classData}
+          paymentData={paymentData}
+        />
       </Grid>
     </Grid>
   );

@@ -21,7 +21,10 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
 import NextApi from "../../../../lib/services/next-api";
-import { GENDER_LISTS } from "../../../../utils/constant/listConstant";
+import {
+  GENDER_LISTS,
+  JOB_EXPERIENCE_LISTS,
+} from "../../../../utils/constant/listConstant";
 import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
 import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
 import useFetchZip from "../../../hooks/fetch/useFetchZip";
@@ -35,7 +38,8 @@ import { uploadFile } from "../../../../lib/services/upload";
 
 const filter = createFilterOptions();
 
-const RegisterPersonJC = ({ classData }) => {
+const RegisterPersonJC = ({ classData, paymentData }) => {
+  console.log("ssss", paymentData);
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
 
@@ -418,7 +422,7 @@ const RegisterPersonJC = ({ classData }) => {
                     }
                   }}
                   inputProps={{
-                    maxLength: 14,
+                    maxLength: 20,
                   }}
                   {...formik.getFieldProps("number_id")}
                   error={formik.touched.number_id && !!formik.errors.number_id}
@@ -664,6 +668,11 @@ const RegisterPersonJC = ({ classData }) => {
                   fullWidth
                   size="small"
                   variant="outlined"
+                  onKeyPress={(event) => {
+                    if (!/[0-9.]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   {...formik.getFieldProps("ipk_value")}
                   error={formik.touched.ipk_value && !!formik.errors.ipk_value}
                   helperText={
@@ -689,7 +698,24 @@ const RegisterPersonJC = ({ classData }) => {
                 <CustomFormLabel htmlFor="job_experience">
                   Pengalaman Pekerjaan
                 </CustomFormLabel>
-                <CustomTextField
+                <Select
+                  required
+                  name="job_experience"
+                  size="small"
+                  fullWidth
+                  value={formik.values.job_experience || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("job_experience", value);
+                  }}
+                >
+                  {JOB_EXPERIENCE_LISTS.map((item, index) => (
+                    <MenuItem value={item.value} key={index}>
+                      {item.value}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {/* <CustomTextField
                   required
                   id="job_experience"
                   name="job_experience"
@@ -705,7 +731,7 @@ const RegisterPersonJC = ({ classData }) => {
                     formik.touched.job_experience &&
                     formik.errors.job_experience
                   }
-                />
+                /> */}
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="company_name">
@@ -843,7 +869,23 @@ const RegisterPersonJC = ({ classData }) => {
                 <CustomFormLabel htmlFor="channel_payment">
                   Pembayaran
                 </CustomFormLabel>
-                <CustomTextField
+                <Select
+                  name="channel_payment"
+                  size="small"
+                  fullWidth
+                  value={formik.values.channel_payment || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("channel_payment", value);
+                  }}
+                >
+                  {paymentData.map((item, index) => (
+                    <MenuItem value={item.Channel_ID} key={index}>
+                      {`${item.Channel_Name} - ${item.Channel_Description}`}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {/* <CustomTextField
                   required
                   id="channel_payment"
                   name="channel_payment"
@@ -859,7 +901,7 @@ const RegisterPersonJC = ({ classData }) => {
                     formik.touched.channel_payment &&
                     formik.errors.channel_payment
                   }
-                />
+                /> */}
               </Grid>
               <Grid item lg={4} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="nilai_accurate">
@@ -872,6 +914,11 @@ const RegisterPersonJC = ({ classData }) => {
                   fullWidth
                   size="small"
                   variant="outlined"
+                  onKeyPress={(event) => {
+                    if (!/[0-9.]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   {...formik.getFieldProps("nilai_accurate")}
                   error={
                     formik.touched.nilai_accurate &&
@@ -894,6 +941,11 @@ const RegisterPersonJC = ({ classData }) => {
                   fullWidth
                   size="small"
                   variant="outlined"
+                  onKeyPress={(event) => {
+                    if (!/[0-9.]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   {...formik.getFieldProps("nilai_cognitive")}
                   error={
                     formik.touched.nilai_cognitive &&
@@ -916,6 +968,11 @@ const RegisterPersonJC = ({ classData }) => {
                   fullWidth
                   size="small"
                   variant="outlined"
+                  onKeyPress={(event) => {
+                    if (!/[0-9.]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   {...formik.getFieldProps("nilai_proactive")}
                   error={
                     formik.touched.nilai_proactive &&
