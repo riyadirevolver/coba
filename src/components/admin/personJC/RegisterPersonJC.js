@@ -39,7 +39,6 @@ import { uploadFile } from "../../../../lib/services/upload";
 const filter = createFilterOptions();
 
 const RegisterPersonJC = ({ classData, paymentData }) => {
-  console.log("ssss", paymentData);
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
 
