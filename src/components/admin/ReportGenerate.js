@@ -7,9 +7,10 @@ import {
   HEAD_ROWS_REPORT_CLIENT_SUMMARY_PER_MONTH,
 } from "../../../utils/table-heads/tableHeadReport";
 import DashboardReport from "../cards/reports/DashboardReport";
+import SubmitCandidateReport from "../cards/reports/SubmitCandidateReport";
 import BaseTableReport from "../table/BaseTableReport";
 
-const ReportGenerate = ({ data }) => {
+const ReportGenerate = ({ data, test, interview }) => {
   return (
     <>
       <DashboardReport data={data} />
@@ -24,6 +25,7 @@ const ReportGenerate = ({ data }) => {
             <BaseTableReport
               title={"Total Klien Summary"}
               tableHead={HEAD_ROWS_REPORT_CLIENT_SUMMARY}
+              exportExcel={true}
             >
               {data.client_summary_data?.map((row, index) => (
                 <TableRow key={index}>
@@ -82,6 +84,15 @@ const ReportGenerate = ({ data }) => {
             </BaseTableReport>
           </Card>
         </Grid>
+        <Grid item lg={12}>
+          <SubmitCandidateReport title="Submit Kandidat Test H-5" data={test} />
+        </Grid>
+        <Grid item lg={12}>
+          <SubmitCandidateReport
+            title="Submit Kandidat Interview H-5"
+            data={interview}
+          />
+        </Grid>
         <Grid item lg={6}>
           <Card
             sx={{
@@ -92,9 +103,10 @@ const ReportGenerate = ({ data }) => {
             <BaseTableReport
               title={"Total Klien di Kandidat Sent"}
               tableHead={HEAD_ROWS_REPORT_CLIENT}
+              exportExcel={true}
             >
-              {data.client_count_data?.map((user) => (
-                <TableRow key={user.id}>
+              {data.client_count_data?.map((user, index) => (
+                <TableRow key={index}>
                   <TableCell>
                     <Typography variant="h6" fontWeight="600">
                       {user?.client_name ?? "-"}
@@ -120,6 +132,7 @@ const ReportGenerate = ({ data }) => {
             <BaseTableReport
               title={"Total Klien per Bulan"}
               tableHead={HEAD_ROWS_REPORT_CLIENT_SUMMARY_PER_MONTH}
+              exportExcel={true}
             >
               {data.client_summary_per_month?.map((row, index) => (
                 <TableRow key={index}>
