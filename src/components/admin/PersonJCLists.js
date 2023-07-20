@@ -251,6 +251,24 @@ const PersonJCLists = ({ data, token, session }) => {
                 )}
               </TableCell>
               <TableCell>
+                {user?.updated_at ? (
+                  <>
+                    <Typography variant="h6" fontWeight="600">
+                      {moment(user?.updated_at).format("DD MMM YYYY") ?? "-"}
+                    </Typography>
+                    <Typography
+                      color="textSecondary"
+                      variant="h6"
+                      fontWeight="600"
+                    >
+                      {moment(user?.updated_at).format("HH:mm:ss") ?? "-"}
+                    </Typography>
+                  </>
+                ) : (
+                  "-"
+                )}
+              </TableCell>
+              <TableCell>
                 <ThreeDots
                   sx={{ textAlign: "right" }}
                   options={

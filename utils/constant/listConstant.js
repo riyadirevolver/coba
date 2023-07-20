@@ -66,3 +66,26 @@ export const GENDER_LISTS = [
     value: "P",
   },
 ];
+
+export const JOB_EXPERIENCE_LISTS = [
+  {
+    label: "Bekerja",
+    value: "Bekerja",
+  },
+  {
+    label: "Bel",
+    value: "Belum Bekerja",
+  },
+  {
+    label: "MD < 2 minggu",
+    value: "MD < 2 minggu",
+  },
+  {
+    label: "MD > 2 minggu",
+    value: "MD > 2 minggu",
+  },
+  {
+    label: "Tidak lulus",
+    value: "Tidak lulus",
+  },
+];
