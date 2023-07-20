@@ -1,30 +1,28 @@
-import { Button, Card, TableCell, TableRow, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Card, TableCell, TableRow, Typography } from "@mui/material";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { MomentDateID, MomentTimeID } from "../../../utils/momentId";
-import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT } from "../../../utils/table-heads/tableHeadManagement";
-import useHandleModal from "../../hooks/useHandleModal";
-import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
-import AddCandidateSentModal from "../modal/candidate-sent/AddCandidateSentModal";
-import DeleteCandidateSentModal from "../modal/candidate-sent/DeleteCandidateSentModal";
-import EditCandidateSentModal from "../modal/candidate-sent/EditCandidateSentModal";
-import BaseTable from "../table/BaseTable";
-import { TypographyStatus } from "../typography/TypographyStatus";
+import { MomentDateID, MomentTimeID } from "../../../../utils/momentId";
+import { HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT } from "../../../../utils/table-heads/tableHeadManagement";
+import useHandleModal from "../../../hooks/useHandleModal";
+import ThreeDots from "../../atomicDesigns/molecules/ThreeDots";
+import DeleteCandidateSentModal from "../../modal/candidate-sent/DeleteCandidateSentModal";
+import EditCandidateSentModal from "../../modal/candidate-sent/EditCandidateSentModal";
+import BaseTableReport from "../../table/BaseTableReport";
+import { TypographyStatus } from "../../typography/TypographyStatus";
 
 const options = [
   {
     label: "Update",
     type: "edit",
   },
-  {
-    label: "Delete",
-    type: "delete",
-  },
+  //   {
+  //     label: "Delete",
+  //     type: "delete",
+  //   },
 ];
 
-const CandidateSentLists = ({ data, token, session }) => {
+const SubmitCandidateReport = ({ title, data, token, session }) => {
   const router = useRouter();
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
     useHandleModal(false);
@@ -45,13 +43,6 @@ const CandidateSentLists = ({ data, token, session }) => {
 
   return (
     <>
-      <AddCandidateSentModal
-        open={openModal}
-        type={modalType}
-        token={token}
-        session={session}
-        closeModalHandler={handleCloseModal}
-      />
       <EditCandidateSentModal
         open={openModal}
         type={modalType}
@@ -73,23 +64,13 @@ const CandidateSentLists = ({ data, token, session }) => {
           overflow: "visible",
         }}
       >
-        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
-          <Box flexGrow={1} />
-          <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              handleOpenModal("add");
-            }}
-          >
-            Tambah
-          </Button>
-        </Box>
         {/* tabel */}
-        <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT} data={data}>
-          {data.data.map((row) => (
-            <TableRow key={row.id}>
+        <BaseTableReport
+          title={title}
+          tableHead={HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT}
+        >
+          {data.map((row, index) => (
+            <TableRow key={index}>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.client_request_data?.client_data?.name ?? "-"}
@@ -176,19 +157,19 @@ const CandidateSentLists = ({ data, token, session }) => {
                 )}
               </TableCell>
 
-              <TableCell>
+              {/* <TableCell>
                 <ThreeDots
                   sx={{ textAlign: "right" }}
                   options={options}
                   onClick={(show) => handleClickDot(row, show, row.id)}
                 />
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
-        </BaseTable>
+        </BaseTableReport>
       </Card>
     </>
   );
 };
 
-export default CandidateSentLists;
+export default SubmitCandidateReport;

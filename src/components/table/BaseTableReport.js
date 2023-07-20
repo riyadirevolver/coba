@@ -21,7 +21,13 @@ import FeatherIcon from "feather-icons-react";
 
 const DATA_HEAD = [{ title: "data" }];
 
-const BaseTableReport = ({ title, children, tableHead, noWrap }) => {
+const BaseTableReport = ({
+  title,
+  children,
+  tableHead,
+  noWrap,
+  exportExcel,
+}) => {
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const { generate, loading } = useGenerateReport();
 
@@ -68,7 +74,7 @@ const BaseTableReport = ({ title, children, tableHead, noWrap }) => {
       />
       <Box sx={{ m: 3 }}>
         <Grid container spacing={3}>
-          <Grid item sm={9} xs={12}>
+          <Grid item sm={exportExcel ? 9 : 12} xs={12}>
             <Typography
               variant="h3"
               sx={{
@@ -78,18 +84,20 @@ const BaseTableReport = ({ title, children, tableHead, noWrap }) => {
               {title ?? "data"}
             </Typography>
           </Grid>
-          <Grid item sm={3} xs={12}>
-            <Button
-              fullWidth
-              color="success"
-              variant="contained"
-              disabled={loading}
-              onClick={exportReport}
-            >
-              <FeatherIcon icon="clipboard" />
-              Export
-            </Button>
-          </Grid>
+          {exportExcel && (
+            <Grid item sm={3} xs={12}>
+              <Button
+                fullWidth
+                color="success"
+                variant="contained"
+                disabled={loading}
+                onClick={exportReport}
+              >
+                <FeatherIcon icon="clipboard" />
+                Export
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Box>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>

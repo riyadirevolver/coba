@@ -389,19 +389,18 @@ const Sidebar = ({
                   cursor: "pointer",
                 }}
               >
-                <NextLink href="/dashboards/dashboard">
-                  <Box
-                    onClick={() => handleTitle("")}
-                    sx={{
-                      width: "60%",
-                      display: "block",
-                      margin: "0 auto",
-                    }}
-                  >
-                    {/* <Icon variant="hadir" /> */}
-                    <Image src={Logo} alt={"Logo Juara Coding"} />
-                  </Box>
-                </NextLink>
+                <Box
+                  onClick={() => handleTitle("")}
+                  sx={{
+                    width: "60%",
+                    display: "block",
+                    margin: "0 auto",
+                    marginBottom: "30px",
+                  }}
+                >
+                  {/* <Icon variant="hadir" /> */}
+                  <Image src={Logo} alt={"Logo Juara Coding"} />
+                </Box>
               </Box>
 
               {Menuitems.filter((item) => {
