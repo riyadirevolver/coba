@@ -292,14 +292,15 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
             file_name: banner?.name,
           }),
         };
-        if (banner && banner != undefined) {
-          const upload = await uploadFile(banner);
-          payload.file_url = upload?.id;
-        }
+        // if (banner && banner != undefined) {
+        //   const upload = await uploadFile(banner);
+        //   payload.file_url = upload?.id;
+        // }
         const response = await NextApi().patch(
           `/api/person-jc/${id_user}`,
           payload
         );
+        console.log("ssssssss", response);
         openSnackBar("Berhasil merubah User JC");
         router.replace("/management/user-jc");
         setLoading(false);
@@ -844,6 +845,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                     renderInput={(params) => (
                       <CustomTextField
                         {...params}
+                        required
                         fullWidth
                         size="small"
                         variant="outlined"
@@ -905,6 +907,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   Nilai Accurate
                 </CustomFormLabel>
                 <CustomTextField
+                  required
                   id="nilai_accurate"
                   name="nilai_accurate"
                   fullWidth
