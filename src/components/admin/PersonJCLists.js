@@ -146,7 +146,7 @@ const PersonJCLists = ({ data, token, session }) => {
           overflow: "visible",
         }}
       >
-        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
+        {/* <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
           {session?.role === "admin" && (
             <Button
@@ -160,7 +160,7 @@ const PersonJCLists = ({ data, token, session }) => {
               Tambah
             </Button>
           )}
-        </Box>
+        </Box> */}
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_PERSON_JC} data={data}>
           {data.data.map((user) => (

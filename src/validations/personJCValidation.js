@@ -32,14 +32,20 @@ const personJCValidation = Yup.object().shape({
     .nullable(),
   company_name: Yup.string().nullable(true),
   last_position: Yup.string().nullable(true),
-  join_date: Yup.string().nullable(true),
+  join_date: Yup.string().required("Join Date wajib diisi").nullable(),
   nipp_code: Yup.string().nullable(true),
   facebook: Yup.string().nullable(true),
   instagram: Yup.string().nullable(true),
   linkedin: Yup.string().nullable(true),
-  nilai_accurate: Yup.string().nullable(true),
-  nilai_cognitive: Yup.string().nullable(true),
-  nilai_proactive: Yup.string().nullable(true),
+  nilai_accurate: Yup.string()
+    .required("Nilai Accurate wajib diisi")
+    .nullable(),
+  nilai_cognitive: Yup.string()
+    .required("Nilai Cognitive wajib diisi")
+    .nullable(),
+  nilai_proactive: Yup.string()
+    .required("Nilai Proactive wajib diisi")
+    .nullable(),
   class_id: Yup.string().nullable(true),
   channel_payment: Yup.string().nullable(true),
 });
