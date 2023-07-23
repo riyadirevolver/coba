@@ -7,11 +7,11 @@ const clientValidation = Yup.object().shape({
     .nullable(),
   contact: Yup.string()
     .max(30, "Input melebihi batas maksimal")
-    .required("Kontak wajib diisi")
+    .required("No telp PIC wajib diisi")
     .nullable(),
   last_called: Yup.string()
     .max(30, "Input melebihi batas maksimal")
-    .required("Terakhir Dipanggil wajib diisi")
+    .required("Terakhir Dihubungi wajib diisi")
     .nullable(),
   description: Yup.string().nullable(),
 });

@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 
 const clientRequestValidation = Yup.object().shape({
-  position: Yup.string()
-    .max(30, "Input melebihi batas maksimal")
-    .required("Position wajib diisi"),
+  // position: Yup.string()
+  //   .max(30, "Input melebihi batas maksimal")
+  //   .required("Position wajib diisi"),
   request_date: Yup.string()
     .max(30, "Input melebihi batas maksimal")
     .required("Request Date wajib diisi")

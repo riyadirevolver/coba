@@ -46,8 +46,13 @@ const AddCandidateSentModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const { personJCList, openPersonJC, setOpenPersonJC, loadingPersonJC } =
-    useFetchPersonJC(token);
+  const {
+    personJCList,
+    openPersonJC,
+    setOpenPersonJC,
+    loadingPersonJC,
+    setTempQuery: setPersonTempQuery,
+  } = useFetchPersonJC(token);
   const {
     clientRequestList,
     openClientRequest,
@@ -203,6 +208,10 @@ const AddCandidateSentModal = ({
                 getOptionLabel={(option) => option.name}
                 loading={loadingPersonJC}
                 open={openPersonJC}
+                filterOptions={(x) => x}
+                onInputChange={(e, newInputValue) =>
+                  setPersonTempQuery(newInputValue)
+                }
                 onOpen={() => {
                   setOpenPersonJC(true);
                 }}

@@ -10,6 +10,8 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  MenuItem,
+  Select,
   Snackbar,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -28,6 +30,7 @@ import clientValidation from "../../../validations/clientValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { DESCRIPTION_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -181,7 +184,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
-                  Terakhir Dipanggil
+                  Terakhir Dihubungi
                 </CustomFormLabel>
                 <DatePicker
                   required
@@ -207,7 +210,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   )}
                 />
               </LocalizationProvider>
-              <CustomFormLabel htmlFor="contact">*Kontak</CustomFormLabel>
+              <CustomFormLabel htmlFor="contact">*No telp PIC</CustomFormLabel>
               <CustomTextField
                 required
                 id="contact"
@@ -215,12 +218,19 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 {...formik.getFieldProps("contact")}
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}
               />
-              <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
-              <CustomTextField
+              <CustomFormLabel htmlFor="description">
+                *Deskripsi
+              </CustomFormLabel>
+              {/* <CustomTextField
                 required
                 id="description"
                 name="description"
@@ -234,7 +244,24 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 helperText={
                   formik.touched.description && formik.errors.description
                 }
-              />
+              /> */}
+              <Select
+                required
+                name="description"
+                size="small"
+                fullWidth
+                value={formik.values.description || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("description", value);
+                }}
+              >
+                {DESCRIPTION_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </Select>
             </DialogContentText>
           </DialogContent>
 
