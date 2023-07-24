@@ -153,7 +153,7 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "TANGGAL DIPERBARUI",
   },
   {
-    title: "",
+    title: "ACTION",
   },
 ];
 
