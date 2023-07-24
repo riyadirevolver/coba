@@ -94,29 +94,29 @@ const Menuitems = [
   },
   {
     title: "Management",
-    icon: "users",
+    icon: "management",
     href: "/management",
     collapse: true,
     isAdmin: true,
     isStaff: true,
     children: [
-      {
-        title: "User",
-        icon: "position",
-        href: "/management/user",
-        isAdmin: true,
-        isSPV: true,
-        isStaff: true,
-      },
+      // {
+      //   title: "User",
+      //   icon: "position",
+      //   href: "/management/user",
+      //   isAdmin: true,
+      //   isSPV: true,
+      //   isStaff: true,
+      // },
       {
         title: "Klien",
-        icon: "all-report",
+        icon: "business-trip",
         href: "/management/client",
         isAdmin: true,
       },
       {
         title: "Kandidat JC",
-        icon: "shifting",
+        icon: "absent",
         href: "/management/user-jc",
         isAdmin: true,
       },
@@ -128,7 +128,7 @@ const Menuitems = [
       // },
       {
         title: "Submit History",
-        icon: "export",
+        icon: "company",
         href: "/management/candidate-sent-history",
         isAdmin: true,
       },
@@ -187,6 +187,15 @@ const Menuitems = [
         isAdmin: true,
       },
     ],
+  },
+  {
+    title: "User",
+    icon: "users",
+    href: "/user",
+    collapse: true,
+    isAdmin: true,
+    isSPV: true,
+    isStaff: false,
   },
 ];
 export default Menuitems;

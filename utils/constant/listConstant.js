@@ -148,4 +148,31 @@ export const JOB_POSITION = [
   {
     title: "Trainer Junior",
   },
+  {
+    title: "Data Analyst",
+  },
+  {
+    title: "Enterprise Software Engineer",
+  },
+  {
+    title: "It Support",
+  },
+  {
+    title: "It Tester Manual",
+  },
+  {
+    title: "MIS",
+  },
+  {
+    title: "Qa Junior",
+  },
+  {
+    title: "Staff Aset Management",
+  },
+  {
+    title: "SQA Automation",
+  },
+  {
+    title: "Admin APP",
+  },
 ];

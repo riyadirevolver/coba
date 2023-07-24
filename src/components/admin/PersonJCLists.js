@@ -29,10 +29,10 @@ const OPTIONS_ADMIN = [
     label: "Lihat Berkas",
     type: "file",
   },
-  {
-    label: "Submit Kandidat",
-    type: "submit_candidate",
-  },
+  // {
+  //   label: "Submit Kandidat",
+  //   type: "submit_candidate",
+  // },
   {
     label: "Submit History",
     type: "history_candidate",
@@ -56,10 +56,10 @@ const OPTIONS_CLIENT = [
     label: "Lihat Berkas",
     type: "file",
   },
-  {
-    label: "Submit Kandidat",
-    type: "submit_candidate",
-  },
+  // {
+  //   label: "Submit Kandidat",
+  //   type: "submit_candidate",
+  // },
   {
     label: "Submit History",
     type: "history_candidate",
