@@ -30,9 +30,7 @@ const DetailPersonJCModal = ({
   type,
   data,
 }) => {
-  console.log("ddddd", data);
   const router = useRouter();
-
   return (
     <>
       <Dialog

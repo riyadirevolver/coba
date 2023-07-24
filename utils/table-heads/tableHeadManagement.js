@@ -42,10 +42,10 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "PIC",
   },
   {
-    title: "TERAKHIR DIPANGGIL",
+    title: "TERAKHIR DIHUBUNGI",
   },
   {
-    title: "KONTAK",
+    title: "NO TELP PIC",
   },
   {
     title: "DESKRIPSI",

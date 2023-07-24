@@ -1,9 +1,12 @@
+import FeatherIcon from "feather-icons-react";
 import {
   Avatar,
   Button,
   Card,
+  IconButton,
   TableCell,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -269,13 +272,27 @@ const PersonJCLists = ({ data, token, session }) => {
                 )}
               </TableCell>
               <TableCell>
-                <ThreeDots
-                  sx={{ textAlign: "right" }}
-                  options={
-                    session?.role === "client" ? OPTIONS_CLIENT : OPTIONS_ADMIN
-                  }
-                  onClick={(show) => handleClickDot(user, show, user?.id)}
-                />
+                <Box display="flex" justifyContent="space-between">
+                  <Tooltip title="Submit Kandidat">
+                    <IconButton
+                      aria-haspopup="true"
+                      size="large"
+                      aria-label="action"
+                      onClick={() => handleClickDot(user, "submit_candidate")}
+                    >
+                      <FeatherIcon icon="edit" />
+                    </IconButton>
+                  </Tooltip>
+                  <ThreeDots
+                    sx={{ textAlign: "right" }}
+                    options={
+                      session?.role === "client"
+                        ? OPTIONS_CLIENT
+                        : OPTIONS_ADMIN
+                    }
+                    onClick={(show) => handleClickDot(user, show, user?.id)}
+                  />
+                </Box>
               </TableCell>
             </TableRow>
           ))}

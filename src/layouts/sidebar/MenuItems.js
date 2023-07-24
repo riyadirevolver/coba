@@ -1,7 +1,7 @@
 const Menuitems = [
   {
     title: "Management",
-    icon: "report",
+    icon: "users",
     href: "/client",
     collapse: true,
     isCLient: true,
@@ -14,16 +14,16 @@ const Menuitems = [
       },
       {
         title: "Kandidat JC",
-        icon: "absent",
+        icon: "shifting",
         href: "/client/user-jc",
         isCLient: true,
       },
-      {
-        title: "Submit Kandidat",
-        icon: "users",
-        href: "/client/candidate-sent",
-        isCLient: true,
-      },
+      // {
+      //   title: "Submit Kandidat",
+      //   icon: "export",
+      //   href: "/client/candidate-sent",
+      //   isCLient: true,
+      // },
       {
         title: "Submit History",
         icon: "book",
@@ -34,50 +34,50 @@ const Menuitems = [
   },
   {
     title: "Submit Kandidat",
-    icon: "management",
+    icon: "report",
     href: "/client/submit-kandidat",
     collapse: true,
     isCLient: true,
     children: [
       {
         title: "Semua",
-        icon: "users",
+        icon: "position",
         href: "/client/submit-kandidat/semua",
         isCLient: true,
       },
       {
         title: "Belum diproses",
-        icon: "user",
+        icon: "shifting",
         href: "/client/submit-kandidat/belum-diproses",
         isCLient: true,
       },
       {
         title: "Proses",
-        icon: "user",
+        icon: "all-report",
         href: "/client/submit-kandidat/proses",
         isCLient: true,
       },
       {
         title: "Test",
-        icon: "user",
+        icon: "permit",
         href: "/client/submit-kandidat/test",
         isCLient: true,
       },
       {
         title: "Interview",
-        icon: "user",
+        icon: "export",
         href: "/client/submit-kandidat/interview",
         isCLient: true,
       },
       {
         title: "Hired",
-        icon: "user",
+        icon: "correct",
         href: "/client/submit-kandidat/hired",
         isCLient: true,
       },
       {
         title: "Rejected",
-        icon: "user",
+        icon: "leave",
         href: "/client/submit-kandidat/rejected",
         isCLient: true,
       },
@@ -94,7 +94,7 @@ const Menuitems = [
   },
   {
     title: "Management",
-    icon: "management",
+    icon: "users",
     href: "/management",
     collapse: true,
     isAdmin: true,
@@ -102,7 +102,7 @@ const Menuitems = [
     children: [
       {
         title: "User",
-        icon: "users",
+        icon: "position",
         href: "/management/user",
         isAdmin: true,
         isSPV: true,
@@ -110,25 +110,25 @@ const Menuitems = [
       },
       {
         title: "Klien",
-        icon: "users",
+        icon: "all-report",
         href: "/management/client",
         isAdmin: true,
       },
       {
         title: "Kandidat JC",
-        icon: "users",
+        icon: "shifting",
         href: "/management/user-jc",
         isAdmin: true,
       },
-      {
-        title: "Submit Kandidat",
-        icon: "users",
-        href: "/management/candidate-sent",
-        isAdmin: true,
-      },
+      // {
+      //   title: "Submit Kandidat",
+      //   icon: "position",
+      //   href: "/management/candidate-sent",
+      //   isAdmin: true,
+      // },
       {
         title: "Submit History",
-        icon: "book",
+        icon: "export",
         href: "/management/candidate-sent-history",
         isAdmin: true,
       },
@@ -136,7 +136,7 @@ const Menuitems = [
   },
   {
     title: "Submit Kandidat",
-    icon: "management",
+    icon: "report",
     href: "/submit-kandidat",
     collapse: true,
     isAdmin: true,
@@ -144,7 +144,7 @@ const Menuitems = [
     children: [
       {
         title: "Semua",
-        icon: "users",
+        icon: "position",
         href: "/submit-kandidat/semua",
         isAdmin: true,
         isSPV: true,
@@ -152,37 +152,37 @@ const Menuitems = [
       },
       {
         title: "Belum diproses",
-        icon: "user",
+        icon: "shifting",
         href: "/submit-kandidat/belum-diproses",
         isAdmin: true,
       },
       {
         title: "Proses",
-        icon: "user",
+        icon: "all-report",
         href: "/submit-kandidat/proses",
         isAdmin: true,
       },
       {
         title: "Test",
-        icon: "user",
+        icon: "permit",
         href: "/submit-kandidat/test",
         isAdmin: true,
       },
       {
         title: "Interview",
-        icon: "user",
+        icon: "export",
         href: "/submit-kandidat/interview",
         isAdmin: true,
       },
       {
         title: "Hired",
-        icon: "user",
+        icon: "correct",
         href: "/submit-kandidat/hired",
         isAdmin: true,
       },
       {
         title: "Rejected",
-        icon: "user",
+        icon: "leave",
         href: "/submit-kandidat/rejected",
         isAdmin: true,
       },

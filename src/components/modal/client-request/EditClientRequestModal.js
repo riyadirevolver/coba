@@ -2,7 +2,9 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,6 +15,7 @@ import {
   MenuItem,
   Select,
   Snackbar,
+  createFilterOptions,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -29,8 +32,10 @@ import clientRequestValidation from "../../../validations/clientRequestValidatio
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import useJobPosition from "../../../hooks/fetch/useFetchJobPosition";
 
 const upTransition = Transition("up");
+const filter = createFilterOptions();
 
 const EditClientRequestModal = ({
   open = false,
@@ -43,6 +48,17 @@ const EditClientRequestModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+  const [payload, setPayload] = useState({
+    position: null,
+  });
+
+  const {
+    setOpenJobPosition,
+    jobPositionList,
+    openJobPosition,
+    loadingJobPosition,
+  } = useJobPosition();
+
   const action = (
     <React.Fragment>
       <IconButton
@@ -56,9 +72,38 @@ const EditClientRequestModal = ({
     </React.Fragment>
   );
 
+  const filterOptionsJobPosition = (options, params) => {
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+
+    const selected = jobPositionList.some(
+      (option) => inputValue === option.title
+    );
+
+    if (inputValue !== "" && !selected) {
+      filtered.push({
+        inputValue,
+        title: `Tambahkan "${inputValue}"`,
+      });
+    }
+
+    return filtered;
+  };
+
+  const optionLabel = (option) => {
+    if (typeof option === "string") {
+      return option;
+    }
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    return option.title;
+  };
+
+  const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
+
   const formik = useFormik({
     initialValues: {
-      position: data.position || "",
       request_date: data.request_date || "",
       salary:
         String(data.salary)
@@ -74,23 +119,23 @@ const EditClientRequestModal = ({
       setLoading(true);
       try {
         const {
-          position,
           request_date,
           salary,
           total_requirement,
           status,
           job_description,
         } = values;
-        const payload = {
-          position: position,
+        const payloadData = {
+          ...(payload.position && {
+            position: payload.position,
+          }),
           request_date: request_date,
-          // salary: Number(salary.replace(/Rp. /g, "").split(".").join("")),
           salary: Number(salary.replace(/[^\d]/g, "").replace(/^0+/, "")),
           total_requirement: total_requirement,
           status: status,
           job_description: job_description,
         };
-        await NextApi().patch(`/api/client-request/${data.id}`, payload);
+        await NextApi().patch(`/api/client-request/${data.id}`, payloadData);
         openSnackBar("Berhasil mengubah Client Request");
         handleReset();
         setLoading(false);
@@ -138,7 +183,7 @@ const EditClientRequestModal = ({
               component="div"
             >
               <CustomFormLabel htmlFor="position">Position</CustomFormLabel>
-              <CustomTextField
+              {/* <CustomTextField
                 required
                 id="position"
                 name="position"
@@ -148,6 +193,56 @@ const EditClientRequestModal = ({
                 {...formik.getFieldProps("position")}
                 error={formik.touched.position && !!formik.errors.position}
                 helperText={formik.touched.position && formik.errors.position}
+              /> */}
+              <Autocomplete
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                defaultValue={data?.position}
+                options={jobPositionList}
+                filterOptions={filterOptionsJobPosition}
+                getOptionLabel={optionLabel}
+                renderOption={renderOptions}
+                loading={loadingJobPosition}
+                open={openJobPosition}
+                onOpen={() => {
+                  setOpenJobPosition(true);
+                }}
+                onClose={() => {
+                  setOpenJobPosition(false);
+                }}
+                onChange={(e, newValue) => {
+                  if (newValue?.inputValue) {
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      position: newValue.inputValue,
+                    }));
+                  } else {
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      position: newValue?.title || null,
+                    }));
+                  }
+                }}
+                renderInput={(params) => (
+                  <CustomTextField
+                    {...params}
+                    required
+                    size="small"
+                    placeholder="Pilih Posisi"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <React.Fragment>
+                          {loadingJobPosition ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
+                    }}
+                  />
+                )}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="request_date">
