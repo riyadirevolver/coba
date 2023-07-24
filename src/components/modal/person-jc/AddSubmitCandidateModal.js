@@ -176,7 +176,7 @@ const AddSubmitCandidateModal = ({
                     {...params}
                     required
                     size="small"
-                    placeholder="Pilih Client Request"
+                    placeholder="Pilih Project"
                     InputProps={{
                       ...params.InputProps,
                       endAdornment: (

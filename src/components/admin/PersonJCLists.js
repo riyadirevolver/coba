@@ -273,7 +273,7 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="space-between">
-                  <Tooltip title="Submit Kandidat">
+                  {/* <Tooltip title="Submit Kandidat">
                     <IconButton
                       aria-haspopup="true"
                       size="large"
@@ -282,7 +282,15 @@ const PersonJCLists = ({ data, token, session }) => {
                     >
                       <FeatherIcon icon="edit" />
                     </IconButton>
-                  </Tooltip>
+                  </Tooltip> */}
+                  <Button
+                    variant="contained"
+                    color="success"
+                    sx={{ mr: 3 }}
+                    onClick={() => handleClickDot(user, "submit_candidate")}
+                  >
+                    Submit Kandidat
+                  </Button>
                   <ThreeDots
                     sx={{ textAlign: "right" }}
                     options={
