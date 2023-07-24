@@ -185,6 +185,34 @@ const EditClientModal = ({
                   formik.touched.client_name && formik.errors.client_name
                 }
               />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <CustomFormLabel htmlFor="last_called">
+                  Terakhir Dihubungi
+                </CustomFormLabel>
+                <DatePicker
+                  required
+                  id="last_called"
+                  name="last_called"
+                  // label="Last Called"
+                  value={formik.values.last_called}
+                  onChange={(date) => formik.setFieldValue("last_called", date)}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      error={
+                        formik.touched.last_called &&
+                        !!formik.errors.last_called
+                      }
+                      helperText={
+                        formik.touched.last_called && formik.errors.last_called
+                      }
+                    />
+                  )}
+                />
+              </LocalizationProvider>
               <CustomFormLabel htmlFor="input-placement">
                 *PIC (People In Charge)
               </CustomFormLabel>
@@ -230,34 +258,7 @@ const EditClientModal = ({
                   />
                 )}
               />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CustomFormLabel htmlFor="last_called">
-                  Terakhir Dihubungi
-                </CustomFormLabel>
-                <DatePicker
-                  required
-                  id="last_called"
-                  name="last_called"
-                  // label="Last Called"
-                  value={formik.values.last_called}
-                  onChange={(date) => formik.setFieldValue("last_called", date)}
-                  renderInput={(params) => (
-                    <CustomTextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      variant="outlined"
-                      error={
-                        formik.touched.last_called &&
-                        !!formik.errors.last_called
-                      }
-                      helperText={
-                        formik.touched.last_called && formik.errors.last_called
-                      }
-                    />
-                  )}
-                />
-              </LocalizationProvider>
+
               <CustomFormLabel htmlFor="contact">*No telp PIC</CustomFormLabel>
               <CustomTextField
                 required
@@ -266,6 +267,7 @@ const EditClientModal = ({
                 fullWidth
                 size="small"
                 variant="outlined"
+                placeholder="masukkan nomor Telepon PIC"
                 onKeyPress={(event) => {
                   if (!/[0-9]/.test(event.key)) {
                     event.preventDefault();
