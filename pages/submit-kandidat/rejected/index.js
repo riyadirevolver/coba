@@ -14,7 +14,9 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
     "/candidate-sent",
     {
       ...query,
-      status: "rejected",
+      "$or[0][status]": "rejected",
+      "$or[1][status]": "rejected_test",
+      "$or[2][status]": "rejected_interview",
     },
     {
       Authorization: token,

@@ -12,6 +12,7 @@ import DeleteCandidateSentModal from "../modal/candidate-sent/DeleteCandidateSen
 import EditCandidateSentModal from "../modal/candidate-sent/EditCandidateSentModal";
 import BaseTable from "../table/BaseTable";
 import { TypographyStatus } from "../typography/TypographyStatus";
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 
 const options = [
   {
@@ -23,6 +24,11 @@ const options = [
     type: "delete",
   },
 ];
+
+const STATUS_RESPONSE_CANDIDATE = {
+  not_responding: "Tidak Merespon",
+  refuse: "Menolak",
+};
 
 const CandidateSentLists = ({ data, token, session }) => {
   const router = useRouter();
@@ -145,7 +151,32 @@ const CandidateSentLists = ({ data, token, session }) => {
                 )}
               </TableCell>
               <TableCell>
+                <Typography variant="h6">
+                  {STATUS_RESPONSE_CANDIDATE[row?.candidate_response] ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
                 <Typography variant="h6">{row?.notes ?? "-"}</Typography>
+              </TableCell>
+              <TableCell>
+                <Box sx={{ width: "100%", textAlign: "center" }}>
+                  {row.jc_person_data?.file_name ? (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() =>
+                        window.open(
+                          `${BASE_IMAGE_URL}/${row.jc_person_data?.file_url}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      Lihat CV
+                    </Button>
+                  ) : (
+                    "-"
+                  )}
+                </Box>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">

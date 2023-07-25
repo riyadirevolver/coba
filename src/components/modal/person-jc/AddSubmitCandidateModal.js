@@ -24,12 +24,13 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
+import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/statusCandidateConstant";
 import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
 import candidateSentValidation from "../../../validations/candidateSentValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { RESPONSE_CANDIDATE_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -78,18 +79,21 @@ const AddSubmitCandidateModal = ({
       notes: "",
       test_date: "",
       interview_date: "",
+      candidate_response: null,
     },
     validationSchema: candidateSentValidation,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { status, notes, test_date, interview_date } = values;
+        const { status, notes, test_date, interview_date, candidate_response } =
+          values;
         const payloadData = {
           client_request_id: payload.client_request_id,
           jc_person_id: data?.id,
           status: status,
           notes: notes,
+          candidate_response: candidate_response,
           ...(test_date !== "" && {
             test_date: test_date,
           }),
@@ -208,12 +212,16 @@ const AddSubmitCandidateModal = ({
                 name="status"
                 size="small"
                 fullWidth
-                value={formik.values.status || ""}
+                displayEmpty
+                value={formik.values.status || null}
                 onChange={(event) => {
                   const { value } = event.target;
                   formik.setFieldValue("status", value);
                 }}
               >
+                {!session?.client_id && (
+                  <MenuItem value="">Kirim Kandidat</MenuItem>
+                )}
                 {STATUS_CANDIDATE_SENT_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.value}
@@ -289,6 +297,25 @@ const AddSubmitCandidateModal = ({
                   </LocalizationProvider>
                 </>
               )}
+              <CustomFormLabel htmlFor="candidate_response">
+                Respon Kandidat
+              </CustomFormLabel>
+              <Select
+                name="candidate_response"
+                size="small"
+                fullWidth
+                value={formik.values.candidate_response || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("candidate_response", value);
+                }}
+              >
+                {RESPONSE_CANDIDATE_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
               <CustomFormLabel htmlFor="notes">Catatan</CustomFormLabel>
               <CustomTextField
                 required

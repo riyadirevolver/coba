@@ -43,34 +43,6 @@ export const STATUS_CLIENT_REQUEST_LISTS = [
   },
 ];
 
-export const STATUS_CANDIDATE_SENT_LISTS = [
-  {
-    label: "Proses",
-    value: "process",
-    status_code: 0,
-  },
-  {
-    label: "Test",
-    value: "test",
-    status_code: 1,
-  },
-  {
-    label: "Interview",
-    value: "interview",
-    status_code: 2,
-  },
-  {
-    label: "Rejected",
-    value: "rejected",
-    status_code: 3,
-  },
-  {
-    label: "Hired",
-    value: "hired",
-    status_code: 3,
-  },
-];
-
 export const GENDER_LISTS = [
   {
     label: "Laki - laki",
@@ -82,26 +54,45 @@ export const GENDER_LISTS = [
   },
 ];
 
+export const RESPONSE_CANDIDATE_LISTS = [
+  {
+    label: "Tidak Merespon",
+    value: "not_responding",
+  },
+  {
+    label: "Menolak",
+    value: "refuse",
+  },
+];
+
 export const JOB_EXPERIENCE_LISTS = [
   {
     label: "Bekerja",
     value: "Bekerja",
   },
   {
-    label: "Bel",
+    label: "Belum Bekerja",
     value: "Belum Bekerja",
   },
+];
+
+// MD < 2, MD > 2, Lulus, Tidak Lulus
+export const BOOTCAMP_STATUS_LISTS = [
   {
     label: "MD < 2 minggu",
-    value: "MD < 2 minggu",
+    value: "MD < 2",
   },
   {
     label: "MD > 2 minggu",
-    value: "MD > 2 minggu",
+    value: "MD > 2",
   },
   {
-    label: "Tidak lulus",
-    value: "Tidak lulus",
+    label: "Tidak Lulus",
+    value: "Tidak Lulus",
+  },
+  {
+    label: "Lulus",
+    value: "Lulus",
   },
 ];
 

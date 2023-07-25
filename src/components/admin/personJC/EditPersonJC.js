@@ -23,6 +23,7 @@ import React from "react";
 import NextApi from "../../../../lib/services/next-api";
 import { uploadFile } from "../../../../lib/services/upload";
 import {
+  BOOTCAMP_STATUS_LISTS,
   GENDER_LISTS,
   JOB_EXPERIENCE_LISTS,
 } from "../../../../utils/constant/listConstant";
@@ -218,6 +219,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
       class_id: data.class_id || "",
       channel_payment: findPayment(data.channel_payment) || "",
       gender: data.gender || "",
+      bootcamp_status: data.bootcamp_status || "",
     },
     validationSchema: personJCValidation,
     enableReinitialize: true,
@@ -254,6 +256,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           class_id,
           channel_payment,
           gender,
+          bootcamp_status,
         } = values;
         const payload = {
           name: fullname,
@@ -280,6 +283,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           class_id: class_id,
           // channel_payment: channel_payment,
           gender: gender,
+          bootcamp_status: bootcamp_status,
           willing_work_jakarta: willingJakarta,
           skills: skill.map((item) => item.title).join(","),
           interest_positions: interestPosition
@@ -292,15 +296,14 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
             file_name: banner?.name,
           }),
         };
-        // if (banner && banner != undefined) {
-        //   const upload = await uploadFile(banner);
-        //   payload.file_url = upload?.id;
-        // }
+        if (banner && banner != undefined) {
+          const upload = await uploadFile(banner);
+          payload.file_url = upload?.id;
+        }
         const response = await NextApi().patch(
           `/api/person-jc/${id_user}`,
           payload
         );
-        console.log("ssssssss", response);
         openSnackBar("Berhasil merubah User JC");
         router.replace("/management/user-jc");
         setLoading(false);
@@ -734,7 +737,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="job_experience">
-                  Pengalaman Pekerjaan
+                  Status Pekerjaan
                 </CustomFormLabel>
                 <Select
                   required
@@ -980,6 +983,28 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                     formik.errors.nilai_proactive
                   }
                 />
+              </Grid>
+              <Grid item lg={4} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="bootcamp_status">
+                  Status Bootcamp
+                </CustomFormLabel>
+                <Select
+                  required
+                  name="bootcamp_status"
+                  size="small"
+                  fullWidth
+                  value={formik.values.bootcamp_status || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("bootcamp_status", value);
+                  }}
+                >
+                  {BOOTCAMP_STATUS_LISTS.map((item, index) => (
+                    <MenuItem value={item.value} key={index}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Grid>
               <Grid item lg={8} md={6} sm={12} xs={12}>
                 <CustomFormLabel htmlFor="channel_payment">

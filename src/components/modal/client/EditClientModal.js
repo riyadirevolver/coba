@@ -277,7 +277,9 @@ const EditClientModal = ({
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}
               />
-              <CustomFormLabel htmlFor="description">Deskripsi</CustomFormLabel>
+              <CustomFormLabel htmlFor="description">
+                Jenis Perusahaan
+              </CustomFormLabel>
               {/* <CustomTextField
                 required
                 id="description"
