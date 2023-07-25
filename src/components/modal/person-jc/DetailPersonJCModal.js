@@ -242,7 +242,7 @@ const DetailPersonJCModal = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="outlined-read-only-input"
-                  label="Pengalaman Pekerjaan"
+                  label="Status Pekerjaan"
                   fullWidth
                   defaultValue={data.job_experience || "-"}
                   InputProps={{
@@ -307,6 +307,17 @@ const DetailPersonJCModal = ({
                   label="Kelas"
                   fullWidth
                   defaultValue={data.class_id || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Status Bootcamp"
+                  fullWidth
+                  defaultValue={data.bootcamp_status || "-"}
                   InputProps={{
                     readOnly: true,
                   }}

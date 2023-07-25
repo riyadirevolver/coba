@@ -229,7 +229,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 helperText={formik.touched.contact && formik.errors.contact}
               />
               <CustomFormLabel htmlFor="description">
-                *Deskripsi
+                *Jenis Perusahaan
               </CustomFormLabel>
               {/* <CustomTextField
                 required

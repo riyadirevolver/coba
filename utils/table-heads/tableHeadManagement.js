@@ -48,7 +48,7 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "NO TELP PIC",
   },
   {
-    title: "DESKRIPSI",
+    title: "JENIS PERUSAHAAN",
   },
   {
     title: "DIBUAT OLEH",
@@ -177,7 +177,13 @@ export const HEAD_ROWS_MANAGEMENT_CANDIDATE_SENT = [
     title: "TANGGAL INTERVIEW",
   },
   {
+    title: "RESPON KANDIDAT",
+  },
+  {
     title: "CATATAN",
+  },
+  {
+    title: "CV",
   },
   {
     title: "DIBUAT OLEH",

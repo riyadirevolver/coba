@@ -26,13 +26,18 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import { STATUS_CANDIDATE_SENT_LISTS } from "../../../../utils/constant/listConstant";
 import useFetchClientRequest from "../../../hooks/fetch/useFetchClientRequest";
 import useFetchPersonJC from "../../../hooks/fetch/useFetchPersonJC";
 import candidateSentValidation from "../../../validations/candidateSentValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import {
+  STATUS_CANDIDATE_SENT_LISTS,
+  STATUS_CANDIDATE_SENT_REJECTED_INTERVIEW_LISTS,
+  STATUS_CANDIDATE_SENT_REJECTED_TEST_LISTS,
+} from "../../../../utils/constant/statusCandidateConstant";
+import { RESPONSE_CANDIDATE_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -41,6 +46,8 @@ const STATUS_CODE = {
   test: 1,
   interview: 2,
   rejected: 3,
+  rejected_test: 3,
+  rejected_interview: 3,
   hired: 3,
 };
 
@@ -111,13 +118,15 @@ const EditCandidateSentModal = ({
       notes: data.notes || "",
       test_date: data.test_date || "",
       interview_date: data.interview_date || "",
+      candidate_response: null,
     },
     validationSchema: candidateSentValidation,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { status, notes, test_date, interview_date } = values;
+        const { status, notes, test_date, interview_date, candidate_response } =
+          values;
         const payloadData = {
           ...(payload.client_request_id && {
             client_request_id: payload.client_request_id,
@@ -127,6 +136,7 @@ const EditCandidateSentModal = ({
           }),
           status: status,
           notes: notes,
+          candidate_response: candidate_response,
           ...(test_date !== "" && {
             test_date: test_date,
           }),
@@ -293,13 +303,18 @@ const EditCandidateSentModal = ({
                   formik.setFieldValue("status", value);
                 }}
               >
-                {STATUS_CANDIDATE_SENT_LISTS.map((item, index) => (
+                {(data.status === "test"
+                  ? STATUS_CANDIDATE_SENT_REJECTED_TEST_LISTS
+                  : data.status === "interview"
+                  ? STATUS_CANDIDATE_SENT_REJECTED_INTERVIEW_LISTS
+                  : STATUS_CANDIDATE_SENT_LISTS
+                ).map((item, index) => (
                   <MenuItem
                     value={item.value}
                     key={index}
                     disabled={item.status_code <= STATUS_CODE[data?.status]}
                   >
-                    {item.value}
+                    {item.label}
                   </MenuItem>
                 ))}
               </Select>
@@ -372,6 +387,25 @@ const EditCandidateSentModal = ({
                   </LocalizationProvider>
                 </>
               )}
+              <CustomFormLabel htmlFor="candidate_response">
+                Respon Kandidat
+              </CustomFormLabel>
+              <Select
+                name="candidate_response"
+                size="small"
+                fullWidth
+                value={formik.values.candidate_response || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("candidate_response", value);
+                }}
+              >
+                {RESPONSE_CANDIDATE_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
               <CustomFormLabel htmlFor="notes">Catatan</CustomFormLabel>
               <CustomTextField
                 required

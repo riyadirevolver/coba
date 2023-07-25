@@ -15,7 +15,9 @@ export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
     {
       ...query,
       client_id: client_id,
-      status: "rejected",
+      "$or[0][status]": "rejected",
+      "$or[1][status]": "rejected_test",
+      "$or[2][status]": "rejected_interview",
     },
     {
       Authorization: token,

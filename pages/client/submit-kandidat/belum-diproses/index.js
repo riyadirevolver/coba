@@ -15,7 +15,7 @@ export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
     {
       ...query,
       client_id: client_id,
-      status: "",
+      status: "sent",
     },
     {
       Authorization: token,

@@ -15,7 +15,7 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
     "/candidate-sent",
     {
       ...query,
-      status: "",
+      status: "sent",
     },
     {
       Authorization: token,
