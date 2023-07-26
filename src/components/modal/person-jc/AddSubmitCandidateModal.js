@@ -91,8 +91,10 @@ const AddSubmitCandidateModal = ({
         const payloadData = {
           client_request_id: payload.client_request_id,
           jc_person_id: data?.id,
-          status: status,
           notes: notes,
+          ...(status && {
+            status: status,
+          }),
           candidate_response: candidate_response,
           ...(test_date !== "" && {
             test_date: test_date,
@@ -220,11 +222,11 @@ const AddSubmitCandidateModal = ({
                 }}
               >
                 {!session?.client_id && (
-                  <MenuItem value="">Kirim Kandidat</MenuItem>
+                  <MenuItem value="sent">Kirim Kandidat</MenuItem>
                 )}
                 {STATUS_CANDIDATE_SENT_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
-                    {item.value}
+                    {item.label}
                   </MenuItem>
                 ))}
               </Select>
