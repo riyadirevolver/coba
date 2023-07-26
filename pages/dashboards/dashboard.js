@@ -9,6 +9,7 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
   const todayTest = moment();
   const todayInterview = moment();
   const token = req.session.user.token;
+  const session = req.session.user;
   const report = await getReport(token);
   const testData = await getCandidateSent(token, {
     ...query,
@@ -27,17 +28,23 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
   return {
     props: {
       token,
+      session,
       report: report,
       test: testData,
       interview: interviewData,
     },
   };
 });
-const Report = ({ report, test, interview }) => {
+const Report = ({ report, test, interview, session }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <ReportGenerate data={report} test={test} interview={interview} />
+        <ReportGenerate
+          data={report}
+          session={session}
+          test={test}
+          interview={interview}
+        />
       </Grid>
     </Grid>
   );
