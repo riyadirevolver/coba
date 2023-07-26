@@ -9,6 +9,7 @@ async function loginRoute(req, res) {
 
     req.session.user = {
       id: response.user.id,
+      name: response.user.fullname || "",
       role: role,
       client_id: client_id,
       token: response.accessToken,

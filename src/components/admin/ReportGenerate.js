@@ -6,11 +6,12 @@ import {
   HEAD_ROWS_REPORT_CLIENT_SUMMARY,
   HEAD_ROWS_REPORT_CLIENT_SUMMARY_PER_MONTH,
 } from "../../../utils/table-heads/tableHeadReport";
+import DownloadReport from "../baseCard/dashboard/DownloadReport";
 import DashboardReport from "../cards/reports/DashboardReport";
 import SubmitCandidateReport from "../cards/reports/SubmitCandidateReport";
 import BaseTableReport from "../table/BaseTableReport";
 
-const ReportGenerate = ({ data, test, interview }) => {
+const ReportGenerate = ({ data, session, test, interview }) => {
   return (
     <>
       <DashboardReport data={data} />
@@ -93,7 +94,12 @@ const ReportGenerate = ({ data, test, interview }) => {
             data={interview}
           />
         </Grid>
-        <Grid item lg={6}>
+
+        <Grid item xs={12} lg={6}>
+          <DownloadReport
+            name={session?.name}
+            sx={{ position: "relative", mb: 5 }}
+          />
           <Card
             sx={{
               padding: "20px 0",
@@ -122,7 +128,7 @@ const ReportGenerate = ({ data, test, interview }) => {
             </BaseTableReport>
           </Card>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item xs={12} lg={6}>
           <Card
             sx={{
               padding: "20px 0",

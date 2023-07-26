@@ -12,12 +12,6 @@ const DashboardReport = ({ data }) => {
       subtext: "Total Client",
     },
     {
-      btnbg: "primary.light",
-      btntext: "primary.main",
-      icon: "database",
-      subtext: "Total Submit Candidate",
-    },
-    {
       btnbg: "success.light",
       btntext: "error.main",
       icon: "check-square",
