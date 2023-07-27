@@ -275,7 +275,9 @@ const EditClientRequestModal = ({
                   )}
                 />
               </LocalizationProvider>
-              <CustomFormLabel htmlFor="salary">Gaji</CustomFormLabel>
+              <CustomFormLabel htmlFor="salary">
+                Gaji (Opsional)
+              </CustomFormLabel>
               <CustomTextField
                 id="salary"
                 name="salary"

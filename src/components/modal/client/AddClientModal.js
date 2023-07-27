@@ -30,7 +30,10 @@ import clientValidation from "../../../validations/clientValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { DESCRIPTION_LISTS } from "../../../../utils/constant/listConstant";
+import {
+  DESCRIPTION_LISTS,
+  STATUS_LAST_CALLED_LISTS,
+} from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -60,6 +63,8 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
   const formik = useFormik({
     initialValues: {
       client_name: "",
+      client_email: "",
+      status_called: "",
       last_called: "",
       contact: "",
       description: "",
@@ -68,10 +73,19 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
-      const { client_name, last_called, contact, description } = values;
+      const {
+        client_name,
+        client_email,
+        status_called,
+        last_called,
+        contact,
+        description,
+      } = values;
       const data = {
         name: client_name,
+        email: client_email,
         pic_id: payload.pic_id,
+        status_called: status_called,
         last_called: last_called,
         contact: contact,
         description: description,
@@ -139,6 +153,44 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   formik.touched.client_name && formik.errors.client_name
                 }
               />
+              <CustomFormLabel htmlFor="client_email">
+                Email Klien
+              </CustomFormLabel>
+              <CustomTextField
+                required
+                id="client_email"
+                name="client_email"
+                type="email"
+                fullWidth
+                size="small"
+                variant="outlined"
+                {...formik.getFieldProps("client_email")}
+                error={
+                  formik.touched.client_email && !!formik.errors.client_email
+                }
+                helperText={
+                  formik.touched.client_email && formik.errors.client_email
+                }
+              />
+              <CustomFormLabel htmlFor="status_called">
+                Stasus Dihubungi
+              </CustomFormLabel>
+              <Select
+                name="status_called"
+                size="small"
+                fullWidth
+                value={formik.values.status_called || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("status_called", value);
+                }}
+              >
+                {STATUS_LAST_CALLED_LISTS.map((item, index) => (
+                  <MenuItem value={item.title} key={index}>
+                    {item.title}
+                  </MenuItem>
+                ))}
+              </Select>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
                   Terakhir Dihubungi

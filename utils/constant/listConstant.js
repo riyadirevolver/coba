@@ -65,14 +65,29 @@ export const RESPONSE_CANDIDATE_LISTS = [
   },
 ];
 
-export const JOB_EXPERIENCE_LISTS = [
+export const WORK_HISTORY_LISTS = [
   {
-    label: "Bekerja",
-    value: "Bekerja",
+    label: "Sudah Bekerja",
+    value: "sudah bekerja",
   },
   {
     label: "Belum Bekerja",
-    value: "Belum Bekerja",
+    value: "belum bekerja",
+  },
+];
+
+export const JOB_EXPERIENCE_LISTS = [
+  {
+    label: "Pernah Bekerja",
+    value: "Pernah Bekerja",
+  },
+  {
+    label: "Fresh Graduated",
+    value: "Fresh Graduated",
+  },
+  {
+    label: "Magang",
+    value: "Magang",
   },
 ];
 
@@ -165,5 +180,14 @@ export const JOB_POSITION = [
   },
   {
     title: "Admin APP",
+  },
+];
+
+export const STATUS_LAST_CALLED_LISTS = [
+  {
+    title: "berhasil dihubungi",
+  },
+  {
+    title: "tidak berhasil dihubungi",
   },
 ];

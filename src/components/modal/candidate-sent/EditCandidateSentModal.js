@@ -44,11 +44,11 @@ const upTransition = Transition("up");
 const STATUS_CODE = {
   process: 0,
   test: 1,
-  interview: 2,
-  rejected: 3,
-  rejected_test: 3,
-  rejected_interview: 3,
-  hired: 3,
+  interview: 1,
+  rejected: 2,
+  rejected_test: 2,
+  rejected_interview: 2,
+  hired: 2,
 };
 
 const EditCandidateSentModal = ({
@@ -303,21 +303,23 @@ const EditCandidateSentModal = ({
                   formik.setFieldValue("status", value);
                 }}
               >
-                {(data.status === "test"
+                {(data.status === "test" || data.status === "rejected_test"
                   ? STATUS_CANDIDATE_SENT_REJECTED_TEST_LISTS
-                  : data.status === "interview"
+                  : data.status === "interview" ||
+                    data.status === "rejected_interview"
                   ? STATUS_CANDIDATE_SENT_REJECTED_INTERVIEW_LISTS
                   : STATUS_CANDIDATE_SENT_LISTS
                 ).map((item, index) => (
                   <MenuItem
                     value={item.value}
                     key={index}
-                    disabled={item.status_code <= STATUS_CODE[data?.status]}
+                    disabled={item.status_code < STATUS_CODE[data?.status]}
                   >
                     {item.label}
                   </MenuItem>
                 ))}
               </Select>
+              {data?.status}
               {formik.values.status === "test" && (
                 <>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>

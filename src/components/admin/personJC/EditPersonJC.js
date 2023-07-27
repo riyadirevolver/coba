@@ -26,6 +26,7 @@ import {
   BOOTCAMP_STATUS_LISTS,
   GENDER_LISTS,
   JOB_EXPERIENCE_LISTS,
+  WORK_HISTORY_LISTS,
 } from "../../../../utils/constant/listConstant";
 import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
 import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
@@ -220,6 +221,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
       channel_payment: findPayment(data.channel_payment) || "",
       gender: data.gender || "",
       bootcamp_status: data.bootcamp_status || "",
+      job_status: data.job_status || "",
     },
     validationSchema: personJCValidation,
     enableReinitialize: true,
@@ -257,6 +259,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           channel_payment,
           gender,
           bootcamp_status,
+          job_status,
         } = values;
         const payload = {
           name: fullname,
@@ -284,6 +287,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           // channel_payment: channel_payment,
           gender: gender,
           bootcamp_status: bootcamp_status,
+          job_status: job_status,
           willing_work_jakarta: willingJakarta,
           skills: skill.map((item) => item.title).join(","),
           interest_positions: interestPosition
@@ -625,6 +629,28 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   error={errorFiles}
                   helperText={pesan}
                 />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="job_status">
+                  Riwayat Bekerja
+                </CustomFormLabel>
+                <Select
+                  required
+                  name="job_status"
+                  size="small"
+                  fullWidth
+                  value={formik.values.job_status || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("job_status", value);
+                  }}
+                >
+                  {WORK_HISTORY_LISTS.map((item, index) => (
+                    <MenuItem value={item.value} key={index}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Grid>
               <Grid item lg={12} md={6} sm={12} xs={12}>
                 <FormControlLabel

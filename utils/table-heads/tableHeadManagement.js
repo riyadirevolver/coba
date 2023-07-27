@@ -39,7 +39,13 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "NAMA KLIEN",
   },
   {
+    title: "EMAIL KLIEN",
+  },
+  {
     title: "PIC",
+  },
+  {
+    title: "STATUS DIHUBUNGI",
   },
   {
     title: "TERAKHIR DIHUBUNGI",
