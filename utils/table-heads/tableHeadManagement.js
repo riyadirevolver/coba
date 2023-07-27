@@ -39,7 +39,13 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "NAMA KLIEN",
   },
   {
+    title: "EMAIL KLIEN",
+  },
+  {
     title: "PIC",
+  },
+  {
+    title: "STATUS DIHUBUNGI",
   },
   {
     title: "TERAKHIR DIHUBUNGI",
@@ -136,6 +142,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
   },
   {
     title: "POSISI YANG DIMINATI",
+  },
+  {
+    title: "RIWAYAT BEKERJA",
   },
   {
     title: "NO. TELEPON",

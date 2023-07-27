@@ -49,6 +49,7 @@ const personJCValidation = Yup.object().shape({
   class_id: Yup.string().nullable(true),
   channel_payment: Yup.string().nullable(true),
   bootcamp_status: Yup.string().nullable(true),
+  job_status: Yup.string().nullable(true),
 });
 
 export default personJCValidation;

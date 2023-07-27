@@ -15,7 +15,7 @@ const DashboardReport = ({ data }) => {
       btnbg: "success.light",
       btntext: "error.main",
       icon: "check-square",
-      subtext: "Total Client Request",
+      subtext: "Total Project",
     },
     {
       btnbg: "success.light",
@@ -59,7 +59,7 @@ const DashboardReport = ({ data }) => {
     dashboard.forEach((data) => {
       if (item.subtext === "Total Client") {
         item.total = data.total_client;
-      } else if (item.subtext === "Total Client Request") {
+      } else if (item.subtext === "Total Project") {
         item.total = data.total_client_request;
       } else if (item.subtext === "Total Submit Candidate") {
         item.total = data.total_submit_candidate;

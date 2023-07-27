@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
 const useUploadSingle = (defaultPreview = undefined) => {
+  const validationMessage = "*File harus berupa dokumen teks (Word) atau PDF";
   const [banner, setBanner] = useState(null);
   const [preview, setPreview] = useState();
-  const [pesan, setPesan] = useState();
+  const [pesan, setPesan] = useState(validationMessage);
   const [userFile, setUserFile] = useState(defaultPreview);
   const [errorFiles, setErrorFiles] = useState(false);
 

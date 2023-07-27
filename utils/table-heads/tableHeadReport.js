@@ -30,7 +30,7 @@ export const HEAD_ROWS_REPORT_CLIENT_SUMMARY = [
     title: "KONTAK",
   },
   {
-    title: "TOTAL CLIENT REQUEST",
+    title: "TOTAL PROJECT",
   },
   {
     title: "SUBMIT KANDIDAT",

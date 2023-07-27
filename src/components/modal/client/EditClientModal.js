@@ -32,7 +32,10 @@ import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
 import useFetchUser from "../../../hooks/fetch/useFetchUser";
 import clientValidation from "../../../validations/clientValidation";
-import { DESCRIPTION_LISTS } from "../../../../utils/constant/listConstant";
+import {
+  DESCRIPTION_LISTS,
+  STATUS_LAST_CALLED_LISTS,
+} from "../../../../utils/constant/listConstant";
 const upTransition = Transition("up");
 
 const EditClientModal = ({
@@ -77,6 +80,8 @@ const EditClientModal = ({
   const formik = useFormik({
     initialValues: {
       client_name: data.name || "",
+      client_email: data.email || "",
+      status_called: data.status_called || "",
       last_called: data.last_called || "",
       contact: data.contact || "",
       description: data.description || "",
@@ -85,12 +90,21 @@ const EditClientModal = ({
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
-      const { client_name, last_called, contact, description } = values;
+      const {
+        client_name,
+        client_email,
+        status_called,
+        last_called,
+        contact,
+        description,
+      } = values;
       const payloadData = {
         name: client_name,
         ...(payload.pic_id && {
           pic_id: payload.pic_id,
         }),
+        email: client_email,
+        status_called: status_called,
         last_called: last_called,
         contact: contact,
         description: description,
@@ -109,33 +123,6 @@ const EditClientModal = ({
       }
     },
   });
-
-  const onEditClient = async (event) => {
-    setLoading(true);
-    event.preventDefault();
-    const { target } = event;
-    const { name_client, contact, description } = target;
-
-    const payloadData = {
-      name: name_client.value,
-      pic_id: payload.pic_id,
-      contact: contact.value,
-      description: description.value,
-    };
-    try {
-      await NextApi().patch(`/api/client/${data.id}`, payloadData);
-      setLoading(false);
-      openSnackBar("Berhasil Mengubah client");
-      closeModalHandler();
-      router.replace(router.pathname);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      openSnackBar("Gagal Mengubah client");
-      return;
-    }
-  };
 
   const handleReset = () => {
     formik.resetForm();
@@ -185,6 +172,44 @@ const EditClientModal = ({
                   formik.touched.client_name && formik.errors.client_name
                 }
               />
+              <CustomFormLabel htmlFor="client_email">
+                Email Klien
+              </CustomFormLabel>
+              <CustomTextField
+                required
+                id="client_email"
+                name="client_email"
+                type="email"
+                fullWidth
+                size="small"
+                variant="outlined"
+                {...formik.getFieldProps("client_email")}
+                error={
+                  formik.touched.client_email && !!formik.errors.client_email
+                }
+                helperText={
+                  formik.touched.client_email && formik.errors.client_email
+                }
+              />
+              <CustomFormLabel htmlFor="status_called">
+                Stasus Dihubungi
+              </CustomFormLabel>
+              <Select
+                name="status_called"
+                size="small"
+                fullWidth
+                value={formik.values.status_called || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("status_called", value);
+                }}
+              >
+                {STATUS_LAST_CALLED_LISTS.map((item, index) => (
+                  <MenuItem value={item.title} key={index}>
+                    {item.title}
+                  </MenuItem>
+                ))}
+              </Select>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <CustomFormLabel htmlFor="last_called">
                   Terakhir Dihubungi
@@ -258,7 +283,6 @@ const EditClientModal = ({
                   />
                 )}
               />
-
               <CustomFormLabel htmlFor="contact">*No telp PIC</CustomFormLabel>
               <CustomTextField
                 required
@@ -280,21 +304,6 @@ const EditClientModal = ({
               <CustomFormLabel htmlFor="description">
                 Jenis Perusahaan
               </CustomFormLabel>
-              {/* <CustomTextField
-                required
-                id="description"
-                name="description"
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...formik.getFieldProps("description")}
-                error={
-                  formik.touched.description && !!formik.errors.description
-                }
-                helperText={
-                  formik.touched.description && formik.errors.description
-                }
-              /> */}
               <Select
                 required
                 name="description"

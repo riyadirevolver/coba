@@ -207,6 +207,11 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
+                  {user?.job_status ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
                   {user?.mobile_phone_number ?? "-"}
                 </Typography>
               </TableCell>

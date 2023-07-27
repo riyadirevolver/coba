@@ -134,7 +134,7 @@ const ClientRequestLists = ({ data, client_id, session }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {formatRupiah(String(row?.salary)) ?? "-"}
+                  {row?.salary !== 0 ? formatRupiah(String(row?.salary)) : "-"}
                 </Typography>
               </TableCell>
               <TableCell>

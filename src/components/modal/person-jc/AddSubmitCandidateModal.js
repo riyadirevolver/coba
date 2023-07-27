@@ -114,9 +114,9 @@ const AddSubmitCandidateModal = ({
         setLoading(false);
         closeModalHandler();
         if (session?.role === "client") {
-          return router.replace("/client/candidate-sent");
+          return router.replace("/client/submit-kandidat/semua");
         }
-        router.replace("/management/candidate-sent");
+        router.replace("/submit-kandidat/semua");
       } catch (error) {
         openSnackBar("Gagal membuat kandidat");
         console.log(error);

@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 const useUploadPhoto = (defaultPreview = []) => {
   const [gambar, setGambar] = useState([]);
   const [preview, setPreview] = useState([]);
-  const [pesan, setPesan] = useState();
+  const validationMessage =
+    "*File harus berupa dokumen teks (word), PDF, atau format gambar (JPG/JPEG/PNG)";
+  const [pesan, setPesan] = useState(validationMessage);
   const [errorFiles, setErrorFiles] = useState(false);
   useEffect(() => {
     if (!gambar || gambar.length === 0) {

@@ -10,6 +10,8 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  MenuItem,
+  Select,
   Snackbar,
   createFilterOptions,
 } from "@mui/material";
@@ -26,6 +28,7 @@ import useFetchSkill from "../../../hooks/fetch/useFetchSkill";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
+import { WORK_HISTORY_LISTS } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
 
@@ -144,20 +147,25 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
   const formik = useFormik({
     initialValues: {
       batch: "",
+      job_status: "",
     },
     validationSchema: Yup.object().shape({
       batch: Yup.string().nullable(true),
+      job_status: Yup.string().nullable(true),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const { batch } = values;
+        const { batch, job_status } = values;
         router.replace({
           query: {
             ...router.query,
             ...queryParameters,
             ...(batch && {
               batch: batch,
+            }),
+            ...(job_status && {
+              job_status: job_status,
             }),
             // "$or[0][skills][$like]": "%makan%",
             // "$or[1][skills][$like]": "%Javascript%",
@@ -216,6 +224,25 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 error={formik.touched.batch && !!formik.errors.batch}
                 helperText={formik.touched.batch && formik.errors.batch}
               />
+              <CustomFormLabel htmlFor="job_status">
+                Riwayat Bekerja
+              </CustomFormLabel>
+              <Select
+                name="job_status"
+                size="small"
+                fullWidth
+                value={formik.values.job_status || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("job_status", value);
+                }}
+              >
+                {WORK_HISTORY_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
               <CustomFormLabel htmlFor="input-placement">
                 Bahasa Pemrograman
               </CustomFormLabel>

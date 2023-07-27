@@ -97,55 +97,65 @@ const ClientLists = ({ data, token }) => {
         </Box>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_CLIENT} data={data}>
-          {data.data.map((user) => (
-            <TableRow key={user.id}>
+          {data.data.map((row) => (
+            <TableRow key={row.id}>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.name ?? "-"}
+                  {row?.name ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.pic_data?.fullname ?? "-"}
+                  {row?.email ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user.last_called != null
-                    ? MomentDateID(user?.last_called)
+                  {row?.pic_data?.fullname ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row?.status_called ?? "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {row.last_called != null
+                    ? MomentDateID(row?.last_called)
                     : "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user?.contact ?? "-"}</Typography>
+                <Typography variant="h6">{row?.contact ?? "-"}</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.description ?? "-"}
+                  {row?.description ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.created_user_by?.fullname ?? "-"}
+                  {row?.created_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.updated_user_by?.fullname ?? "-"}
+                  {row?.updated_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                {user?.created_at ? (
+                {row?.created_at ? (
                   <>
                     <Typography variant="h6" fontWeight="600">
-                      {moment(user?.created_at).format("DD MMM YYYY") ?? "-"}
+                      {moment(row?.created_at).format("DD MMM YYYY") ?? "-"}
                     </Typography>
                     <Typography
                       color="textSecondary"
                       variant="h6"
                       fontWeight="600"
                     >
-                      {moment(user?.created_at).format("HH:mm:ss") ?? "-"}
+                      {moment(row?.created_at).format("HH:mm:ss") ?? "-"}
                     </Typography>
                   </>
                 ) : (
@@ -157,7 +167,7 @@ const ClientLists = ({ data, token }) => {
                 <ThreeDots
                   sx={{ textAlign: "right" }}
                   options={options}
-                  onClick={(show) => handleClickDot(user, show, user.id)}
+                  onClick={(show) => handleClickDot(row, show, row.id)}
                 />
               </TableCell>
             </TableRow>
