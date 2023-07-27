@@ -319,7 +319,6 @@ const EditCandidateSentModal = ({
                   </MenuItem>
                 ))}
               </Select>
-              {data?.status}
               {formik.values.status === "test" && (
                 <>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
