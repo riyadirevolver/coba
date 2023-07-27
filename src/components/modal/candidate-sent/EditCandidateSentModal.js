@@ -313,7 +313,11 @@ const EditCandidateSentModal = ({
                   <MenuItem
                     value={item.value}
                     key={index}
-                    disabled={item.status_code < STATUS_CODE[data?.status]}
+                    disabled={
+                      data.status === "rejected" || data.status === "hired"
+                        ? item.status_code <= STATUS_CODE[data?.status]
+                        : item.status_code < STATUS_CODE[data?.status]
+                    }
                   >
                     {item.label}
                   </MenuItem>
