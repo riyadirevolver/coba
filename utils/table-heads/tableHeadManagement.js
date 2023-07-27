@@ -144,6 +144,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "POSISI YANG DIMINATI",
   },
   {
+    title: "RIWAYAT BEKERJA",
+  },
+  {
     title: "NO. TELEPON",
   },
   {

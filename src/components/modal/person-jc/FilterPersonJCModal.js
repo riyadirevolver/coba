@@ -228,7 +228,6 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
                 Riwayat Bekerja
               </CustomFormLabel>
               <Select
-                required
                 name="job_status"
                 size="small"
                 fullWidth

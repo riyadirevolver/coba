@@ -635,7 +635,6 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   Riwayat Bekerja
                 </CustomFormLabel>
                 <Select
-                  required
                   name="job_status"
                   size="small"
                   fullWidth
