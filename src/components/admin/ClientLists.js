@@ -28,7 +28,6 @@ const options = [
 ];
 
 const ClientLists = ({ data, token }) => {
-  console.log("dataaaa", data);
   const router = useRouter();
 
   const { openModal, modalType, handleCloseModal, handleOpenModal } =
