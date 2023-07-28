@@ -106,7 +106,7 @@ const ClientLists = ({ data, token }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {row?.email ?? "-"}
+                  {row?.pic_data?.email ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
@@ -139,7 +139,7 @@ const ClientLists = ({ data, token }) => {
                   {row?.under_dika != null
                     ? row?.under_dika == true
                       ? "Ya"
-                      : "tidak"
+                      : "Tidak"
                     : "-"}
                 </Typography>
               </TableCell>
