@@ -26,6 +26,7 @@ import {
   BOOTCAMP_STATUS_LISTS,
   GENDER_LISTS,
   JOB_EXPERIENCE_LISTS,
+  RECOMMENDED_LISTS,
   WORK_HISTORY_LISTS,
 } from "../../../../utils/constant/listConstant";
 import useFetchInterestPosition from "../../../hooks/fetch/useFetchInterestPosition";
@@ -222,6 +223,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
       gender: data.gender || "",
       bootcamp_status: data.bootcamp_status || "",
       job_status: data.job_status || "",
+      recommended: (data.recommended == true ? 1 : 2) || "",
     },
     validationSchema: personJCValidation,
     enableReinitialize: true,
@@ -260,6 +262,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           gender,
           bootcamp_status,
           job_status,
+          recommended,
         } = values;
         const payload = {
           name: fullname,
@@ -289,6 +292,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           bootcamp_status: bootcamp_status,
           job_status: job_status,
           willing_work_jakarta: willingJakarta,
+          recommended: recommended == 2 ? false : true,
           skills: skill.map((item) => item.title).join(","),
           interest_positions: interestPosition
             .map((item) => item.title)
@@ -645,6 +649,28 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   }}
                 >
                   {WORK_HISTORY_LISTS.map((item, index) => (
+                    <MenuItem value={item.value} key={index}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <CustomFormLabel htmlFor="recommended">
+                  Status Rekomendasi
+                </CustomFormLabel>
+                <Select
+                  name="recommended"
+                  size="small"
+                  fullWidth
+                  defaultValue={true}
+                  value={formik.values.recommended || ""}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("recommended", value);
+                  }}
+                >
+                  {RECOMMENDED_LISTS.map((item, index) => (
                     <MenuItem value={item.value} key={index}>
                       {item.label}
                     </MenuItem>

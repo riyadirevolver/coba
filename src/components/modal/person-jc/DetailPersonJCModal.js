@@ -167,6 +167,32 @@ const DetailPersonJCModal = ({
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="outlined-read-only-input"
+                  label="Riwayat Bekerja"
+                  fullWidth
+                  defaultValue={data?.job_status || "-"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Status Rekomendasikan"
+                  fullWidth
+                  defaultValue={
+                    data?.recommended == true
+                      ? "Direkomendasikan"
+                      : "Tidak Direkomendasikan"
+                  }
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
                   label="Bersedia ditempatkan di Jakarta"
                   fullWidth
                   defaultValue={

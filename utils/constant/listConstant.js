@@ -76,6 +76,28 @@ export const WORK_HISTORY_LISTS = [
   },
 ];
 
+export const UNDER_DIKA_LISTS = [
+  {
+    label: "Ya",
+    value: 1,
+  },
+  {
+    label: "Tidak",
+    value: 2,
+  },
+];
+
+export const RECOMMENDED_LISTS = [
+  {
+    label: "Direkomendasikan",
+    value: 1,
+  },
+  {
+    label: "Tidak Direkomendasikan",
+    value: 2,
+  },
+];
+
 export const JOB_EXPERIENCE_LISTS = [
   {
     label: "Pernah Bekerja",

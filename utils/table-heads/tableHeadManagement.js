@@ -57,6 +57,9 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "JENIS PERUSAHAAN",
   },
   {
+    title: "UNDER DIKA",
+  },
+  {
     title: "DIBUAT OLEH",
   },
   {
