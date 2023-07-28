@@ -50,7 +50,13 @@ const EditClientModal = ({
   const [loading, setLoading] = useState(false);
 
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
-  const { userList, openUser, setOpenUser, loadingUser } = useFetchUser(token);
+  const {
+    userList,
+    openUser,
+    setOpenUser,
+    loadingUser,
+    setTempQuery: setUserTempQuery,
+  } = useFetchUser(token);
   const [payload, setPayload] = useState({
     pic_id: null,
   });
@@ -176,7 +182,7 @@ const EditClientModal = ({
                   formik.touched.client_name && formik.errors.client_name
                 }
               />
-              <CustomFormLabel htmlFor="client_email">
+              {/* <CustomFormLabel htmlFor="client_email">
                 Email Klien
               </CustomFormLabel>
               <CustomTextField
@@ -194,7 +200,7 @@ const EditClientModal = ({
                 helperText={
                   formik.touched.client_email && formik.errors.client_email
                 }
-              />
+              /> */}
               <CustomFormLabel htmlFor="status_called">
                 Stasus Dihubungi
               </CustomFormLabel>
@@ -253,6 +259,10 @@ const EditClientModal = ({
                 defaultValue={data?.pic_data?.fullname}
                 options={userList}
                 getOptionLabel={optionLabel}
+                filterOptions={(x) => x}
+                onInputChange={(e, newInputValue) =>
+                  setUserTempQuery(newInputValue)
+                }
                 loading={loadingUser}
                 open={openUser}
                 onOpen={() => {

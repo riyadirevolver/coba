@@ -43,7 +43,13 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const { userList, openUser, setOpenUser, loadingUser } = useFetchUser(token);
+  const {
+    userList,
+    openUser,
+    setOpenUser,
+    loadingUser,
+    setTempQuery: setUserTempQuery,
+  } = useFetchUser(token);
   const [payload, setPayload] = useState({
     pic_id: null,
   });
@@ -157,7 +163,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   formik.touched.client_name && formik.errors.client_name
                 }
               />
-              <CustomFormLabel htmlFor="client_email">
+              {/* <CustomFormLabel htmlFor="client_email">
                 Email Klien
               </CustomFormLabel>
               <CustomTextField
@@ -175,7 +181,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 helperText={
                   formik.touched.client_email && formik.errors.client_email
                 }
-              />
+              /> */}
               <CustomFormLabel htmlFor="status_called">
                 Stasus Dihubungi
               </CustomFormLabel>
@@ -232,6 +238,10 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 handleHomeEndKeys
                 options={userList}
                 getOptionLabel={(option) => option.fullname}
+                filterOptions={(x) => x}
+                onInputChange={(e, newInputValue) =>
+                  setUserTempQuery(newInputValue)
+                }
                 loading={loadingUser}
                 open={openUser}
                 onOpen={() => {

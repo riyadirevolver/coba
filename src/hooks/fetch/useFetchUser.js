@@ -2,9 +2,19 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../../lib/services/user";
 
 const useFetchUser = (token) => {
+  const [query, setQuery] = useState();
+  const [tempQuery, setTempQuery] = useState();
   const [openUser, setOpenUser] = useState(false);
   const [userList, setUserList] = useState([]);
   const loadingUser = openUser && userList.length === 0;
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setUserList([]);
+      setQuery(tempQuery);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [tempQuery]);
 
   useEffect(() => {
     let active = true;
@@ -15,13 +25,17 @@ const useFetchUser = (token) => {
 
     (async () => {
       const { data } = await getUser(token, {
-        //  $limit: -1,
-        role: "admin",
+        ...(query && {
+          "fullname[$like]": `%${query}%`,
+        }),
+        // $limit: -1,
+        role: "client",
         "$sort[fullname]": 1,
       });
 
       if (active) {
         setUserList(data);
+        console.log("aaaaaa", data);
       }
     })();
 
@@ -35,6 +49,7 @@ const useFetchUser = (token) => {
     userList,
     openUser,
     loadingUser,
+    setTempQuery,
   };
 };
 

@@ -39,7 +39,7 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "NAMA KLIEN",
   },
   {
-    title: "EMAIL KLIEN",
+    title: "EMAIL PIC",
   },
   {
     title: "PIC",
