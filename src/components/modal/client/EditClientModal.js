@@ -35,6 +35,7 @@ import clientValidation from "../../../validations/clientValidation";
 import {
   DESCRIPTION_LISTS,
   STATUS_LAST_CALLED_LISTS,
+  UNDER_DIKA_LISTS,
 } from "../../../../utils/constant/listConstant";
 const upTransition = Transition("up");
 
@@ -85,6 +86,7 @@ const EditClientModal = ({
       last_called: data.last_called || "",
       contact: data.contact || "",
       description: data.description || "",
+      under_dika: (data.under_dika == true ? 1 : 2) || "",
     },
     validationSchema: clientValidation,
     enableReinitialize: true,
@@ -97,6 +99,7 @@ const EditClientModal = ({
         last_called,
         contact,
         description,
+        under_dika,
       } = values;
       const payloadData = {
         name: client_name,
@@ -108,6 +111,7 @@ const EditClientModal = ({
         last_called: last_called,
         contact: contact,
         description: description,
+        under_dika: under_dika == 2 ? false : true,
       };
       try {
         await NextApi().patch(`/api/client/${data.id}`, payloadData);
@@ -316,6 +320,26 @@ const EditClientModal = ({
                 }}
               >
                 {DESCRIPTION_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              <CustomFormLabel htmlFor="under_dika">
+                Status Under DIKA
+              </CustomFormLabel>
+              <Select
+                name="under_dika"
+                size="small"
+                fullWidth
+                defaultValue={true}
+                value={formik.values.under_dika || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("under_dika", value);
+                }}
+              >
+                {UNDER_DIKA_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.label}
                   </MenuItem>

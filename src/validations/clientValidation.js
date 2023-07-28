@@ -16,6 +16,7 @@ const clientValidation = Yup.object().shape({
     .required("Terakhir Dihubungi wajib diisi")
     .nullable(),
   description: Yup.string().nullable(true),
+  under_dika: Yup.string().nullable(true),
 });
 
 export default clientValidation;

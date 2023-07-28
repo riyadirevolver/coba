@@ -33,6 +33,7 @@ import Transition from "../../transition";
 import {
   DESCRIPTION_LISTS,
   STATUS_LAST_CALLED_LISTS,
+  UNDER_DIKA_LISTS,
 } from "../../../../utils/constant/listConstant";
 
 const upTransition = Transition("up");
@@ -68,6 +69,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
       last_called: "",
       contact: "",
       description: "",
+      under_dika: "",
     },
     validationSchema: clientValidation,
     enableReinitialize: true,
@@ -80,6 +82,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         last_called,
         contact,
         description,
+        under_dika,
       } = values;
       const data = {
         name: client_name,
@@ -89,6 +92,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         last_called: last_called,
         contact: contact,
         description: description,
+        under_dika: under_dika == 2 ? false : true,
       };
       try {
         await NextApi().post("/api/client", data);
@@ -283,21 +287,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
               <CustomFormLabel htmlFor="description">
                 *Jenis Perusahaan
               </CustomFormLabel>
-              {/* <CustomTextField
-                required
-                id="description"
-                name="description"
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...formik.getFieldProps("description")}
-                error={
-                  formik.touched.description && !!formik.errors.description
-                }
-                helperText={
-                  formik.touched.description && formik.errors.description
-                }
-              /> */}
               <Select
                 required
                 name="description"
@@ -312,6 +301,26 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 {DESCRIPTION_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.value}
+                  </MenuItem>
+                ))}
+              </Select>
+              <CustomFormLabel htmlFor="under_dika">
+                Status Under DIKA
+              </CustomFormLabel>
+              <Select
+                name="under_dika"
+                size="small"
+                fullWidth
+                defaultValue={true}
+                value={formik.values.under_dika || ""}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("under_dika", value);
+                }}
+              >
+                {UNDER_DIKA_LISTS.map((item, index) => (
+                  <MenuItem value={item.value} key={index}>
+                    {item.label}
                   </MenuItem>
                 ))}
               </Select>

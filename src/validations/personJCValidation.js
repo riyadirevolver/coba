@@ -50,6 +50,7 @@ const personJCValidation = Yup.object().shape({
   channel_payment: Yup.string().nullable(true),
   bootcamp_status: Yup.string().nullable(true),
   job_status: Yup.string().nullable(true),
+  recommended: Yup.string().nullable(true),
 });
 
 export default personJCValidation;

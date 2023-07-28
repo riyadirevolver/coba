@@ -136,6 +136,15 @@ const ClientLists = ({ data, token }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
+                  {row?.under_dika != null
+                    ? row?.under_dika == true
+                      ? "Ya"
+                      : "tidak"
+                    : "-"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" fontWeight="600">
                   {row?.created_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
