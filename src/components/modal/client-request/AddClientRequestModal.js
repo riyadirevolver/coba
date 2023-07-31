@@ -75,20 +75,20 @@ const AddClientRequestModal = ({
     jobPositionList,
     openJobPosition,
     loadingJobPosition,
-  } = useJobPosition();
+  } = useJobPosition(session?.token);
 
   const filterOptionsJobPosition = (options, params) => {
     const filtered = filter(options, params);
     const { inputValue } = params;
 
     const selected = jobPositionList.some(
-      (option) => inputValue === option.title
+      (option) => inputValue === option.name
     );
 
     if (inputValue !== "" && !selected) {
       filtered.push({
         inputValue,
-        title: `Tambahkan "${inputValue}"`,
+        name: `Tambahkan "${inputValue}"`,
       });
     }
 
@@ -102,10 +102,10 @@ const AddClientRequestModal = ({
     if (option.inputValue) {
       return option.inputValue;
     }
-    return option.title;
+    return option.name;
   };
 
-  const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
+  const renderOptions = (props, option) => <li {...props}>{option.name}</li>;
 
   const formik = useFormik({
     initialValues: {
@@ -183,7 +183,7 @@ const AddClientRequestModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Tambah Client Request
+            Tambah Project
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -227,7 +227,7 @@ const AddClientRequestModal = ({
                   } else {
                     setPayload((prevState) => ({
                       ...prevState,
-                      position: newValue?.title || null,
+                      position: newValue?.name || null,
                     }));
                   }
                 }}

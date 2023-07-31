@@ -7,7 +7,11 @@ import SearchClientRequest from "../../../../src/components/forms/search/SearchC
 
 export const getServerSideProps = WithAuth(async ({ req, params, query }) => {
   const { id } = params;
-  const token = req.session.user.token;
+  const { token, role } = req.session.user;
+  const session = {
+    role,
+    token,
+  };
   const data = await pagination(
     "/client-request",
     {
@@ -25,18 +29,23 @@ export const getServerSideProps = WithAuth(async ({ req, params, query }) => {
       client_request: data,
       client_id: id,
       token: token,
+      session: session,
     },
   };
 });
 
-const DataClient = ({ client_request, client_id, token }) => {
+const DataClient = ({ client_request, client_id, token, session }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
         <SearchClientRequest client_id={client_id} token={token} />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <ClientRequestLists data={client_request} client_id={client_id} />
+        <ClientRequestLists
+          data={client_request}
+          client_id={client_id}
+          session={session}
+        />
       </Grid>
     </Grid>
   );
