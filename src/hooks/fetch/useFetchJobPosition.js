@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
-import { JOB_POSITION } from "../../../utils/constant/listConstant";
+import { getPosition } from "../../../lib/services/position";
 
 const useJobPosition = (token) => {
   const [openJobPosition, setOpenJobPosition] = useState(false);
   const [jobPositionList, setJobPositionList] = useState([]);
   const loadingJobPosition = openJobPosition && jobPositionList.length === 0;
-
-  const compareByTitle = (jobA, jobB) => {
-    const titleA = jobA.title.toLowerCase();
-    const titleB = jobB.title.toLowerCase();
-    if (titleA < titleB) {
-      return -1;
-    }
-    if (titleA > titleB) {
-      return 1;
-    }
-    return 0;
-  };
 
   useEffect(() => {
     let active = true;
@@ -26,8 +14,12 @@ const useJobPosition = (token) => {
     }
 
     (async () => {
+      const data = await getPosition(token, {
+        $limit: -1,
+        "$sort[name]": 1,
+      });
       if (active) {
-        setJobPositionList(JOB_POSITION.sort(compareByTitle));
+        setJobPositionList(data);
       }
     })();
 

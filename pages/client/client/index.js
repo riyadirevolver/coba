@@ -2,15 +2,15 @@ import { Grid } from "@mui/material";
 
 import pagination from "../../../lib/services/pagination";
 import WithAuthClient from "../../../lib/session/withAuthClient";
-import ClientLists from "../../../src/components/admin/ClientLists";
-import SearchClient from "../../../src/components/forms/search/SearchClient";
 import ClientRequestLists from "../../../src/components/admin/ClientRequestLists";
+import SearchClient from "../../../src/components/forms/search/SearchClient";
 
 export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
   const { token, client_id, role } = req.session.user;
   const session = {
     client_id,
     role,
+    token,
   };
   const users = await pagination(
     "/client-request",

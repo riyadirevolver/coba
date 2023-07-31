@@ -57,7 +57,7 @@ const EditClientRequestModal = ({
     jobPositionList,
     openJobPosition,
     loadingJobPosition,
-  } = useJobPosition();
+  } = useJobPosition(session?.token);
 
   const action = (
     <React.Fragment>
@@ -77,13 +77,13 @@ const EditClientRequestModal = ({
     const { inputValue } = params;
 
     const selected = jobPositionList.some(
-      (option) => inputValue === option.title
+      (option) => inputValue === option.name
     );
 
     if (inputValue !== "" && !selected) {
       filtered.push({
         inputValue,
-        title: `Tambahkan "${inputValue}"`,
+        name: `Tambahkan "${inputValue}"`,
       });
     }
 
@@ -97,10 +97,10 @@ const EditClientRequestModal = ({
     if (option.inputValue) {
       return option.inputValue;
     }
-    return option.title;
+    return option.name;
   };
 
-  const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
+  const renderOptions = (props, option) => <li {...props}>{option.name}</li>;
 
   const formik = useFormik({
     initialValues: {
@@ -175,7 +175,7 @@ const EditClientRequestModal = ({
       >
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Ubah Client Request
+            Ubah Project
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -220,7 +220,7 @@ const EditClientRequestModal = ({
                   } else {
                     setPayload((prevState) => ({
                       ...prevState,
-                      position: newValue?.title || null,
+                      position: newValue?.name || null,
                     }));
                   }
                 }}
