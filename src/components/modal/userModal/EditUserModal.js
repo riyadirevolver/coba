@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -27,12 +29,26 @@ import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
 import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
 import userValidation from "../../../validations/userValidation";
+import useFetchClient from "../../../hooks/fetch/useFetchClient";
 const upTransition = Transition("up");
 
-const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
+const EditUserModal = ({
+  open = false,
+  closeModalHandler,
+  data,
+  type,
+  token,
+}) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+
+  const [payload, setPayload] = React.useState({
+    client_id: null,
+  });
+
+  const { clientList, openClient, setOpenClient, loadingClient } =
+    useFetchClient(token);
 
   const action = (
     <React.Fragment>
@@ -61,14 +77,20 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
       setLoading(true);
       try {
         const { nik, fullname, email, phone, role } = values;
-        const payload = {
+        const payloadData = {
           nik: nik,
           fullname: fullname,
           email: email,
           phone: phone,
           role: role,
+          ...(role === "client" && {
+            client_id: payload.client_id,
+          }),
+          ...(role !== "client" && {
+            client_id: null,
+          }),
         };
-        await NextApi().patch(`/api/users/${data.id}`, payload);
+        await NextApi().patch(`/api/users/${data.id}`, payloadData);
         openSnackBar("Berhasil mengubah user");
         router.replace(router.pathname);
         setLoading(false);
@@ -133,7 +155,6 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
               <CustomFormLabel htmlFor="email">*Email</CustomFormLabel>
               <CustomTextField
                 required
-                defaultValue={data.email}
                 id="email"
                 name="email"
                 type="email"
@@ -162,6 +183,53 @@ const EditUserModal = ({ open = false, closeModalHandler, data, type }) => {
                   </MenuItem>
                 ))}
               </Select>
+              {formik.values.role === "client" && (
+                <>
+                  <CustomFormLabel htmlFor="input-placement">
+                    Nama Perusahaan
+                  </CustomFormLabel>
+                  <Autocomplete
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    options={clientList}
+                    defaultValue={clientList[data?.client_id - 1]}
+                    getOptionLabel={(option) => option.name}
+                    loading={loadingClient}
+                    open={openClient}
+                    onOpen={() => {
+                      setOpenClient(true);
+                    }}
+                    onClose={() => {
+                      setOpenClient(false);
+                    }}
+                    onChange={(e, newInputValue) => {
+                      setPayload((prevState) => ({
+                        ...prevState,
+                        client_id: newInputValue?.id,
+                      }));
+                    }}
+                    renderInput={(params) => (
+                      <CustomTextField
+                        {...params}
+                        size="small"
+                        placeholder="Pilih Nama Perusahaan"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <React.Fragment>
+                              {loadingClient ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </>
+              )}
               <CustomFormLabel htmlFor="phone">*Telepon</CustomFormLabel>
               <CustomTextField
                 required

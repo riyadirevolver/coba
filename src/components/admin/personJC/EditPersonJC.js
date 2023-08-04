@@ -57,6 +57,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
     arrayInterest || []
   );
   const [willingJakarta, setWillingJakarta] = React.useState(false);
+  const [blacklist, setBlacklist] = React.useState(false);
   const [province, setProvince] = React.useState("");
 
   const { handleDeletePoster, onSelectFile, banner, errorFiles, pesan } =
@@ -178,11 +179,19 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
 
   const renderOptions = (props, option) => <li {...props}>{option.title}</li>;
 
-  const handleCheckbox = (e) => {
+  const handleWillingCheckbox = (e) => {
     if (e.target.checked) {
       setWillingJakarta(true);
     } else {
       setWillingJakarta(false);
+    }
+  };
+
+  const handleBlacklistCheckbox = (e) => {
+    if (e.target.checked) {
+      setBlacklist(true);
+    } else {
+      setBlacklist(false);
     }
   };
 
@@ -292,6 +301,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           bootcamp_status: bootcamp_status,
           job_status: job_status,
           willing_work_jakarta: willingJakarta,
+          blacklist: blacklist,
           recommended: recommended == 2 ? false : true,
           skills: skill.map((item) => item.title).join(","),
           interest_positions: interestPosition
@@ -680,10 +690,10 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
               <Grid item lg={12} md={6} sm={12} xs={12}>
                 <FormControlLabel
                   label="Bersedia ditempatkan di Jakarta"
-                  name="is_for_male"
+                  name="willing_work_jakarta"
                   control={
                     <Checkbox
-                      onChange={handleCheckbox}
+                      onChange={handleWillingCheckbox}
                       defaultChecked={
                         data?.willing_work_jakarta === 1 ? true : false
                       }
@@ -1077,6 +1087,18 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   helperText={
                     formik.touched.channel_payment &&
                     formik.errors.channel_payment
+                  }
+                />
+              </Grid>
+              <Grid item lg={12} md={6} sm={12} xs={12}>
+                <FormControlLabel
+                  label="Blacklist"
+                  name="blacklist"
+                  control={
+                    <Checkbox
+                      onChange={handleBlacklistCheckbox}
+                      defaultChecked={data?.blacklist === 1 ? true : false}
+                    />
                   }
                 />
               </Grid>

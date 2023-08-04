@@ -21,6 +21,7 @@ import PropTypes from "prop-types";
 import Transition from "../../transition";
 import { MomentDateID } from "../../../../utils/momentId";
 import { GENDER_LIST } from "../../../../utils/constant/changeLabel";
+import axios from "axios";
 
 const upTransition = Transition("up");
 
@@ -196,8 +197,19 @@ const DetailPersonJCModal = ({
                   label="Bersedia ditempatkan di Jakarta"
                   fullWidth
                   defaultValue={
-                    data?.willing_work_jakarta ? "Siap" : "Tidak Siap"
+                    data?.willing_work_jakarta == true ? "Siap" : "Tidak Siap"
                   }
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Blacklist"
+                  fullWidth
+                  defaultValue={data?.blacklist == true ? "Ya" : "Tidak"}
                   InputProps={{
                     readOnly: true,
                   }}
