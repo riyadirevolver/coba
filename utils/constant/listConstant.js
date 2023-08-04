@@ -67,12 +67,16 @@ export const RESPONSE_CANDIDATE_LISTS = [
 
 export const WORK_HISTORY_LISTS = [
   {
-    label: "Sudah Bekerja",
+    label: "Bekerja disalurkan Job Connector JC",
     value: "sudah bekerja",
   },
   {
     label: "Belum Bekerja",
     value: "belum bekerja",
+  },
+  {
+    label: "Bekerja diluar Job Connector",
+    value: "bekerja_diluar_connector",
   },
 ];
 

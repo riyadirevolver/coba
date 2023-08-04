@@ -51,6 +51,7 @@ const UserAllLists = ({ data, token }) => {
         open={openModal}
         type={modalType}
         data={dataUser}
+        token={token}
         closeModalHandler={handleCloseModal}
       />
       <DeleteUserModal
