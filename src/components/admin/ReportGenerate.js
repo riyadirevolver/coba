@@ -98,8 +98,26 @@ const ReportGenerate = ({ data, session, test, interview }) => {
         <Grid item xs={12} lg={6}>
           <DownloadReport
             name={session?.name}
-            sx={{ position: "relative", mb: 5 }}
+            label="Download Summary per Klien Report"
+            title="Summary per Klien"
+            path="/export-progress-person"
+            image={1}
+            sx={{ position: "relative" }}
           />
+        </Grid>
+
+        <Grid item xs={12} lg={6}>
+          <DownloadReport
+            name={session?.name}
+            label="Download Summary per Batch Report"
+            title="Summary per Batch"
+            path="/export-person-summary"
+            image={2}
+            sx={{ position: "relative" }}
+          />
+        </Grid>
+
+        <Grid item xs={12} lg={6}>
           <Card
             sx={{
               padding: "20px 0",
