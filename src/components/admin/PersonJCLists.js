@@ -23,6 +23,7 @@ import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
 import { TypographyList } from "../typography/TypographyList";
 import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
+import isValidUrl from "../../../utils/validations/isValidUrl";
 
 const OPTIONS_ADMIN = [
   {
@@ -222,16 +223,18 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Box sx={{ width: "100%", textAlign: "center" }}>
-                  {user?.file_name ? (
+                  {user?.file_url ? (
                     <Button
                       variant="contained"
                       color="success"
-                      onClick={() =>
-                        window.open(
-                          `${BASE_IMAGE_URL}/${user?.file_url}`,
-                          "_blank"
-                        )
-                      }
+                      onClick={() => {
+                        isValidUrl(user?.file_url)
+                          ? window.open(`${user?.file_url}`, "_blank")
+                          : window.open(
+                              `${BASE_IMAGE_URL}/${user?.file_url}`,
+                              "_blank"
+                            );
+                      }}
                     >
                       Lihat CV
                     </Button>
