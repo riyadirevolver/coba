@@ -40,6 +40,7 @@ const FilterClientModal = ({
   const [payload, setPayload] = React.useState({
     client_id: null,
     posisi: null,
+    client_name: null,
   });
 
   const { clientList, openClient, setOpenClient, loadingClient } =
@@ -79,6 +80,9 @@ const FilterClientModal = ({
             }),
             ...(payload.posisi && {
               position: payload.posisi,
+            }),
+            ...(payload.client_name && {
+              client_name: payload.client_name,
             }),
           },
         });
@@ -191,6 +195,7 @@ const FilterClientModal = ({
                   setPayload((prevState) => ({
                     ...prevState,
                     posisi: newInputValue?.position,
+                    client_name: newInputValue?.client_data?.name,
                   }));
                 }}
                 renderInput={(params) => (
