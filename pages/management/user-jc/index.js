@@ -14,7 +14,8 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
     "/person-jc",
     {
       ...query,
-      "$sort[name]": 1,
+      // "$sort[name]": 1,
+      "$sort[id]": 1,
     },
     {
       Authorization: req.session.user.token,
