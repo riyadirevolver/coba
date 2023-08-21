@@ -48,6 +48,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
     openUser,
     setOpenUser,
     loadingUser,
+    loadingText,
     setTempQuery: setUserTempQuery,
   } = useFetchUser(token);
   const [payload, setPayload] = useState({
@@ -243,6 +244,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   setUserTempQuery(newInputValue)
                 }
                 loading={loadingUser}
+                loadingText={loadingText}
                 open={openUser}
                 onOpen={() => {
                   setOpenUser(true);
@@ -266,7 +268,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingUser ? (
+                          {loadingUser && loadingText == "loading..." ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}
@@ -285,11 +287,11 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 size="small"
                 variant="outlined"
                 placeholder="masukkan nomor Telepon PIC"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
+                // onKeyPress={(event) => {
+                //   if (!/[0-9]/.test(event.key)) {
+                //     event.preventDefault();
+                //   }
+                // }}
                 {...formik.getFieldProps("contact")}
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}

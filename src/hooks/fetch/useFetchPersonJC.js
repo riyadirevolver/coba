@@ -6,11 +6,13 @@ const useFetchPersonJC = (token) => {
   const [tempQuery, setTempQuery] = useState();
   const [openPersonJC, setOpenPersonJC] = useState(false);
   const [personJCList, setPersonJCList] = useState([]);
+  const [loadingText, setLoadingText] = useState("");
   const loadingPersonJC = openPersonJC && personJCList.length === 0;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setPersonJCList([]);
+      setLoadingText("loading...");
       setQuery(tempQuery);
     }, 500);
     return () => clearTimeout(timeout);
@@ -19,6 +21,7 @@ const useFetchPersonJC = (token) => {
   useEffect(() => {
     let active = true;
     if (!loadingPersonJC) {
+      setLoadingText("");
       return undefined;
     }
 
@@ -31,6 +34,7 @@ const useFetchPersonJC = (token) => {
       });
 
       if (active) {
+        setLoadingText("data kosong");
         setPersonJCList(data);
       }
     })();
@@ -45,6 +49,7 @@ const useFetchPersonJC = (token) => {
     personJCList,
     openPersonJC,
     loadingPersonJC,
+    loadingText,
     setTempQuery,
   };
 };

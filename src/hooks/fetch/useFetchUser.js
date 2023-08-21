@@ -6,11 +6,13 @@ const useFetchUser = (token) => {
   const [tempQuery, setTempQuery] = useState();
   const [openUser, setOpenUser] = useState(false);
   const [userList, setUserList] = useState([]);
+  const [loadingText, setLoadingText] = useState("");
   const loadingUser = openUser && userList.length === 0;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setUserList([]);
+      setLoadingText("loading...");
       setQuery(tempQuery);
     }, 500);
     return () => clearTimeout(timeout);
@@ -20,6 +22,7 @@ const useFetchUser = (token) => {
     let active = true;
 
     if (!loadingUser) {
+      setLoadingText("");
       return undefined;
     }
 
@@ -34,21 +37,22 @@ const useFetchUser = (token) => {
       });
 
       if (active) {
+        setLoadingText("data kosong");
         setUserList(data);
-        console.log("aaaaaa", data);
       }
     })();
 
     return () => {
       active = false;
     };
-  }, [loadingUser, token]);
+  }, [loadingUser, token, query]);
 
   return {
     setOpenUser,
     userList,
     openUser,
     loadingUser,
+    loadingText,
     setTempQuery,
   };
 };
