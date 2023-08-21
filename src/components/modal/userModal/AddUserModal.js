@@ -19,17 +19,16 @@ import FeatherIcon from "feather-icons-react";
 import "react-phone-input-2/lib/material.css";
 import { useSnackbar } from "../../../hooks/useSnackbar";
 
+import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import BaseService from "../../../services/base";
+import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
+import useFetchClient from "../../../hooks/fetch/useFetchClient";
+import userValidation from "../../../validations/userValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
-import { ROLE_LISTS } from "../../../../utils/constant/listConstant";
-import { useFormik } from "formik";
-import userValidation from "../../../validations/userValidation";
-import useFetchClient from "../../../hooks/fetch/useFetchClient";
 
 const upTransition = Transition("up");
 
@@ -40,8 +39,14 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
     client_id: null,
   });
   const [loading, setLoading] = useState(false);
-  const { clientList, openClient, setOpenClient, loadingClient } =
-    useFetchClient(token);
+  const {
+    clientList,
+    openClient,
+    setOpenClient,
+    loadingClient,
+    loadingText,
+    setTempQuery: setClientTempQuery,
+  } = useFetchClient(token);
 
   const action = (
     <React.Fragment>
@@ -206,6 +211,11 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
                     options={clientList}
                     getOptionLabel={(option) => option.name}
                     loading={loadingClient}
+                    loadingText={loadingText}
+                    filterOptions={(x) => x}
+                    onInputChange={(e, newInputValue) =>
+                      setClientTempQuery(newInputValue)
+                    }
                     open={openClient}
                     onOpen={() => {
                       setOpenClient(true);
@@ -228,7 +238,7 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
                           ...params.InputProps,
                           endAdornment: (
                             <React.Fragment>
-                              {loadingClient ? (
+                              {loadingClient && loadingText == "loading..." ? (
                                 <CircularProgress color="inherit" size={20} />
                               ) : null}
                               {params.InputProps.endAdornment}
@@ -248,11 +258,11 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
+                // onKeyPress={(event) => {
+                //   if (!/[0-9]/.test(event.key)) {
+                //     event.preventDefault();
+                //   }
+                // }}
                 inputProps={{
                   maxLength: 14,
                 }}

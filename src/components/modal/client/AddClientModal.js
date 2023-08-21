@@ -48,6 +48,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
     openUser,
     setOpenUser,
     loadingUser,
+    loadingText,
     setTempQuery: setUserTempQuery,
   } = useFetchUser(token);
   const [payload, setPayload] = useState({
@@ -243,6 +244,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   setUserTempQuery(newInputValue)
                 }
                 loading={loadingUser}
+                loadingText={loadingText}
                 open={openUser}
                 onOpen={() => {
                   setOpenUser(true);
@@ -266,7 +268,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingUser ? (
+                          {loadingUser && loadingText == "loading..." ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}

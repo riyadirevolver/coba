@@ -52,6 +52,7 @@ const AddCandidateSentModal = ({
     openPersonJC,
     setOpenPersonJC,
     loadingPersonJC,
+    loadingText,
     setTempQuery: setPersonTempQuery,
   } = useFetchPersonJC(token);
   const {
@@ -193,7 +194,7 @@ const AddCandidateSentModal = ({
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingClientRequest ? (
+                          {loadingClientRequest == "loading..." ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}
@@ -213,11 +214,12 @@ const AddCandidateSentModal = ({
                 options={personJCList}
                 getOptionLabel={(option) => option.name}
                 loading={loadingPersonJC}
-                open={openPersonJC}
+                loadingText={loadingText}
                 filterOptions={(x) => x}
                 onInputChange={(e, newInputValue) =>
                   setPersonTempQuery(newInputValue)
                 }
+                open={openPersonJC}
                 onOpen={() => {
                   setOpenPersonJC(true);
                 }}
@@ -240,7 +242,7 @@ const AddCandidateSentModal = ({
                       ...params.InputProps,
                       endAdornment: (
                         <React.Fragment>
-                          {loadingPersonJC ? (
+                          {loadingPersonJC && loadingText == "loading..." ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}

@@ -47,8 +47,14 @@ const EditUserModal = ({
     client_id: null,
   });
 
-  const { clientList, openClient, setOpenClient, loadingClient } =
-    useFetchClient(token);
+  const {
+    clientList,
+    openClient,
+    setOpenClient,
+    loadingClient,
+    loadingText,
+    setTempQuery: setClientTempQuery,
+  } = useFetchClient(token);
 
   const action = (
     <React.Fragment>
@@ -196,6 +202,11 @@ const EditUserModal = ({
                     defaultValue={clientList[data?.client_id - 1]}
                     getOptionLabel={(option) => option.name}
                     loading={loadingClient}
+                    loadingText={loadingText}
+                    filterOptions={(x) => x}
+                    onInputChange={(e, newInputValue) =>
+                      setClientTempQuery(newInputValue)
+                    }
                     open={openClient}
                     onOpen={() => {
                       setOpenClient(true);
@@ -218,7 +229,7 @@ const EditUserModal = ({
                           ...params.InputProps,
                           endAdornment: (
                             <React.Fragment>
-                              {loadingClient ? (
+                              {loadingClient && loadingText == "loading..." ? (
                                 <CircularProgress color="inherit" size={20} />
                               ) : null}
                               {params.InputProps.endAdornment}
@@ -238,11 +249,11 @@ const EditUserModal = ({
                 fullWidth
                 size="small"
                 variant="outlined"
-                onKeyPress={(event) => {
-                  if (!/[0-9]/.test(event.key)) {
-                    event.preventDefault();
-                  }
-                }}
+                // onKeyPress={(event) => {
+                //   if (!/[0-9]/.test(event.key)) {
+                //     event.preventDefault();
+                //   }
+                // }}
                 inputProps={{
                   maxLength: 14,
                 }}
