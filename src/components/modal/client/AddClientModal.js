@@ -53,6 +53,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
   } = useFetchUser(token);
   const [payload, setPayload] = useState({
     pic_id: null,
+    phone: "",
   });
 
   const action = (
@@ -74,7 +75,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
       client_email: "",
       status_called: "",
       last_called: "",
-      contact: "",
+      contact: payload.phone,
       description: "",
       under_dika: "",
     },
@@ -118,6 +119,11 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
 
   const handleReset = () => {
     formik.resetForm();
+    setPayload((prevState) => ({
+      ...prevState,
+      pic_id: null,
+      phone: "",
+    }));
   };
 
   return (
@@ -256,6 +262,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   setPayload((prevState) => ({
                     ...prevState,
                     pic_id: newInputValue?.id,
+                    phone: newInputValue?.phone,
                   }));
                 }}
                 renderInput={(params) => (

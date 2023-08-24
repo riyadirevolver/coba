@@ -8,10 +8,7 @@ const userValidation = Yup.object().shape({
     .max(30, "Input melebihi batas maksimal")
     .required("Nama wajib diisi")
     .nullable(),
-  email: Yup.string()
-    .max(30, "Input melebihi batas maksimal")
-    .required("Email wajib diisi")
-    .nullable(),
+  email: Yup.string().nullable(true),
   phone: Yup.number()
     .typeError("Itu tidak terlihat seperti nomor telepon")
     .positive("Nomor telepon tidak dapat dimulai dengan tanda minus")
