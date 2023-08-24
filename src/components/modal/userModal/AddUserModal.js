@@ -10,6 +10,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  InputAdornment,
   MenuItem,
   Select,
   Snackbar,
@@ -35,6 +36,7 @@ const upTransition = Transition("up");
 const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [payload, setPayload] = React.useState({
     client_id: null,
   });
@@ -173,13 +175,28 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
                 required
                 id="password"
                 name="password"
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 fullWidth
                 size="small"
                 variant="outlined"
                 {...formik.getFieldProps("password")}
                 error={formik.touched.password && !!formik.errors.password}
                 helperText={formik.touched.password && formik.errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                      >
+                        <FeatherIcon
+                          color="black"
+                          icon={passwordVisible ? "eye" : "eye-off"}
+                          width="20"
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <CustomFormLabel htmlFor="role">*Role</CustomFormLabel>
               <Select
