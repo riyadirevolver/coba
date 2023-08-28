@@ -38,6 +38,7 @@ import personJCValidation from "../../../validations/personJCValidation";
 import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import MenuTitle from "../../typography/MenuTitle";
+import moment from "moment";
 
 const filter = createFilterOptions();
 
@@ -219,7 +220,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
       job_experience: data.job_experience || "",
       company_name: data.company_name || "",
       last_position: data.last_position || "",
-      join_date: data.join_date || "",
+      join_date: moment(data.join_date).subtract(1, "days") || "",
       nipp_code: data.nipp_code || "",
       facebook: data.facebook || "",
       instagram: data.instagram || "",
@@ -273,6 +274,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           job_status,
           recommended,
         } = values;
+        const joinDate = new Date(join_date);
         const payload = {
           name: fullname,
           email: email,
@@ -287,7 +289,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           job_experience: job_experience,
           company_name: company_name,
           last_position: last_position,
-          join_date: join_date,
+          join_date: joinDate.setDate(joinDate.getDate() + 1),
           nipp_code: nipp_code,
           facebook: facebook,
           instagram: instagram,
