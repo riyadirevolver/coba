@@ -906,7 +906,6 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
                   <DatePicker
                     id="join_date"
                     name="join_date"
-                    default
                     value={formik.values.join_date}
                     onChange={(date) => formik.setFieldValue("join_date", date)}
                     renderInput={(params) => (
