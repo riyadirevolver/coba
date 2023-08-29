@@ -9,6 +9,11 @@ const userValidation = Yup.object().shape({
     .required("Nama wajib diisi")
     .nullable(),
   email: Yup.string().nullable(true),
+  password: Yup.string()
+  .matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    "Kata sandi harus berisi setidaknya 8 karakter, termasuk satu huruf besar, satu huruf kecil, satu angka, dan satu simbol khusus"
+  ),
   phone: Yup.number()
     .typeError("Itu tidak terlihat seperti nomor telepon")
     .positive("Nomor telepon tidak dapat dimulai dengan tanda minus")
