@@ -293,7 +293,7 @@ const DetailPersonJCModal = ({
                   id="outlined-read-only-input"
                   label="Nama Perusahaan"
                   fullWidth
-                  defaultValue={data.school_name || "-"}
+                  defaultValue={data.company_name || "-"}
                   InputProps={{
                     readOnly: true,
                   }}
