@@ -13,6 +13,7 @@ import EditCandidateSentModal from "../modal/candidate-sent/EditCandidateSentMod
 import BaseTable from "../table/BaseTable";
 import { TypographyStatus } from "../typography/TypographyStatus";
 import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
+import isValidUrl from "../../../utils/validations/isValidUrl";
 
 const options = [
   {
@@ -160,16 +161,21 @@ const CandidateSentLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Box sx={{ width: "100%", textAlign: "center" }}>
-                  {row.jc_person_data?.file_name ? (
+                  {row.jc_person_data?.file_url ? (
                     <Button
                       variant="contained"
                       color="success"
-                      onClick={() =>
-                        window.open(
-                          `${BASE_IMAGE_URL}/${row.jc_person_data?.file_url}`,
-                          "_blank"
-                        )
-                      }
+                      onClick={() => {
+                        isValidUrl(row.jc_person_data?.file_url)
+                          ? window.open(
+                              `${row.jc_person_data?.file_url}`,
+                              "_blank"
+                            )
+                          : window.open(
+                              `${BASE_IMAGE_URL}/${row.jc_person_data?.file_url}`,
+                              "_blank"
+                            );
+                      }}
                     >
                       Lihat CV
                     </Button>

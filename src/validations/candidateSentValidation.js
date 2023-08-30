@@ -2,9 +2,7 @@ import * as Yup from "yup";
 
 const candidateSentValidation = Yup.object().shape({
   status: Yup.string().nullable(),
-  notes: Yup.string()
-    .max(30, "Input melebihi batas maksimal")
-    .required("Catatan wajib diisi"),
+  notes: Yup.string().nullable(),
   test_date: Yup.string().nullable(),
   interview_date: Yup.string().nullable(),
 });

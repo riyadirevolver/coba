@@ -220,7 +220,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
       job_experience: data.job_experience || "",
       company_name: data.company_name || "",
       last_position: data.last_position || "",
-      join_date: moment(data.join_date).subtract(1, "days") || "",
+      join_date: data.join_date || "",
       nipp_code: data.nipp_code || "",
       facebook: data.facebook || "",
       instagram: data.instagram || "",
@@ -274,7 +274,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           job_status,
           recommended,
         } = values;
-        const joinDate = new Date(join_date);
+
         const payload = {
           name: fullname,
           email: email,
@@ -289,7 +289,7 @@ const EditPersonJC = ({ id_user, data, classData, paymentData }) => {
           job_experience: job_experience,
           company_name: company_name,
           last_position: last_position,
-          join_date: joinDate.setDate(joinDate.getDate() + 1),
+          join_date: join_date,
           nipp_code: nipp_code,
           facebook: facebook,
           instagram: instagram,
