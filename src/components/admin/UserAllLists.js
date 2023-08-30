@@ -65,18 +65,16 @@ const UserAllLists = ({ data, token }) => {
         sx={{
           padding: "20px 0 0",
           overflow: "visible",
-        }}
-      >
+        }}>
         <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
           <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
+            className='button-add'
+            color='primary'
+            variant='contained'
             onClick={() => {
               handleOpenModal("add");
-            }}
-          >
+            }}>
             Tambah
           </Button>
         </Box>
@@ -88,54 +86,53 @@ const UserAllLists = ({ data, token }) => {
                 <Avatar {...stringAvatar(user?.fullname, 50)} />
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.nik ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">{user?.email ?? "-"}</Typography>
+                <Typography variant='h6'>{user?.email ?? "-"}</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.phone ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.role ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.is_active ? "aktif" : "tidak aktif"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.created_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.updated_user_by?.fullname ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 {user?.created_at ? (
                   <>
-                    <Typography variant="h6" fontWeight="600">
+                    <Typography variant='h6' fontWeight='600'>
                       {moment(user?.created_at).format("DD MMM YYYY") ?? "-"}
                     </Typography>
                     <Typography
-                      color="textSecondary"
-                      variant="h6"
-                      fontWeight="600"
-                    >
+                      color='textSecondary'
+                      variant='h6'
+                      fontWeight='600'>
                       {moment(user?.created_at).format("HH:mm:ss") ?? "-"}
                     </Typography>
                   </>
