@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   Autocomplete,
@@ -36,6 +36,7 @@ const EditUserModal = ({
   open = false,
   closeModalHandler,
   data,
+  dataClients,
   type,
   token,
 }) => {
@@ -45,6 +46,7 @@ const EditUserModal = ({
 
   const [payload, setPayload] = React.useState({
     client_id: null,
+    client_name: null,
   });
 
   const {
@@ -53,7 +55,7 @@ const EditUserModal = ({
     setOpenClient,
     loadingClient,
     loadingText,
-    setQuery,
+    setTempQuery: setClientTempQuery,
   } = useFetchClient(token);
 
   const action = (
@@ -75,13 +77,14 @@ const EditUserModal = ({
       email: data.email || "",
       phone: data.phone || "",
       role: data.role || "",
+      client_id: data.client_id || "",
     },
     validationSchema: userValidation,
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const { nik, fullname, email, phone, role } = values;
+        const { nik, fullname, email, phone, role, client_id } = values;
         const payloadData = {
           nik: nik,
           fullname: fullname,
@@ -89,7 +92,7 @@ const EditUserModal = ({
           phone: phone,
           role: role,
           ...(role === "client" && {
-            client_id: payload.client_id,
+            client_id: client_id,
           }),
           ...(role !== "client" && {
             client_id: null,
@@ -106,8 +109,10 @@ const EditUserModal = ({
       }
     },
   });
-  const findVal = clientList.find((list) => list.id === data.client_id);
-  // console.log(findVal);
+  const handleOpt = (event) => {
+    const { value } = event.target;
+    formik.setFieldValue("client_id", value);
+  };
   return (
     <>
       <Snackbar
@@ -191,36 +196,32 @@ const EditUserModal = ({
                   <CustomFormLabel htmlFor='input-placement'>
                     Nama Perusahaan
                   </CustomFormLabel>
-                  {/* <Select
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={clientList[data?.client_id]?.id}
+                  <Select
+                    required
+                    name='client_id'
+                    size='small'
                     fullWidth
-                    // label='Age'
-                    // onChange={handleChange}
-                  >
-                    {clientList.map((list, i) => (
-                      <MenuItem key={i} value={list.id}>
-                        {list.name}
-                      </MenuItem>
-                    ))}
-                  </Select> */}
-                  <Autocomplete
+                    value={formik.values.client_id || ""}
+                    onChange={handleOpt}>
+                    {dataClients &&
+                      dataClients?.map((list) => (
+                        <MenuItem value={list.id} key={list.name}>
+                          {list.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  {/* <Autocomplete
                     selectOnFocus
                     clearOnBlur
                     handleHomeEndKeys
                     options={clientList}
-                    defaultValue={findVal}
-                    // defaultValue={clientList[data?.client_id - 1]}
-                    // defaultValue={clientList.find(
-                    //   (list) => list.id === data.client_id
-                    // )}
+                    defaultValue={clientList[data?.client_id - 1]}
                     getOptionLabel={(option) => option.name}
                     loading={loadingClient}
                     loadingText={loadingText}
                     filterOptions={(x) => x}
                     onInputChange={(e, newInputValue) =>
-                      setQuery(newInputValue)
+                      setClientTempQuery(newInputValue)
                     }
                     open={openClient}
                     onOpen={() => {
@@ -244,7 +245,7 @@ const EditUserModal = ({
                           ...params.InputProps,
                           endAdornment: (
                             <React.Fragment>
-                              {loadingText == "loading..." ? (
+                              {loadingClient && loadingText == "loading..." ? (
                                 <CircularProgress color='inherit' size={20} />
                               ) : null}
                               {params.InputProps.endAdornment}
@@ -253,7 +254,7 @@ const EditUserModal = ({
                         }}
                       />
                     )}
-                  />
+                  /> */}
                 </>
               )}
               <CustomFormLabel htmlFor='phone'>*Telepon</CustomFormLabel>
