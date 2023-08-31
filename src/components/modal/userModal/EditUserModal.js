@@ -36,6 +36,7 @@ const EditUserModal = ({
   open = false,
   closeModalHandler,
   data,
+  dataClients,
   type,
   token,
 }) => {
@@ -45,6 +46,7 @@ const EditUserModal = ({
 
   const [payload, setPayload] = React.useState({
     client_id: null,
+    client_name: null,
   });
 
   const {
@@ -59,12 +61,11 @@ const EditUserModal = ({
   const action = (
     <React.Fragment>
       <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={closeSnackBar}
-      >
-        <FeatherIcon icon="x" />
+        size='small'
+        aria-label='close'
+        color='inherit'
+        onClick={closeSnackBar}>
+        <FeatherIcon icon='x' />
       </IconButton>
     </React.Fragment>
   );
@@ -76,13 +77,14 @@ const EditUserModal = ({
       email: data.email || "",
       phone: data.phone || "",
       role: data.role || "",
+      client_id: data.client_id || "",
     },
     validationSchema: userValidation,
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const { nik, fullname, email, phone, role } = values;
+        const { nik, fullname, email, phone, role, client_id } = values;
         const payloadData = {
           nik: nik,
           fullname: fullname,
@@ -90,7 +92,7 @@ const EditUserModal = ({
           phone: phone,
           role: role,
           ...(role === "client" && {
-            client_id: payload.client_id,
+            client_id: client_id,
           }),
           ...(role !== "client" && {
             client_id: null,
@@ -107,7 +109,10 @@ const EditUserModal = ({
       }
     },
   });
-
+  const handleOpt = (event) => {
+    const { value } = event.target;
+    formik.setFieldValue("client_id", value);
+  };
   return (
     <>
       <Snackbar
@@ -122,67 +127,64 @@ const EditUserModal = ({
         TransitionComponent={upTransition}
         onClose={closeModalHandler}
         fullWidth
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
+        aria-labelledby='alert-dialog-slide-title'
+        aria-describedby='alert-dialog-slide-description'>
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle id="alert-dialog-slide-title" variant="h4">
+          <DialogTitle id='alert-dialog-slide-title' variant='h4'>
             Edit User
           </DialogTitle>
           <DialogContent>
             <DialogContentText
-              id="alert-dialog-slide-description"
-              component="div"
-            >
-              <CustomFormLabel htmlFor="nik">*NIK</CustomFormLabel>
+              id='alert-dialog-slide-description'
+              component='div'>
+              <CustomFormLabel htmlFor='nik'>*NIK</CustomFormLabel>
               <CustomTextField
                 required
-                id="nik"
-                name="nik"
+                id='nik'
+                name='nik'
                 fullWidth
-                size="small"
-                variant="outlined"
+                size='small'
+                variant='outlined'
                 {...formik.getFieldProps("nik")}
                 error={formik.touched.nik && !!formik.errors.nik}
                 helperText={formik.touched.nik && formik.errors.nik}
               />
-              <CustomFormLabel htmlFor="fullname">*Nama User</CustomFormLabel>
+              <CustomFormLabel htmlFor='fullname'>*Nama User</CustomFormLabel>
               <CustomTextField
                 required
-                id="fullname"
-                name="fullname"
+                id='fullname'
+                name='fullname'
                 fullWidth
-                size="small"
-                variant="outlined"
+                size='small'
+                variant='outlined'
                 {...formik.getFieldProps("fullname")}
                 error={formik.touched.fullname && !!formik.errors.fullname}
                 helperText={formik.touched.fullname && formik.errors.fullname}
               />
-              <CustomFormLabel htmlFor="email">*Email</CustomFormLabel>
+              <CustomFormLabel htmlFor='email'>*Email</CustomFormLabel>
               <CustomTextField
                 required
-                id="email"
-                name="email"
-                type="email"
+                id='email'
+                name='email'
+                type='email'
                 fullWidth
-                size="small"
-                variant="outlined"
+                size='small'
+                variant='outlined'
                 {...formik.getFieldProps("email")}
                 error={formik.touched.email && !!formik.errors.email}
                 helperText={formik.touched.email && formik.errors.email}
               />
-              <CustomFormLabel htmlFor="role">*Role</CustomFormLabel>
+              <CustomFormLabel htmlFor='role'>*Role</CustomFormLabel>
               <Select
                 required
-                name="role"
-                size="small"
+                name='role'
+                size='small'
                 fullWidth
                 value={formik.values.role || ""}
                 onChange={(event) => {
                   const { value } = event.target;
                   formik.setFieldValue("role", value);
-                }}
-              >
+                }}>
                 {ROLE_LISTS.map((item, index) => (
                   <MenuItem value={item.value} key={index}>
                     {item.value}
@@ -191,10 +193,24 @@ const EditUserModal = ({
               </Select>
               {formik.values.role === "client" && (
                 <>
-                  <CustomFormLabel htmlFor="input-placement">
+                  <CustomFormLabel htmlFor='input-placement'>
                     Nama Perusahaan
                   </CustomFormLabel>
-                  <Autocomplete
+                  <Select
+                    required
+                    name='client_id'
+                    size='small'
+                    fullWidth
+                    value={formik.values.client_id || ""}
+                    onChange={handleOpt}>
+                    {dataClients &&
+                      dataClients?.map((list) => (
+                        <MenuItem value={list.id} key={list.name}>
+                          {list.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  {/* <Autocomplete
                     selectOnFocus
                     clearOnBlur
                     handleHomeEndKeys
@@ -223,14 +239,14 @@ const EditUserModal = ({
                     renderInput={(params) => (
                       <CustomTextField
                         {...params}
-                        size="small"
-                        placeholder="Pilih Nama Perusahaan"
+                        size='small'
+                        placeholder='Pilih Nama Perusahaan'
                         InputProps={{
                           ...params.InputProps,
                           endAdornment: (
                             <React.Fragment>
                               {loadingClient && loadingText == "loading..." ? (
-                                <CircularProgress color="inherit" size={20} />
+                                <CircularProgress color='inherit' size={20} />
                               ) : null}
                               {params.InputProps.endAdornment}
                             </React.Fragment>
@@ -238,17 +254,17 @@ const EditUserModal = ({
                         }}
                       />
                     )}
-                  />
+                  /> */}
                 </>
               )}
-              <CustomFormLabel htmlFor="phone">*Telepon</CustomFormLabel>
+              <CustomFormLabel htmlFor='phone'>*Telepon</CustomFormLabel>
               <CustomTextField
                 required
-                id="phone"
-                name="phone"
+                id='phone'
+                name='phone'
                 fullWidth
-                size="small"
-                variant="outlined"
+                size='small'
+                variant='outlined'
                 // onKeyPress={(event) => {
                 //   if (!/[0-9]/.test(event.key)) {
                 //     event.preventDefault();
@@ -265,14 +281,13 @@ const EditUserModal = ({
           </DialogContent>
           <DialogActions>
             <Button
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               disabled={loading}
-              type="submit"
-            >
+              type='submit'>
               {loading ? "Submitting..." : "Simpan"}
             </Button>
-            <Button onClick={closeModalHandler} color="secondary">
+            <Button onClick={closeModalHandler} color='secondary'>
               Batal
             </Button>
           </DialogActions>
