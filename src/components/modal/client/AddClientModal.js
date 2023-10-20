@@ -25,16 +25,16 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import PropTypes from "prop-types";
 import NextApi from "../../../../lib/services/next-api";
-import useFetchUser from "../../../hooks/fetch/useFetchUser";
-import clientValidation from "../../../validations/clientValidation";
-import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
-import CustomTextField from "../../forms/custom-elements/CustomTextField";
-import Transition from "../../transition";
 import {
   DESCRIPTION_LISTS,
   STATUS_LAST_CALLED_LISTS,
   UNDER_DIKA_LISTS,
 } from "../../../../utils/constant/listConstant";
+import useFetchUser from "../../../hooks/fetch/useFetchUser";
+import clientValidation from "../../../validations/clientValidation";
+import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
+import CustomTextField from "../../forms/custom-elements/CustomTextField";
+import Transition from "../../transition";
 
 const upTransition = Transition("up");
 
@@ -51,10 +51,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
     loadingText,
     setTempQuery: setUserTempQuery,
   } = useFetchUser(token);
-  const [payload, setPayload] = useState({
-    pic_id: null,
-    phone: "",
-  });
 
   const action = (
     <React.Fragment>
@@ -75,9 +71,10 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
       client_email: "",
       status_called: "",
       last_called: "",
-      contact: payload.phone,
+      contact: "",
       description: "",
       under_dika: "",
+      pic_id: "",
     },
     validationSchema: clientValidation,
     enableReinitialize: true,
@@ -91,11 +88,12 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         contact,
         description,
         under_dika,
+        pic_id,
       } = values;
       const data = {
         name: client_name,
         email: client_email,
-        pic_id: payload.pic_id,
+        pic_id: pic_id,
         status_called: status_called,
         last_called: last_called,
         contact: contact,
@@ -119,11 +117,6 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
 
   const handleReset = () => {
     formik.resetForm();
-    setPayload((prevState) => ({
-      ...prevState,
-      pic_id: null,
-      phone: "",
-    }));
   };
 
   return (
@@ -259,11 +252,8 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                   setOpenUser(false);
                 }}
                 onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    pic_id: newInputValue?.id,
-                    phone: newInputValue?.phone,
-                  }));
+                  formik.setFieldValue("contact", newInputValue?.phone);
+                  formik.setFieldValue("pic_id", newInputValue?.id);
                 }}
                 renderInput={(params) => (
                   <CustomTextField
