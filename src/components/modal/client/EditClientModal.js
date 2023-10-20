@@ -58,9 +58,6 @@ const EditClientModal = ({
     loadingText,
     setTempQuery: setUserTempQuery,
   } = useFetchUser(token);
-  const [payload, setPayload] = useState({
-    pic_id: null,
-  });
 
   const optionLabel = (option) => {
     if (typeof option === "string") {
@@ -93,6 +90,7 @@ const EditClientModal = ({
       last_called: data.last_called || "",
       contact: data.contact || "",
       description: data.description || "",
+      pic_id: data.pic_data?.id || "",
       under_dika: (data.under_dika == true ? 1 : 2) || "",
     },
     validationSchema: clientValidation,
@@ -107,12 +105,14 @@ const EditClientModal = ({
         contact,
         description,
         under_dika,
+        pic_id,
       } = values;
       const payloadData = {
         name: client_name,
-        ...(payload.pic_id && {
-          pic_id: payload.pic_id,
-        }),
+        // ...(payload.pic_id && {
+        //   pic_id: payload.pic_id,
+        // }),
+        pic_id: pic_id,
         email: client_email,
         status_called: status_called,
         last_called: last_called,
@@ -121,6 +121,8 @@ const EditClientModal = ({
         under_dika: under_dika == 2 ? false : true,
       };
       try {
+        // alert(JSON.stringify(payloadData));
+        // return;
         await NextApi().patch(`/api/client/${data.id}`, payloadData);
         openSnackBar("Berhasil mengubah klien");
         router.replace(router.pathname);
@@ -135,6 +137,7 @@ const EditClientModal = ({
     },
   });
 
+  // console.log("gaaaaaaaaaaaa", formik.values.pic_id);
   const handleReset = () => {
     formik.resetForm();
   };
@@ -273,11 +276,15 @@ const EditClientModal = ({
                 onClose={() => {
                   setOpenUser(false);
                 }}
+                // onChange={(e, newInputValue) => {
+                //   setPayload((prevState) => ({
+                //     ...prevState,
+                //     pic_id: newInputValue?.id,
+                //   }));
+                // }}
                 onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    pic_id: newInputValue?.id,
-                  }));
+                  formik.setFieldValue("contact", newInputValue?.phone);
+                  formik.setFieldValue("pic_id", newInputValue?.id);
                 }}
                 renderInput={(params) => (
                   <CustomTextField
