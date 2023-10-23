@@ -20,6 +20,7 @@ import { formatRupiah } from "../../../utils/formatRupiah";
 import EditClientRequestModal from "../modal/client-request/EditClientRequestModal";
 import BaseTable from "../table/BaseTable";
 import { TypographyStatus } from "../typography/TypographyStatus";
+import DetailJobDescriptionModal from "../modal/client-request/DetailJobDescriptionModal";
 moment.locale("id");
 
 const options = [
@@ -52,6 +53,9 @@ const ClientRequestLists = ({ data, client_id, session }) => {
     } else if (userData && type === "delete") {
       setDataClient(userData);
       handleOpenModal("delete");
+    } else if (userData && type === "job-description") {
+      setDataClient(userData);
+      handleOpenModal("job-description");
     } else if (userData && type === "detail") {
       if (role === "client") {
         return router.push(`/client/client/attachment/${id}`);
@@ -63,6 +67,12 @@ const ClientRequestLists = ({ data, client_id, session }) => {
 
   return (
     <>
+      <DetailJobDescriptionModal
+        open={openModal}
+        type={modalType}
+        data={dataClient}
+        closeModalHandler={handleCloseModal}
+      />
       <AddClientRequestModal
         open={openModal}
         type={modalType}
@@ -86,7 +96,6 @@ const ClientRequestLists = ({ data, client_id, session }) => {
         session={session}
         closeModalHandler={handleCloseModal}
       />
-
       <Card
         sx={{
           padding: "20px 0 0",
@@ -146,9 +155,17 @@ const ClientRequestLists = ({ data, client_id, session }) => {
                 <TypographyStatus title={row?.status} />
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {row?.job_description}
-                </Typography>
+                {row?.job_description && (
+                  <Button
+                    variant="contained"
+                    onClick={() => handleClickDot(row, "job-description")}
+                  >
+                    Lihat
+                  </Button>
+                )}
+                {/* <Typography
+                  dangerouslySetInnerHTML={{ __html: row?.job_description }}
+                /> */}
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
