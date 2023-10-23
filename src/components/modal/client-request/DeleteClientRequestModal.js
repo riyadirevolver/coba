@@ -62,7 +62,7 @@ const DeleteClientRequestModal = ({
     } catch (error) {
       console.log(error);
       setLoading(false);
-      openSnackBar(`Gagal menghapus client request`);
+      openSnackBar(`Gagal menghapus project`);
       return;
     }
   };
@@ -86,7 +86,7 @@ const DeleteClientRequestModal = ({
       >
         <form onSubmit={create}>
           <DialogTitle id="alert-dialog-slide-title" variant="h4">
-            Hapus client request
+            Hapus Project
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -94,7 +94,7 @@ const DeleteClientRequestModal = ({
               component="div"
             >
               <Typography variant="body1">
-                Apakah anda ingin menghapus client request
+                Apakah anda ingin menghapus Project
                 <span
                   style={{
                     marginLeft: "5px",

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {
   Autocomplete,
   Button,
+  Card,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -33,6 +34,10 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import useJobPosition from "../../../hooks/fetch/useFetchJobPosition";
+
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 const upTransition = Transition("up");
 const filter = createFilterOptions();
@@ -346,7 +351,7 @@ const EditClientRequestModal = ({
               <CustomFormLabel htmlFor="job_description">
                 Deskripsi Pekerjaan
               </CustomFormLabel>
-              <CustomTextField
+              {/* <CustomTextField
                 required
                 id="job_description"
                 name="job_description"
@@ -362,7 +367,19 @@ const EditClientRequestModal = ({
                   formik.touched.job_description &&
                   formik.errors.job_description
                 }
-              />
+              /> */}
+              <Card>
+                <ReactQuill
+                  defaultValue={formik.values.job_description}
+                  onChange={(value) => {
+                    formik.setFieldValue("job_description", value);
+                  }}
+                  modules={{
+                    clipboard: { matchVisual: false },
+                  }}
+                  placeholder="Type here..."
+                />
+              </Card>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

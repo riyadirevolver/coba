@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {
   Autocomplete,
   Button,
+  Card,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -35,6 +36,9 @@ import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import { STATUS_CLIENT_REQUEST_LISTS } from "../../../../utils/constant/listConstant";
 import useJobPosition from "../../../hooks/fetch/useFetchJobPosition";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 const upTransition = Transition("up");
 const filter = createFilterOptions();
@@ -48,6 +52,8 @@ const AddClientRequestModal = ({
 }) => {
   const router = useRouter();
   const [salaryText, setSalaryText] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  console.log("jobdededed", jobDescription);
   const [payload, setPayload] = useState({
     position: null,
   });
@@ -350,7 +356,7 @@ const AddClientRequestModal = ({
               <CustomFormLabel htmlFor="job_description">
                 Deskripsi Pekerjaan
               </CustomFormLabel>
-              <CustomTextField
+              {/* <CustomTextField
                 required
                 id="job_description"
                 name="job_description"
@@ -366,7 +372,18 @@ const AddClientRequestModal = ({
                   formik.touched.job_description &&
                   formik.errors.job_description
                 }
-              />
+              /> */}
+              <Card>
+                <ReactQuill
+                  onChange={(value) => {
+                    formik.setFieldValue("job_description", value);
+                  }}
+                  modules={{
+                    clipboard: { matchVisual: false },
+                  }}
+                  placeholder="Type here..."
+                />
+              </Card>
               <CustomFormLabel htmlFor="upload">
                 Upload (Opsional)
               </CustomFormLabel>
