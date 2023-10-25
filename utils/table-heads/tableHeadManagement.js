@@ -60,6 +60,9 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
     title: "UNDER DIKA",
   },
   {
+    title: "STATUS AKTIF",
+  },
+  {
     title: "DIBUAT OLEH",
   },
   {

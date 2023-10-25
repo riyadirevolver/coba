@@ -11,6 +11,7 @@ export const getServerSideProps = WithAuth(async ({ query, req }) => {
     "/client",
     {
       ...query,
+      is_active: 1,
     },
     {
       Authorization: token,

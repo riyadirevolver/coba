@@ -1,8 +1,16 @@
-import { Button, Card, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Switch,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import NextApi from "../../../lib/services/next-api";
 import { MomentDateID } from "../../../utils/momentId";
 import { HEAD_ROWS_MANAGEMENT_CLIENT } from "../../../utils/table-heads/tableHeadManagement";
 import useHandleModal from "../../hooks/useHandleModal";
@@ -46,6 +54,20 @@ const ClientLists = ({ data, token }) => {
       router.push(`/management/client/request/${id}`);
     }
     return;
+  };
+
+  const handleChangeActive = async (id, val, field) => {
+    const newPayload = {};
+    newPayload[field] = val;
+    try {
+      await NextApi().patch(`/api/client/${id}`, newPayload);
+      router.replace({ pathname: router.pathname });
+    } catch (error) {
+      console.log(error);
+      router.replace({
+        pathname: router.pathname,
+      });
+    }
   };
 
   return (
@@ -142,6 +164,22 @@ const ClientLists = ({ data, token }) => {
                       : "Tidak"
                     : "-"}
                 </Typography>
+              </TableCell>
+              <TableCell>
+                {/* <Typography
+                  variant="h6"
+                  fontWeight="600"
+                  color={row?.is_active ? "green" : "red"}
+                >
+                  {row?.is_active ? "aktif" : "tidak aktif"}
+                </Typography> */}
+                <Switch
+                  defaultValue={row.is_active}
+                  checked={row.is_active}
+                  onChange={(e) =>
+                    handleChangeActive(row.id, e.target.checked, "is_active")
+                  }
+                />
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
