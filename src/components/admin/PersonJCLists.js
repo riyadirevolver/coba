@@ -24,6 +24,8 @@ import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal"
 import { TypographyList } from "../typography/TypographyList";
 import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 import isValidUrl from "../../../utils/validations/isValidUrl";
+import { UseDownloadExcelBlob } from "../../hooks/useDownloadExcel";
+import axios from "axios";
 
 const OPTIONS_ADMIN = [
   {
@@ -82,6 +84,42 @@ const PersonJCLists = ({ data, token, session }) => {
     useHandleModal(false);
 
   const [dataUser, setDataUser] = React.useState({});
+
+  const exportUser = async () => {
+    const { query } = router;
+    const result = {};
+
+    for (const key in query) {
+      const match = key.match(/\$\w+\[(\d+)\]\[(\w+)\]\[\$like\]/);
+      if (match) {
+        const index = match[1];
+        const prop = match[2];
+        const propValue = query[key].replace(/%/g, "");
+
+        if (!result[prop]) {
+          result[prop] = {};
+        }
+
+        result[prop][index] =
+          (result[prop][index] || "") + " " + propValue.trim();
+      } else {
+        result[key] = query[key];
+      }
+    }
+
+    const params = {
+      batch: query?.batch,
+      job_status: query?.job_status,
+
+      skills: result?.skills,
+      interest_positions: result?.interest_positions,
+    };
+    const res = await axios.post("/api/person-jc/export", params, {
+      responseType: "arraybuffer",
+    });
+
+    UseDownloadExcelBlob(res, "export-person-jc");
+  };
 
   const handleClickDot = (userData, type, id) => {
     if (userData && type === "edit") {
@@ -150,21 +188,19 @@ const PersonJCLists = ({ data, token, session }) => {
           overflow: "visible",
         }}
       >
-        {/* <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
+        <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
           {session?.role === "admin" && (
             <Button
               className="button-add"
               color="primary"
               variant="contained"
-              onClick={() => {
-                router.replace("/management/user-jc/register");
-              }}
+              onClick={exportUser}
             >
-              Tambah
+              Export
             </Button>
           )}
-        </Box> */}
+        </Box>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_PERSON_JC} data={data}>
           {data.data.map((user) => (
