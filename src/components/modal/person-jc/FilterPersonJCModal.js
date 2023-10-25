@@ -159,7 +159,7 @@ const FilterPersonJCModal = ({ open = false, closeModalHandler, type }) => {
         const { batch, job_status } = values;
         router.replace({
           query: {
-            ...router.query,
+            // ...router.query,
             ...queryParameters,
             ...(batch && {
               batch: batch,

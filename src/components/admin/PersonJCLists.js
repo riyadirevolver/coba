@@ -106,27 +106,16 @@ const PersonJCLists = ({ data, token, session }) => {
         result[key] = query[key];
       }
     }
-    for (const prop in result) {
-      if (typeof result[prop] === "object") {
-        result[prop] = Object.values(result[prop]).join("");
-      }
-    }
-
-    console.log("query", query);
-    console.log("bbbbbbbb", result);
-    // return;
 
     const params = {
       batch: query?.batch,
       job_status: query?.job_status,
-      // skills: skills,
-      // interest_positions: interest_positions,
+
+      skills: result?.skills,
+      interest_positions: result?.interest_positions,
     };
-    const res = await axios.get("/api/person-jc/export", {
+    const res = await axios.post("/api/person-jc/export", params, {
       responseType: "arraybuffer",
-      params: {
-        ...params,
-      },
     });
 
     UseDownloadExcelBlob(res, "export-person-jc");

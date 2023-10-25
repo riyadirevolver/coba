@@ -3,10 +3,10 @@ import { withSessionRoute } from "../../../lib/session/withSession";
 
 async function handler(req, res) {
   const { user: userSession } = req.session;
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     try {
-      const params = req.query;
-      const response = await exportPersonJC(userSession.token, params);
+      const body = req.body;
+      const response = await exportPersonJC(userSession.token, body);
       return res.json(response);
     } catch (error) {
       console.log(error);
