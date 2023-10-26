@@ -1,31 +1,28 @@
-import FeatherIcon from "feather-icons-react";
 import {
   Avatar,
   Button,
   Card,
-  IconButton,
   TableCell,
   TableRow,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import NextApi from "../../../lib/services/next-api";
+import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 import { HEAD_ROWS_MANAGEMENT_PERSON_JC } from "../../../utils/table-heads/tableHeadManagement";
+import isValidUrl from "../../../utils/validations/isValidUrl";
+import { UseDownloadExcelBlob } from "../../hooks/useDownloadExcel";
 import useHandleModal from "../../hooks/useHandleModal";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
 import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
-import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
-import BaseTable from "../table/BaseTable";
-import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
+import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
+import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
+import BaseTable from "../table/BaseTable";
 import { TypographyList } from "../typography/TypographyList";
-import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
-import isValidUrl from "../../../utils/validations/isValidUrl";
-import { UseDownloadExcelBlob } from "../../hooks/useDownloadExcel";
-import axios from "axios";
 
 const OPTIONS_ADMIN = [
   {
@@ -113,7 +110,7 @@ const PersonJCLists = ({ data, token, session }) => {
       skills: result?.skills,
       interest_positions: result?.interest_positions,
     };
-    const res = await axios.post("/api/person-jc/export", params, {
+    const res = await NextApi().post("/api/person-jc/export", params, {
       responseType: "arraybuffer",
     });
 
