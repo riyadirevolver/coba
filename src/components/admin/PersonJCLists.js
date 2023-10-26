@@ -110,7 +110,6 @@ const PersonJCLists = ({ data, token, session }) => {
     const params = {
       batch: query?.batch,
       job_status: query?.job_status,
-
       skills: result?.skills,
       interest_positions: result?.interest_positions,
     };
@@ -190,16 +189,14 @@ const PersonJCLists = ({ data, token, session }) => {
       >
         <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
-          {session?.role === "admin" && (
-            <Button
-              className="button-add"
-              color="primary"
-              variant="contained"
-              onClick={exportUser}
-            >
-              Export
-            </Button>
-          )}
+          <Button
+            className="button-add"
+            color="primary"
+            variant="contained"
+            onClick={exportUser}
+          >
+            Export
+          </Button>
         </Box>
         {/* tabel */}
         <BaseTable tableHead={HEAD_ROWS_MANAGEMENT_PERSON_JC} data={data}>
