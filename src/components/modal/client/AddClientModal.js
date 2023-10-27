@@ -99,6 +99,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
         contact: contact,
         description: description,
         under_dika: under_dika == 2 ? false : true,
+        is_active: 1,
       };
       try {
         await NextApi().post("/api/client", data);

@@ -18,6 +18,7 @@ const useFetchClientRequest = (token, id) => {
       const data = await getClientRequest(token, {
         "$sort[position]": 1,
         $limit: "-1",
+        is_active: 1,
         ...(id && {
           client_id: id,
         }),
