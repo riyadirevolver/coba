@@ -29,10 +29,10 @@ const options = [
     label: "Edit",
     type: "edit",
   },
-  {
-    label: "Delete",
-    type: "delete",
-  },
+  // {
+  //   label: "Delete",
+  //   type: "delete",
+  // },
 ];
 
 const ClientLists = ({ data, token }) => {
