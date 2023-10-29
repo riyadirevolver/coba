@@ -27,6 +27,7 @@ const useFetchClient = (token) => {
     (async () => {
       const { data } = await getClient(token, {
         //  $limit: -1,
+        is_active: 1,
         ...(query && {
           "name[$like]": `%${query}%`,
         }),

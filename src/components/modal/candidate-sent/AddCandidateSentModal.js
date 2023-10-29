@@ -34,6 +34,7 @@ import CustomFormLabel from "../../forms/custom-elements/CustomFormLabel";
 import CustomTextField from "../../forms/custom-elements/CustomTextField";
 import Transition from "../../transition";
 import { RESPONSE_CANDIDATE_LISTS } from "../../../../utils/constant/listConstant";
+import useFetchClient from "../../../hooks/fetch/useFetchClient";
 
 const upTransition = Transition("up");
 
@@ -47,6 +48,10 @@ const AddCandidateSentModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+
+  const { clientList, openClient, setOpenClient, loadingClient } =
+    useFetchClient(token);
+
   const {
     personJCList,
     openPersonJC,
@@ -55,16 +60,8 @@ const AddCandidateSentModal = ({
     loadingText,
     setTempQuery: setPersonTempQuery,
   } = useFetchPersonJC(token);
-  const {
-    clientRequestList,
-    openClientRequest,
-    setOpenClientRequest,
-    loadingClientRequest,
-  } = useFetchClientRequest(token, session?.client_id);
-  const [payload, setPayload] = useState({
-    jc_person_id: null,
-    client_request_id: null,
-  });
+
+  const [payload, setPayload] = useState(null);
 
   const action = (
     <React.Fragment>
@@ -85,6 +82,9 @@ const AddCandidateSentModal = ({
 
   const formik = useFormik({
     initialValues: {
+      client_id: "",
+      client_request_id: "",
+      jc_person_id: "",
       status: "",
       notes: "",
       test_date: "",
@@ -96,11 +96,18 @@ const AddCandidateSentModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       try {
-        const { status, notes, test_date, interview_date, candidate_response } =
-          values;
+        const {
+          status,
+          notes,
+          test_date,
+          interview_date,
+          candidate_response,
+          client_request_id,
+          jc_person_id,
+        } = values;
         const payloadData = {
-          client_request_id: payload.client_request_id,
-          jc_person_id: payload.jc_person_id,
+          client_request_id: client_request_id,
+          jc_person_id: jc_person_id,
           notes: notes,
           candidate_response: candidate_response,
           ...(status && {
@@ -133,6 +140,18 @@ const AddCandidateSentModal = ({
     },
   });
 
+  const {
+    clientRequestList,
+    openClientRequest,
+    setOpenClientRequest,
+    loadingClientRequest,
+    setClientRequestList,
+  } = useFetchClientRequest(
+    token,
+    session?.client_id ?? formik?.values?.client_id,
+    session?.role
+  );
+
   return (
     <>
       <Snackbar
@@ -159,51 +178,111 @@ const AddCandidateSentModal = ({
               id="alert-dialog-slide-description"
               component="div"
             >
-              <CustomFormLabel htmlFor="input-placement">
-                Project
-              </CustomFormLabel>
-              <Autocomplete
-                selectOnFocus
-                clearOnBlur
-                handleHomeEndKeys
-                options={clientRequestList}
-                getOptionLabel={(option) =>
-                  option.position + " - " + option?.client_data?.name
-                }
-                loading={loadingClientRequest}
-                open={openClientRequest}
-                onOpen={() => {
-                  setOpenClientRequest(true);
-                }}
-                onClose={() => {
-                  setOpenClientRequest(false);
-                }}
-                onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    client_request_id: newInputValue?.id,
-                  }));
-                }}
-                renderInput={(params) => (
-                  <CustomTextField
-                    {...params}
-                    required
-                    size="small"
-                    placeholder="Pilih Project"
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {loadingClientRequest == "loading..." ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
+              {!session?.client_id && (
+                <React.Fragment>
+                  <CustomFormLabel htmlFor="input-placement">
+                    Client
+                  </CustomFormLabel>
+                  <Autocomplete
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    options={clientList}
+                    getOptionLabel={(option) => option.name}
+                    loading={loadingClient}
+                    open={openClient}
+                    onOpen={() => {
+                      setOpenClient(true);
                     }}
+                    onClose={() => {
+                      setOpenClient(false);
+                    }}
+                    onChange={(e, newInputValue) => {
+                      formik.setFieldValue("client_id", newInputValue?.id);
+                      formik.setFieldValue("client_request_id", "");
+                      setClientRequestList([]);
+                      setPayload(null);
+                    }}
+                    renderInput={(params) => (
+                      <CustomTextField
+                        {...params}
+                        size="small"
+                        placeholder="Pilih Nama Klien"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <React.Fragment>
+                              {loadingClient ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }}
+                      />
+                    )}
                   />
-                )}
-              />
+                </React.Fragment>
+              )}
+              {(formik.values.client_id || session?.client_id) && (
+                <React.Fragment>
+                  <CustomFormLabel htmlFor="input-placement">
+                    Project
+                  </CustomFormLabel>
+                  <Autocomplete
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    options={clientRequestList}
+                    value={payload || null}
+                    getOptionLabel={(option) => option.position}
+                    loading={loadingClientRequest}
+                    open={openClientRequest}
+                    onOpen={() => {
+                      setOpenClientRequest(true);
+                    }}
+                    onClose={() => {
+                      setOpenClientRequest(false);
+                    }}
+                    onChange={(e, newInputValue) => {
+                      formik.setFieldValue(
+                        "client_request_id",
+                        newInputValue?.id
+                      );
+                      setPayload((prevState) => ({
+                        ...prevState,
+                        id: newInputValue?.id,
+                        position: newInputValue?.position,
+                      }));
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      if (newInputValue === "") {
+                        formik.setFieldValue("client_id", null);
+                        setPayload(null);
+                      }
+                    }}
+                    renderInput={(params) => (
+                      <CustomTextField
+                        {...params}
+                        required
+                        size="small"
+                        placeholder="Pilih Project"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <React.Fragment>
+                              {loadingClientRequest ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </React.Fragment>
+              )}
               <CustomFormLabel htmlFor="input-placement">
                 Nama Kandidat
               </CustomFormLabel>
@@ -227,10 +306,7 @@ const AddCandidateSentModal = ({
                   setOpenPersonJC(false);
                 }}
                 onChange={(e, newInputValue) => {
-                  setPayload((prevState) => ({
-                    ...prevState,
-                    jc_person_id: newInputValue?.id,
-                  }));
+                  formik.setFieldValue("jc_person_id", newInputValue?.id);
                 }}
                 renderInput={(params) => (
                   <CustomTextField
