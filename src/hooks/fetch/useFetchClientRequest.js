@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getClientRequest } from "../../../lib/services/client-request";
 
-const useFetchClientRequest = (token, id) => {
+const useFetchClientRequest = (token, id, role) => {
   const [openClientRequest, setOpenClientRequest] = useState(false);
   const [clientRequestList, setClientRequestList] = useState([]);
   const loadingClientRequest =
@@ -18,9 +18,11 @@ const useFetchClientRequest = (token, id) => {
       const data = await getClientRequest(token, {
         "$sort[position]": 1,
         $limit: "-1",
-        is_active: 1,
         ...(id && {
           client_id: id,
+        }),
+        ...(role === "admin" && {
+          is_active: 1,
         }),
       });
 
@@ -32,13 +34,14 @@ const useFetchClientRequest = (token, id) => {
     return () => {
       active = false;
     };
-  }, [loadingClientRequest, token]);
+  }, [loadingClientRequest, token, id]);
 
   return {
     setOpenClientRequest,
     clientRequestList,
     openClientRequest,
     loadingClientRequest,
+    setClientRequestList,
   };
 };
 

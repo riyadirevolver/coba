@@ -238,7 +238,9 @@ const PersonJCLists = ({ data, token, session }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
-                  {user?.job_status ?? "-"}
+                  {user?.job_status === "bekerja_diluar_connector"
+                    ? "Bekerja diluar Connector"
+                    : user?.job_status}
                 </Typography>
               </TableCell>
               <TableCell>

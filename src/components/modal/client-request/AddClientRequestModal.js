@@ -52,8 +52,6 @@ const AddClientRequestModal = ({
 }) => {
   const router = useRouter();
   const [salaryText, setSalaryText] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
-  console.log("jobdededed", jobDescription);
   const [payload, setPayload] = useState({
     position: null,
   });
