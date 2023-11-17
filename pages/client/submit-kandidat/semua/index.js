@@ -5,7 +5,7 @@ import SearchCandidatSent from "../../../../src/components/forms/search/SearchCa
 import CandidateSentLists from "../../../../src/components/admin/CandidateSentLists";
 
 export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
-  const { token, client_id, role } = req.session.user;
+  const { token, client_id, role, id } = req.session.user;
   const session = {
     client_id,
     role,
@@ -15,6 +15,7 @@ export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
     {
       ...query,
       client_id: client_id,
+      created_by: id,
     },
     {
       Authorization: token,
