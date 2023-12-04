@@ -61,8 +61,6 @@ const AddCandidateSentModal = ({
     setTempQuery: setPersonTempQuery,
   } = useFetchPersonJC(token);
 
-  const [payload, setPayload] = useState(null);
-
   const action = (
     <React.Fragment>
       <IconButton
@@ -75,6 +73,16 @@ const AddCandidateSentModal = ({
       </IconButton>
     </React.Fragment>
   );
+
+  const optionLabel = (option) => {
+    if (typeof option === "string") {
+      return option;
+    }
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    return option.position;
+  };
 
   const handleReset = () => {
     formik.resetForm();
@@ -201,7 +209,6 @@ const AddCandidateSentModal = ({
                       formik.setFieldValue("client_id", newInputValue?.id);
                       formik.setFieldValue("client_request_id", "");
                       setClientRequestList([]);
-                      setPayload(null);
                     }}
                     renderInput={(params) => (
                       <CustomTextField
@@ -234,8 +241,7 @@ const AddCandidateSentModal = ({
                     clearOnBlur
                     handleHomeEndKeys
                     options={clientRequestList}
-                    value={payload || null}
-                    getOptionLabel={(option) => option.position}
+                    getOptionLabel={optionLabel}
                     loading={loadingClientRequest}
                     open={openClientRequest}
                     onOpen={() => {
@@ -249,16 +255,10 @@ const AddCandidateSentModal = ({
                         "client_request_id",
                         newInputValue?.id
                       );
-                      setPayload((prevState) => ({
-                        ...prevState,
-                        id: newInputValue?.id,
-                        position: newInputValue?.position,
-                      }));
                     }}
                     onInputChange={(event, newInputValue) => {
                       if (newInputValue === "") {
                         formik.setFieldValue("client_id", null);
-                        setPayload(null);
                       }
                     }}
                     renderInput={(params) => (
