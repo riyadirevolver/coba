@@ -46,6 +46,7 @@ const AddSubmitCandidateModal = ({
   const router = useRouter();
   const { isActive, message, openSnackBar, closeSnackBar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+  const [project, setProject] = useState(null);
 
   const { clientList, openClient, setOpenClient, loadingClient } =
     useFetchClient(token);
@@ -70,7 +71,7 @@ const AddSubmitCandidateModal = ({
     if (option.inputValue) {
       return option.inputValue;
     }
-    return option.position;
+    return option.name;
   };
 
   const handleReset = () => {
@@ -80,8 +81,8 @@ const AddSubmitCandidateModal = ({
   const formik = useFormik({
     initialValues: {
       client_id: "",
-      client_request_id: "",
-      status: "",
+      client_request_id: null,
+      status: null,
       notes: "",
       test_date: "",
       interview_date: "",
@@ -149,6 +150,7 @@ const AddSubmitCandidateModal = ({
     session?.client_id ?? formik?.values?.client_id,
     session?.role
   );
+
   return (
     <>
       <Snackbar
@@ -196,8 +198,15 @@ const AddSubmitCandidateModal = ({
                     }}
                     onChange={(e, newInputValue) => {
                       formik.setFieldValue("client_id", newInputValue?.id);
-                      formik.setFieldValue("client_request_id", "");
+                      formik.setFieldValue("client_request_id", null);
                       setClientRequestList([]);
+                      setProject(null);
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      if (newInputValue == "") {
+                        formik.setFieldValue("client_request_id", null);
+                        setClientRequestList([]);
+                      }
                     }}
                     renderInput={(params) => (
                       <CustomTextField
@@ -221,59 +230,58 @@ const AddSubmitCandidateModal = ({
                 </React.Fragment>
               )}
 
-              {(formik.values.client_id || session?.client_id) && (
-                <React.Fragment>
-                  <CustomFormLabel htmlFor="input-placement">
-                    Project
-                  </CustomFormLabel>
-                  <Autocomplete
-                    selectOnFocus
-                    clearOnBlur
-                    handleHomeEndKeys
-                    options={clientRequestList}
-                    getOptionLabel={(option) => option.position}
-                    loading={loadingClientRequest}
-                    open={openClientRequest}
-                    onOpen={() => {
-                      setOpenClientRequest(true);
+              <CustomFormLabel htmlFor="input-placement">
+                Project
+              </CustomFormLabel>
+              <Autocomplete
+                id="client_request_id"
+                name="client_request_id"
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                options={clientRequestList}
+                getOptionLabel={(option) => option.position}
+                loading={loadingClientRequest}
+                open={openClientRequest}
+                onOpen={() => {
+                  setOpenClientRequest(true);
+                }}
+                onClose={() => {
+                  setOpenClientRequest(false);
+                }}
+                onChange={(e, newInputValue) => {
+                  formik.setFieldValue("client_request_id", newInputValue?.id);
+                  setProject((prevState) => ({
+                    ...prevState,
+                    id: newInputValue?.id,
+                    position: newInputValue?.position,
+                  }));
+                }}
+                value={project || null}
+                onInputChange={() => {
+                  setProject(null);
+                }}
+                renderInput={(params) => (
+                  <CustomTextField
+                    {...params}
+                    // {...formik.getFieldProps("client_request_id")}
+                    required
+                    size="small"
+                    placeholder="Pilih Project"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <React.Fragment>
+                          {loadingClientRequest ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </React.Fragment>
+                      ),
                     }}
-                    onClose={() => {
-                      setOpenClientRequest(false);
-                    }}
-                    onChange={(e, newInputValue) => {
-                      formik.setFieldValue(
-                        "client_request_id",
-                        newInputValue?.id
-                      );
-                    }}
-                    onInputChange={(event, newInputValue) => {
-                      if (newInputValue === "") {
-                        formik.setFieldValue("client_id", null);
-                      }
-                    }}
-                    renderInput={(params) => (
-                      <CustomTextField
-                        {...params}
-                        required
-                        size="small"
-                        placeholder="Pilih Project"
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <React.Fragment>
-                              {loadingClientRequest ? (
-                                <CircularProgress color="inherit" size={20} />
-                              ) : null}
-                              {params.InputProps.endAdornment}
-                            </React.Fragment>
-                          ),
-                        }}
-                      />
-                    )}
                   />
-                </React.Fragment>
-              )}
-
+                )}
+              />
               <CustomFormLabel htmlFor="input-placement">
                 Nama Kandidat
               </CustomFormLabel>

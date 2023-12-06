@@ -275,11 +275,11 @@ const AddUserModal = ({ open = false, closeModalHandler, type, token }) => {
                 fullWidth
                 size="small"
                 variant="outlined"
-                // onKeyPress={(event) => {
-                //   if (!/[0-9]/.test(event.key)) {
-                //     event.preventDefault();
-                //   }
-                // }}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 inputProps={{
                   maxLength: 14,
                 }}
