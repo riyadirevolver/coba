@@ -202,12 +202,6 @@ const AddSubmitCandidateModal = ({
                       setClientRequestList([]);
                       setProject(null);
                     }}
-                    onInputChange={(event, newInputValue) => {
-                      if (newInputValue == "") {
-                        formik.setFieldValue("client_request_id", null);
-                        setClientRequestList([]);
-                      }
-                    }}
                     renderInput={(params) => (
                       <CustomTextField
                         {...params}

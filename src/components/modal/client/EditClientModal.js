@@ -315,11 +315,11 @@ const EditClientModal = ({
                 size="small"
                 variant="outlined"
                 placeholder="masukkan nomor Telepon PIC"
-                // onKeyPress={(event) => {
-                //   if (!/[0-9]/.test(event.key)) {
-                //     event.preventDefault();
-                //   }
-                // }}
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 {...formik.getFieldProps("contact")}
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}
