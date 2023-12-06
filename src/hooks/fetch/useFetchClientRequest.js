@@ -15,6 +15,9 @@ const useFetchClientRequest = (token, id, role) => {
     }
 
     (async () => {
+      if (!id) {
+        return setClientRequestList([]);
+      }
       const data = await getClientRequest(token, {
         "$sort[position]": 1,
         $limit: "-1",
