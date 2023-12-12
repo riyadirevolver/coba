@@ -25,8 +25,8 @@ const useFetchClient = (token) => {
       return undefined;
     }
     (async () => {
-      const { data } = await getClient(token, {
-        //  $limit: -1,
+      const data = await getClient(token, {
+        $limit: -1,
         is_active: 1,
         ...(query && {
           "name[$like]": `%${query}%`,
@@ -35,6 +35,7 @@ const useFetchClient = (token) => {
       });
 
       if (active) {
+        console.log("2222222", data);
         setLoadingText("data kosong");
         setClientList(data);
       }
