@@ -35,7 +35,6 @@ const useFetchClient = (token) => {
       });
 
       if (active) {
-        console.log("2222222", data);
         setLoadingText("data kosong");
         setClientList(data);
       }
