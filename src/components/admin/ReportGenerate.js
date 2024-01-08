@@ -111,7 +111,7 @@ const ReportGenerate = ({ data, session, test, interview }) => {
             name={session?.name}
             label="Download Summary per Batch Report"
             title="Summary per Batch"
-            path="/export-person-summary"
+            path="/export-person-summary-v2"
             image={2}
             sx={{ position: "relative" }}
           />
