@@ -162,6 +162,9 @@ export const HEAD_ROWS_MANAGEMENT_PERSON_JC = [
     title: "CV",
   },
   {
+    title: "TOTAL JUMLAH PENYALURAN",
+  },
+  {
     title: "TANGGAL DIBUAT",
   },
   {
