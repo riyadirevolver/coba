@@ -53,9 +53,9 @@ export const HEAD_ROWS_MANAGEMENT_CLIENT = [
   {
     title: "NO TELP PIC",
   },
-  {
-    title: "JENIS PERUSAHAAN",
-  },
+  // {
+  //   title: "JENIS PERUSAHAAN",
+  // },
   {
     title: "UNDER DIKA",
   },

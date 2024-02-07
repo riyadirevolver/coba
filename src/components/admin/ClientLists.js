@@ -151,11 +151,11 @@ const ClientLists = ({ data, token }) => {
               <TableCell>
                 <Typography variant="h6">{row?.contact ?? "-"}</Typography>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.description ?? "-"}
                 </Typography>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <Typography variant="h6" fontWeight="600">
                   {row?.under_dika != null

@@ -294,7 +294,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}
               />
-              <CustomFormLabel htmlFor="description">
+              {/* <CustomFormLabel htmlFor="description">
                 *Jenis Perusahaan
               </CustomFormLabel>
               <Select
@@ -313,7 +313,7 @@ const AddClientModal = ({ open = false, closeModalHandler, type, token }) => {
                     {item.value}
                   </MenuItem>
                 ))}
-              </Select>
+              </Select> */}
               <CustomFormLabel htmlFor="under_dika">
                 Status Under DIKA
               </CustomFormLabel>
