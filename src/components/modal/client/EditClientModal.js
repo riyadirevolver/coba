@@ -89,7 +89,7 @@ const EditClientModal = ({
       status_called: data.status_called || "",
       last_called: data.last_called || "",
       contact: data.contact || "",
-      description: data.description || "",
+      // description: data.description || "",
       pic_id: data.pic_data?.id || "",
       under_dika: (data.under_dika == true ? 1 : 2) || "",
     },
@@ -324,7 +324,7 @@ const EditClientModal = ({
                 error={formik.touched.contact && !!formik.errors.contact}
                 helperText={formik.touched.contact && formik.errors.contact}
               />
-              <CustomFormLabel htmlFor="description">
+              {/* <CustomFormLabel htmlFor="description">
                 Jenis Perusahaan
               </CustomFormLabel>
               <Select
@@ -343,7 +343,7 @@ const EditClientModal = ({
                     {item.label}
                   </MenuItem>
                 ))}
-              </Select>
+              </Select> */}
               <CustomFormLabel htmlFor="under_dika">
                 Status Under DIKA
               </CustomFormLabel>
