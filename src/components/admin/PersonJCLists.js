@@ -276,6 +276,11 @@ const PersonJCLists = ({ data, token, session }) => {
                 </Box>
               </TableCell>
               <TableCell>
+                <Typography variant="h6" fontWeight="600">
+                  {user?.total_sent}
+                </Typography>
+              </TableCell>
+              <TableCell>
                 {user?.created_at ? (
                   <>
                     <Typography variant="h6" fontWeight="600">
