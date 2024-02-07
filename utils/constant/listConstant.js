@@ -56,6 +56,10 @@ export const GENDER_LISTS = [
 
 export const RESPONSE_CANDIDATE_LISTS = [
   {
+    label: "Menerima",
+    value: "accept",
+  },
+  {
     label: "Tidak Merespon",
     value: "not_responding",
   },
