@@ -29,6 +29,7 @@ const options = [
 const STATUS_RESPONSE_CANDIDATE = {
   not_responding: "Tidak Merespon",
   refuse: "Menolak",
+  accept: "Menerima",
 };
 
 const CandidateSentLists = ({ data, token, session }) => {
