@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Avatar, Button, Card, TableCell, TableRow, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import moment from "moment/moment";
 import { useRouter } from "next/dist/client/router";
@@ -78,8 +71,7 @@ const GENDER_DATA = {
 
 const PersonJCLists = ({ data, token, session }) => {
   const router = useRouter();
-  const { openModal, modalType, handleCloseModal, handleOpenModal } =
-    useHandleModal(false);
+  const { openModal, modalType, handleCloseModal, handleOpenModal } = useHandleModal(false);
 
   const [dataUser, setDataUser] = React.useState({});
 
@@ -98,8 +90,7 @@ const PersonJCLists = ({ data, token, session }) => {
           result[prop] = {};
         }
 
-        result[prop][index] =
-          (result[prop][index] || "") + " " + propValue.trim();
+        result[prop][index] = (result[prop][index] || "") + " " + propValue.trim();
       } else {
         result[key] = query[key];
       }
@@ -195,16 +186,14 @@ const PersonJCLists = ({ data, token, session }) => {
         sx={{
           padding: "20px 0 0",
           overflow: "visible",
-        }}
-      >
+        }}>
         <Box sx={{ mb: 2, mr: 3, display: "flex" }}>
           <Box flexGrow={1} />
           <Button
-            className="button-add"
-            color="primary"
-            variant="contained"
-            onClick={exportUser}
-          >
+            className='button-add'
+            color='primary'
+            variant='contained'
+            onClick={exportUser}>
             Export
           </Button>
         </Box>
@@ -216,53 +205,60 @@ const PersonJCLists = ({ data, token, session }) => {
                 <Avatar {...stringAvatar(user?.name, 50)} />
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.name ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography
+                  variant='h6'
+                  fontWeight='600'
+                  display={"flex"}
+                  justifyContent={"center"}>
+                  {user?.total_sent}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant='h6' fontWeight='600'>
                   {GENDER_DATA[user?.gender] ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {moment(user?.date_of_birth).format("DD MMMM YYYY") ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.current_domicile ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
                 <TypographyList
                   data={user?.skills}
-                  background="#CDFFCD"
-                  color="#007F00"
-                ></TypographyList>
+                  background='#CDFFCD'
+                  color='#007F00'></TypographyList>
               </TableCell>
               <TableCell>
                 <TypographyList
                   data={user?.interest_positions}
-                  background="#CDFFCD"
-                  color="#007F00"
-                ></TypographyList>
+                  background='#CDFFCD'
+                  color='#007F00'></TypographyList>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.job_status === "bekerja_diluar_connector"
                     ? "Bekerja diluar Connector"
                     : user?.job_status}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.mobile_phone_number ?? "-"}
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
+                <Typography variant='h6' fontWeight='600'>
                   {user?.willing_work_jakarta ? "Siap" : "Tidak Siap"}
                 </Typography>
               </TableCell>
@@ -270,17 +266,13 @@ const PersonJCLists = ({ data, token, session }) => {
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                   {user?.file_url ? (
                     <Button
-                      variant="contained"
-                      color="success"
+                      variant='contained'
+                      color='success'
                       onClick={() => {
                         isValidUrl(user?.file_url)
                           ? window.open(`${user?.file_url}`, "_blank")
-                          : window.open(
-                              `${BASE_IMAGE_URL}/${user?.file_url}`,
-                              "_blank"
-                            );
-                      }}
-                    >
+                          : window.open(`${BASE_IMAGE_URL}/${user?.file_url}`, "_blank");
+                      }}>
                       Lihat CV
                     </Button>
                   ) : (
@@ -289,21 +281,12 @@ const PersonJCLists = ({ data, token, session }) => {
                 </Box>
               </TableCell>
               <TableCell>
-                <Typography variant="h6" fontWeight="600">
-                  {user?.total_sent}
-                </Typography>
-              </TableCell>
-              <TableCell>
                 {user?.created_at ? (
                   <>
-                    <Typography variant="h6" fontWeight="600">
+                    <Typography variant='h6' fontWeight='600'>
                       {moment(user?.created_at).format("DD MMM YYYY") ?? "-"}
                     </Typography>
-                    <Typography
-                      color="textSecondary"
-                      variant="h6"
-                      fontWeight="600"
-                    >
+                    <Typography color='textSecondary' variant='h6' fontWeight='600'>
                       {moment(user?.created_at).format("HH:mm:ss") ?? "-"}
                     </Typography>
                   </>
@@ -314,14 +297,10 @@ const PersonJCLists = ({ data, token, session }) => {
               <TableCell>
                 {user?.updated_at ? (
                   <>
-                    <Typography variant="h6" fontWeight="600">
+                    <Typography variant='h6' fontWeight='600'>
                       {moment(user?.updated_at).format("DD MMM YYYY") ?? "-"}
                     </Typography>
-                    <Typography
-                      color="textSecondary"
-                      variant="h6"
-                      fontWeight="600"
-                    >
+                    <Typography color='textSecondary' variant='h6' fontWeight='600'>
                       {moment(user?.updated_at).format("HH:mm:ss") ?? "-"}
                     </Typography>
                   </>
@@ -330,7 +309,7 @@ const PersonJCLists = ({ data, token, session }) => {
                 )}
               </TableCell>
               <TableCell>
-                <Box display="flex" justifyContent="space-between">
+                <Box display='flex' justifyContent='space-between'>
                   {/* <Tooltip title="Submit Kandidat">
                     <IconButton
                       aria-haspopup="true"
@@ -342,20 +321,15 @@ const PersonJCLists = ({ data, token, session }) => {
                     </IconButton>
                   </Tooltip> */}
                   <Button
-                    variant="contained"
-                    color="success"
+                    variant='contained'
+                    color='success'
                     sx={{ mr: 3 }}
-                    onClick={() => handleClickDot(user, "submit_candidate")}
-                  >
+                    onClick={() => handleClickDot(user, "submit_candidate")}>
                     Submit Kandidat
                   </Button>
                   <ThreeDots
                     sx={{ textAlign: "right" }}
-                    options={
-                      session?.role === "client"
-                        ? OPTIONS_CLIENT
-                        : OPTIONS_ADMIN
-                    }
+                    options={session?.role === "client" ? OPTIONS_CLIENT : OPTIONS_ADMIN}
                     onClick={(show) => handleClickDot(user, show, user?.id)}
                   />
                 </Box>
