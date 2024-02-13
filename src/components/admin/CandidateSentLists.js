@@ -14,6 +14,7 @@ import BaseTable from "../table/BaseTable";
 import { TypographyStatus } from "../typography/TypographyStatus";
 import { BASE_IMAGE_URL } from "../../../utils/baseUrl";
 import isValidUrl from "../../../utils/validations/isValidUrl";
+import AddCandidateSentModalV2 from "../modal/candidate-sent/AddCandidateSentModalV2";
 
 const options = [
   {
@@ -53,13 +54,23 @@ const CandidateSentLists = ({ data, token, session }) => {
 
   return (
     <>
-      <AddCandidateSentModal
-        open={openModal}
-        type={modalType}
-        token={token}
-        session={session}
-        closeModalHandler={handleCloseModal}
-      />
+      {session?.client_id ? (
+        <AddCandidateSentModal
+          open={openModal}
+          type={modalType}
+          token={token}
+          session={session}
+          closeModalHandler={handleCloseModal}
+        />
+      ) : (
+        <AddCandidateSentModalV2
+          open={openModal}
+          type={modalType}
+          token={token}
+          session={session}
+          closeModalHandler={handleCloseModal}
+        />
+      )}
       <EditCandidateSentModal
         open={openModal}
         type={modalType}
