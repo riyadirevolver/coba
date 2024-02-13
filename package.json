@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "eslint": "7.9.0",
+    "jest": "^29.5.0",
     "eslint-config-next": "12.0.7",
     "redux-devtools-extension": "2.13.7"
   },
@@ -78,7 +79,15 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
+    "test": "npm run jest",
+    "jest": "jest --detectOpenHandles --coverage --forceExit"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": []
   },
   "proxy": "https://dev.ptdika.com"
 }
