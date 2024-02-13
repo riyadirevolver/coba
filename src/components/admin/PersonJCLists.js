@@ -19,6 +19,7 @@ import useHandleModal from "../../hooks/useHandleModal";
 import { stringAvatar } from "../../layouts/header/stringAvatar";
 import ThreeDots from "../atomicDesigns/molecules/ThreeDots";
 import AddSubmitCandidateModal from "../modal/person-jc/AddSubmitCandidateModal";
+import AddSubmitCandidateModalV2 from "../modal/person-jc/AddSubmitCandidateModalV2";
 import DeletePersonJCModal from "../modal/person-jc/DeletePersonJCModal";
 import DetailPersonJCModal from "../modal/person-jc/DetailPersonJCModal";
 import BaseTable from "../table/BaseTable";
@@ -157,14 +158,26 @@ const PersonJCLists = ({ data, token, session }) => {
 
   return (
     <>
-      <AddSubmitCandidateModal
-        open={openModal}
-        type={modalType}
-        data={dataUser}
-        token={token}
-        session={session}
-        closeModalHandler={handleCloseModal}
-      />
+      {session?.client_id ? (
+        <AddSubmitCandidateModal
+          open={openModal}
+          type={modalType}
+          data={dataUser}
+          token={token}
+          session={session}
+          closeModalHandler={handleCloseModal}
+        />
+      ) : (
+        <AddSubmitCandidateModalV2
+          open={openModal}
+          type={modalType}
+          dataUser={dataUser}
+          token={token}
+          session={session}
+          closeModalHandler={handleCloseModal}
+        />
+      )}
+
       <DetailPersonJCModal
         open={openModal}
         type={modalType}
