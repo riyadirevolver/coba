@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import pagination from "../../../lib/services/pagination";
 import WithAuthClient from "../../../lib/session/withAuthClient";
 import ClientRequestLists from "../../../src/components/admin/ClientRequestLists";
-import SearchClient from "../../../src/components/forms/search/SearchClient";
+import SearchClientV2 from "../../../src/components/forms/search/SearchClientV2";
 
 export const getServerSideProps = WithAuthClient(async ({ query, req }) => {
   const { token, client_id, role } = req.session.user;
@@ -34,7 +34,7 @@ const ClientUpliner = ({ users, token, session }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <SearchClient token={token} />
+        <SearchClientV2 token={token} session={session} />
       </Grid>
       <Grid item xs={12} lg={12}>
         <ClientRequestLists data={users} token={token} session={session} />
