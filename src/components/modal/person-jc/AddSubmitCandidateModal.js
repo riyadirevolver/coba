@@ -275,6 +275,11 @@ const AddSubmitCandidateModal = ({
                     }}
                   />
                 )}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props} key={option.id}>
+                    <span>{option.position}</span>
+                  </li>
+                )}
               />
               <CustomFormLabel htmlFor="input-placement">
                 Nama Kandidat
